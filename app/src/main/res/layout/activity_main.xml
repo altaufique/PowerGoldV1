@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.fhb.powergold.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="PowerGold"
+        android:id="@+id/textView_Registration"
+        android:textColor="#febf05"
+        android:textAlignment="gravity"
+        android:textSize="40sp"
+        android:background="#050505"
+        android:textStyle="bold"
+        android:paddingEnd="@android:dimen/app_icon_size"
+        android:paddingStart="@android:dimen/app_icon_size"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CURRENT RATE"
+        android:id="@+id/button_CurrentRate"
+        android:textSize="20sp"
+        android:width="280sp"
+        android:textColor="#2620a1"
+        android:textStyle="normal"
+        android:layout_marginTop="47dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textView_Registration"
+        android:layout_alignParentStart="false"
+        android:onClick="onClickViewCurrRate" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REGISTRATION"
+        android:id="@+id/button_Registration"
+        android:textSize="20sp"
+        android:width="280sp"
+        android:textColor="#2620a1"
+        android:textStyle="normal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/button_CurrentRate"
+        android:layout_alignParentStart="false"
+        android:onClick="onClickRegister" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(Re) Purchase"
+        android:id="@+id/button_Purchase"
+        android:textSize="20sp"
+        android:width="280sp"
+        android:textColor="#2620a1"
+        android:textStyle="normal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/button_Registration"
+        android:onClick="onClickRePurchase" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MY INVENTORY"
+        android:id="@+id/button_MyInventory"
+        android:textSize="20sp"
+        android:width="280sp"
+        android:textColor="#2620a1"
+        android:textStyle="normal"
+        android:layout_below="@+id/button_Purchase"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClickMyInventory" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PACKAGE INFO"
+        android:id="@+id/button_PackageInfo"
+        android:textSize="20sp"
+        android:width="280sp"
+        android:textColor="#2620a1"
+        android:textStyle="normal"
+        android:layout_below="@+id/button_MyInventory"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClickPackageInfo" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ABOUT PG APP"
+        android:id="@+id/button_About"
+        android:textSize="20sp"
+        android:width="280sp"
+        android:textColor="#2620a1"
+        android:textStyle="normal"
+        android:onClick="onClickAbout"
+        android:layout_below="@+id/button_PackageInfo"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
+
