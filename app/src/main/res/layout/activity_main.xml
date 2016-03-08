@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="REGISTRATION"
-        android:id="@+id/button_Registration"
+        android:id="@+id/button_Register_New"
         android:textSize="20sp"
         android:width="280sp"
         android:textColor="#2620a1"
@@ -66,7 +66,7 @@
         android:textColor="#2620a1"
         android:textStyle="normal"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/button_Registration"
+        android:layout_below="@+id/button_Register_New"
         android:onClick="onClickRePurchase" />
 
     <Button
