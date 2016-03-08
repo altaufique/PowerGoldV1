@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickRegister(View v) {
-        if (v.getId() == R.id.button_Registration) {
+        if (v.getId() == R.id.button_Register_New) {
             Intent i = new Intent(this, Registration.class);
             startActivity(i);
         }
