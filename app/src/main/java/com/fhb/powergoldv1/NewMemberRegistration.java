@@ -63,7 +63,6 @@ public class NewMemberRegistration extends Activity {
             case R.id.button_Insert_Member:
                 // build an array to pass to method Insert_Member in DatabaseController Class
                 String[] member_info = {editTextMemberName.getText().toString(),
-                        editTextMemberName.getText().toString(),
                         editTextAddress.getText().toString(),
                         editTextMobileNo.getText().toString(),
                         editTextICno.getText().toString(),
@@ -91,24 +90,6 @@ public class NewMemberRegistration extends Activity {
 */
     }
 
-/*
-    public void onClickInsertMember (final String[] member) {
-        buttonRecordMember.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //boolean isInserted = myDB.insertData(editTextPkgName.getText().toString(),
-                        boolean isInserted = pgdb.insert_member(member);
-
-                        if (isInserted = true)
-                            Toast.makeText(NewMemberRegistration.this, "Success!! Data is inserted.", Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(NewMemberRegistration.this, "Failed!! Data is not inserted.", Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
-    }
-*/
 
     /*
     public void getData() {
