@@ -1,9 +1,7 @@
 package com.fhb.powergoldv1;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -14,16 +12,17 @@ import java.net.CookieManager;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-/**
- * Created by VAIO on 3/5/2016.
- */
-
-public class ScrapPowerGoldWeb {
+public class ScrapPowerGoldWeb extends Activity {
 
     private List<String> cookies;
     private HttpsURLConnection conn;
@@ -32,7 +31,7 @@ public class ScrapPowerGoldWeb {
 
     private final String USER_AGENT = "Mozilla/5.0";
 
-    public static HashMap<String, Float[]> main(String[] args) throws Exception {
+    public static void main (String[] args) throws Exception {
 
         String url = "https://powergold.biz/default.asp";
         String memberpage = "https://powergold.biz/logon.asp";
@@ -61,9 +60,15 @@ public class ScrapPowerGoldWeb {
         String[] indexTable = http.arrangeTable(parseDoc);
 
         // scrap and return PowerGold Rate arraylist of array only
-        HashMap<String, Float[]> ratePGtype = http.getPowerGoldTable(indexTable);
+        Map<String, Float[]> ratePGtype = new LinkedHashMap<>();
+        ratePGtype = http.getPowerGoldTable(indexTable);
 
-/*
+        // View table
+        //table.showTable(ratePGtype);
+    }
+
+    private static void showTable(Map<String, Float[]> ratePGtype) {
+
         // Checking the value in tablePG
         // for-each loop, use Map.keySet() for iterating keys, Map.values() for iterating values
         // and Map.entrySet() for iterating key/value pairs.
@@ -74,11 +79,10 @@ public class ScrapPowerGoldWeb {
             ttt = entry.getValue(); // an array of float value
             System.out.printf("%s-> %.2f:%.2f:%.2f\n", entry.getKey(), ttt[0], ttt[1], ttt[2]);
         }
-*/
-        return ratePGtype; // will return HashMap data type of key and value ("1gm", Float[], ...)
+        //return ratePGtype; // will return HashMap data type of key and value ("1gm", Float[], ...)
     }
 
-    private HashMap<String, Float[]> getPowerGoldTable(String[] allRate) {
+    private Map<String, Float[]> getPowerGoldTable(String[] allRate) {
         String[] ratePG = new String[100];
         Integer i;
         Integer index = 0;
@@ -202,7 +206,7 @@ public class ScrapPowerGoldWeb {
                 "2Dnr", "1Dnr", "1/4Dnr", "1/2gmSy"};
 
         // Looping the headerPGtype and ratePGtype to create HashMap data type to pair both together
-        HashMap<String, Float[]> tablePG = new HashMap<String, Float[]>();
+        Map<String, Float[]> tablePG = new LinkedHashMap<String, Float[]>();
         for (i=0 ; i < 12 ; i++) {
             tablePG.put(headerPGtype[i], ratePGtype.get(i));
         }

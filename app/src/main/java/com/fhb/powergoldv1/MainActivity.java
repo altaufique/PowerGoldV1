@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickViewCurrRate(View v) {
         if (v.getId() == R.id.button_CurrentRate) {
-            Intent i = new Intent(this, ViewCurrentRate.class);
+            Intent i = new Intent(this, ViewCurrentPGrate.class);
             startActivity(i);
         }
     }

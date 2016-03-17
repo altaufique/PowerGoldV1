@@ -3,6 +3,7 @@
     package="com.fhb.powergoldv1">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -18,12 +19,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".Registration" />
-        <activity android:name=".ViewCurrentRate" />
+        <activity android:name=".NewMemberRegistration" />
+        <activity android:name=".ViewCurrentPGrate" />
         <activity android:name=".RePurchase" />
         <activity android:name=".MyInventory" />
         <activity android:name=".PackageInfo" />
         <activity android:name=".About" />
-        <activity android:name=".NewMemberRegistration" />
     </application>
 
 </manifest>

@@ -123,10 +123,10 @@ public class NewMemberRegistration extends Activity {
         );
     }
 
-    public void showMessage (String title, String message) {
+    public void showMessage (String raw_page, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
-        builder.setTitle(title);
+        builder.setTitle(raw_page);
         builder.setMessage(message);
         builder.show();
     }
