@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class ViewCurrentPGrate extends Activity {
 
-    String url="https://powergold.biz/logon.asp?username=altaufiquemas&password=Fn_912522%23";
+    String url="https://powergold.biz/logon.asp?username=fadhams&password=030506";
     String raw_page;
     Map<String, Float[]> ratePGtype;
     ProgressDialog progressDialog;
