@@ -26,61 +26,67 @@
                 android:focusableInTouchMode="false"
                 android:id="@+id/tableLayout"
                 android:background="#bcbaba"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true">
+                android:layout_below="@+id/textViewMainTitle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp">
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="0.5dp">
+                    android:layout_margin="0.5dp"
+                    android:textAlignment="center">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="999.9 GOLD"
+                        android:text="999.9"
                         android:id="@+id/textView"
                         android:padding="5dp"
                         android:textAlignment="center"
                         android:textStyle="bold"
-                        android:background="#fbe815"
-                        android:layout_margin="1dp" />
+                        android:background="#a8690b"
+                        android:layout_margin="1dp"
+                        android:textColor="#fdf4f4" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="STOKIS"
+                        android:text="STOCKIS"
                         android:id="@+id/textView2"
                         android:padding="5dp"
                         android:textAlignment="center"
                         android:textStyle="bold"
-                        android:background="#fbe815"
-                        android:layout_margin="1dp" />
+                        android:background="#a8690b"
+                        android:layout_margin="1dp"
+                        android:textColor="#fdf4f4" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="AHLI"
+                        android:text="MEMBER"
                         android:id="@+id/textView3"
                         android:padding="5dp"
                         android:textAlignment="center"
                         android:textStyle="bold"
-                        android:background="#fbe815"
-                        android:layout_margin="1dp" />
+                        android:background="#a8690b"
+                        android:layout_margin="1dp"
+                        android:textColor="#fdf4f4" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="BELI /gm"
+                        android:text="BUY /gm"
                         android:id="@+id/textView4"
                         android:padding="5dp"
                         android:textAlignment="center"
                         android:textStyle="bold"
-                        android:background="#fbe815"
-                        android:layout_margin="1dp" />
+                        android:background="#a8690b"
+                        android:layout_margin="1dp"
+                        android:textColor="#fdf4f4" />
                 </TableRow>
 
                 <TableRow
@@ -93,11 +99,14 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewGoldType0"
-                        android:padding="5dp"
                         android:singleLine="false"
                         android:background="#fbe815"
                         android:layout_margin="1dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -105,10 +114,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewStokisRate0"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -116,10 +128,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewAhliRate0"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -127,10 +142,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewBeliRate0"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
                 </TableRow>
 
                 <TableRow
@@ -143,44 +161,56 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewGoldType1"
-                        android:padding="5dp"
                         android:singleLine="false"
-                        android:background="#fbe815"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewStokisRate1"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewAhliRate1"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewBeliRate1"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
                 </TableRow>
 
                 <TableRow
@@ -193,11 +223,14 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewGoldType2"
-                        android:padding="5dp"
                         android:singleLine="false"
                         android:background="#fbe815"
                         android:layout_margin="1dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -205,10 +238,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewStokisRate2"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -216,10 +252,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewAhliRate2"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -227,10 +266,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewBeliRate2"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
                 </TableRow>
 
                 <TableRow
@@ -243,44 +285,56 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewGoldType3"
-                        android:padding="5dp"
                         android:singleLine="false"
-                        android:background="#fbe815"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewStokisRate3"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewAhliRate3"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewBeliRate3"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
                 </TableRow>
 
                 <TableRow
@@ -293,11 +347,14 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewGoldType4"
-                        android:padding="5dp"
                         android:singleLine="false"
                         android:background="#fbe815"
                         android:layout_margin="1dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -305,10 +362,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewStokisRate4"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -316,10 +376,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewAhliRate4"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -327,10 +390,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewBeliRate4"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
                 </TableRow>
 
                 <TableRow
@@ -343,44 +409,56 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewGoldType5"
-                        android:padding="5dp"
                         android:singleLine="false"
-                        android:background="#fbe815"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewStokisRate5"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewAhliRate5"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewBeliRate5"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
                 </TableRow>
 
                 <TableRow
@@ -393,11 +471,14 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewGoldType6"
-                        android:padding="5dp"
                         android:singleLine="false"
                         android:background="#fbe815"
                         android:layout_margin="1dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -405,10 +486,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewStokisRate6"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -416,10 +500,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewAhliRate6"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -427,10 +514,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewBeliRate6"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
                 </TableRow>
 
                 <TableRow
@@ -443,44 +533,56 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewGoldType7"
-                        android:padding="5dp"
                         android:singleLine="false"
-                        android:background="#fbe815"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewStokisRate7"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewAhliRate7"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewBeliRate7"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
                 </TableRow>
 
                 <TableRow
@@ -493,11 +595,14 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewGoldType8"
-                        android:padding="5dp"
                         android:singleLine="false"
                         android:background="#fbe815"
                         android:layout_margin="1dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -505,10 +610,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewStokisRate8"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -516,10 +624,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewAhliRate8"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -527,10 +638,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewBeliRate8"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
                 </TableRow>
 
                 <TableRow
@@ -543,44 +657,56 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewGoldType9"
-                        android:padding="5dp"
                         android:singleLine="false"
-                        android:background="#fbe815"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewStokisRate9"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewAhliRate9"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewBeliRate9"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
                 </TableRow>
 
                 <TableRow
@@ -593,11 +719,14 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewGoldType10"
-                        android:padding="5dp"
                         android:singleLine="false"
                         android:background="#fbe815"
                         android:layout_margin="1dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -605,10 +734,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewStokisRate10"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -616,10 +748,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewAhliRate10"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -627,10 +762,13 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewBeliRate10"
                         android:background="#fbe815"
-                        android:padding="5dp"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
                 </TableRow>
 
                 <TableRow
@@ -643,44 +781,56 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewGoldType11"
-                        android:padding="5dp"
                         android:singleLine="false"
-                        android:background="#fbe815"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewStokisRate11"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewAhliRate11"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:id="@+id/textViewBeliRate11"
-                        android:background="#fbe815"
-                        android:padding="5dp"
+                        android:background="#fbf4a5"
                         android:layout_margin="1dp"
                         android:numeric="decimal"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp" />
                 </TableRow>
             </TableLayout>
 
@@ -693,28 +843,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lock for Order"
-                    android:id="@+id/button2"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="38dp"
-                    android:layout_marginEnd="38dp" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Refresh"
-                    android:id="@+id/button"
-                    android:layout_marginLeft="36dp"
-                    android:layout_marginStart="36dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
             </RelativeLayout>
 
             <TextView
@@ -729,6 +857,28 @@
                 android:paddingTop="20dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Refresh"
+                android:id="@+id/button"
+                android:layout_below="@+id/tableLayout"
+                android:layout_alignLeft="@+id/tableLayout"
+                android:layout_alignStart="@+id/tableLayout"
+                android:layout_marginTop="33dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Keep"
+                android:id="@+id/button2"
+                android:layout_below="@+id/tableLayout"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignRight="@+id/tableLayout"
+                android:layout_alignEnd="@+id/tableLayout"
+                android:layout_marginTop="33dp" />
+            />
 
         </RelativeLayout>
 
