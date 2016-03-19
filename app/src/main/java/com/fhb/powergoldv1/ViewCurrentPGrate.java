@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
@@ -14,8 +12,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +23,7 @@ import java.util.Map;
  */
 public class ViewCurrentPGrate extends Activity {
 
-    String url="https://powergold.biz/logon.asp?username=altaufiquemas&password=Fn_912522%23";
+    String url="https://powergold.biz/logon.asp?username=fadhams&password=030506";
     String raw_page;
     Map<String, Float[]> ratePGtype;
     ProgressDialog progressDialog;
@@ -32,19 +31,22 @@ public class ViewCurrentPGrate extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.pg_gold_rate);
+        new GetPGrateTable().execute();
 
+/*
         Button rateButton = (Button) findViewById(R.id.button_CurrentRate);
 
         rateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Title().execute();
+                new GetPGrateTable().execute();
             }
         });
+*/
     }
 
-    private class Title extends AsyncTask<Void, Void, Void> {
+    private class GetPGrateTable extends AsyncTask<Void, Void, Void> {
 
         //String raw_page;
 
@@ -91,12 +93,37 @@ public class ViewCurrentPGrate extends Activity {
         protected void onPostExecute(Void aVoid) {
             //TextView txtTitle = (TextView) findViewById(R.id.titletxt);
             //txtTitle.setText(raw_page);
-            Float[] ttt = new Float[12];
-            Integer i;
+
+            TextView[] gold_type_att_arr = new TextView[12];
+            gold_type_att_arr = setTextViewAttGoldTYpe();
+
+            TextView[] stokis_rate_att_arr = new TextView[12];
+            stokis_rate_att_arr = setTextViewAttStokisRate();
+
+            TextView[] ahli_rate_att_arr = new TextView[12];
+            ahli_rate_att_arr = setTextViewAttAhliRate();
+
+            TextView[] beli_rate_att_arr = new TextView[12];
+            beli_rate_att_arr = setTextViewAttBeliRate();
+
+            Float[] val = new Float[12];
+            Integer i=0;
             for(Map.Entry<String, Float[]> entry : ratePGtype.entrySet()){
                 // Since ratePGtype value is an array[], need to create additional step for its value
-                ttt = entry.getValue(); // an array of float value
-                System.out.printf("%s-> %.2f:%.2f:%.2f\n", entry.getKey(), ttt[0], ttt[1], ttt[2]);
+                val = entry.getValue(); // an array of float value
+
+                //System.out.printf("%s-> %.2f:%.2f:%.2f\n", entry.getKey(), val[0], val[1], val[2]);
+                DecimalFormat myFormatter = new DecimalFormat("#,##0.00");
+                String num0 = myFormatter.format(val[0]);
+                String num1 = myFormatter.format(val[1]);
+                String num2 = myFormatter.format(val[2]);
+
+
+                gold_type_att_arr[i].setText(entry.getKey());
+                stokis_rate_att_arr[i].setText(num0.toString());
+                ahli_rate_att_arr[i].setText(num1.toString());
+                beli_rate_att_arr[i].setText(num2.toString());
+                i++;
             }
             //((TextView)findViewById(R.id.textView10)).setText("test");
             progressDialog.dismiss();
@@ -225,11 +252,11 @@ public class ViewCurrentPGrate extends Activity {
         //    System.out.println(Arrays.toString(strArr));
         //}
 
-        String[] headerPGtype = {"1gm","1gmSy","5gm","10gm","20gm","50gm","100gm","500gm",
-                "2Dnr", "1Dnr", "1/4Dnr", "1/2gmSy"};
+        String[] headerPGtype = {"1 gram","1 gramSy","5 gram","10 gram","20 gram","50 gram","100 gram","500 gram",
+                "2 Dinar", "1 Dinar", "1/4 Dinar", "1/2 gramSy"};
 
         // Looping the headerPGtype and ratePGtype to create HashMap data type to pair both together
-        HashMap<String, Float[]> tablePG = new HashMap<String, Float[]>();
+        Map<String, Float[]> tablePG = new LinkedHashMap<String, Float[]>();
         for (i=0 ; i < 12 ; i++) {
             tablePG.put(headerPGtype[i], ratePGtype.get(i));
         }
@@ -303,4 +330,96 @@ public class ViewCurrentPGrate extends Activity {
         //TextView r2c1 = R.id.textView10
     }
 */
+
+    /**
+     * Created by Taufiq
+     * @return textView array variable
+     */
+    protected TextView[] setTextViewAttGoldTYpe () {
+        //  declare and initiate textview as array string
+        TextView[] gold_type_fieldname = new TextView[12];
+        gold_type_fieldname[0] = (TextView) findViewById(R.id.textViewGoldType0);
+        gold_type_fieldname[1] = (TextView) findViewById(R.id.textViewGoldType1);
+        gold_type_fieldname[2] = (TextView) findViewById(R.id.textViewGoldType2);
+        gold_type_fieldname[3] = (TextView) findViewById(R.id.textViewGoldType3);
+        gold_type_fieldname[4] = (TextView) findViewById(R.id.textViewGoldType4);
+        gold_type_fieldname[5] = (TextView) findViewById(R.id.textViewGoldType5);
+        gold_type_fieldname[6] = (TextView) findViewById(R.id.textViewGoldType6);
+        gold_type_fieldname[7] = (TextView) findViewById(R.id.textViewGoldType7);
+        gold_type_fieldname[8] = (TextView) findViewById(R.id.textViewGoldType8);
+        gold_type_fieldname[9] = (TextView) findViewById(R.id.textViewGoldType9);
+        gold_type_fieldname[10] = (TextView) findViewById(R.id.textViewGoldType10);
+        gold_type_fieldname[11] = (TextView) findViewById(R.id.textViewGoldType11);
+
+        return gold_type_fieldname;
+    }
+
+    /**
+     * Created by Taufiq
+     * @return textView array variable
+     */
+    protected TextView[] setTextViewAttStokisRate () {
+        //  declare and initiate textview as array string
+        TextView[] stokis_rate_fieldname = new TextView[12];
+        stokis_rate_fieldname[0] = (TextView) findViewById(R.id.textViewStokisRate0);
+        stokis_rate_fieldname[1] = (TextView) findViewById(R.id.textViewStokisRate1);
+        stokis_rate_fieldname[2] = (TextView) findViewById(R.id.textViewStokisRate2);
+        stokis_rate_fieldname[3] = (TextView) findViewById(R.id.textViewStokisRate3);
+        stokis_rate_fieldname[4] = (TextView) findViewById(R.id.textViewStokisRate4);
+        stokis_rate_fieldname[5] = (TextView) findViewById(R.id.textViewStokisRate5);
+        stokis_rate_fieldname[6] = (TextView) findViewById(R.id.textViewStokisRate6);
+        stokis_rate_fieldname[7] = (TextView) findViewById(R.id.textViewStokisRate7);
+        stokis_rate_fieldname[8] = (TextView) findViewById(R.id.textViewStokisRate8);
+        stokis_rate_fieldname[9] = (TextView) findViewById(R.id.textViewStokisRate9);
+        stokis_rate_fieldname[10] = (TextView) findViewById(R.id.textViewStokisRate10);
+        stokis_rate_fieldname[11] = (TextView) findViewById(R.id.textViewStokisRate11);
+
+        return stokis_rate_fieldname;
+    }
+
+    /**
+     * Created by Taufiq
+     * @return textView array variable
+     */
+    protected TextView[] setTextViewAttAhliRate () {
+        //  declare and initiate textview as array string
+        TextView[] ahli_rate_fieldname = new TextView[12];
+        ahli_rate_fieldname[0] = (TextView) findViewById(R.id.textViewAhliRate0);
+        ahli_rate_fieldname[1] = (TextView) findViewById(R.id.textViewAhliRate1);
+        ahli_rate_fieldname[2] = (TextView) findViewById(R.id.textViewAhliRate2);
+        ahli_rate_fieldname[3] = (TextView) findViewById(R.id.textViewAhliRate3);
+        ahli_rate_fieldname[4] = (TextView) findViewById(R.id.textViewAhliRate4);
+        ahli_rate_fieldname[5] = (TextView) findViewById(R.id.textViewAhliRate5);
+        ahli_rate_fieldname[6] = (TextView) findViewById(R.id.textViewAhliRate6);
+        ahli_rate_fieldname[7] = (TextView) findViewById(R.id.textViewAhliRate7);
+        ahli_rate_fieldname[8] = (TextView) findViewById(R.id.textViewAhliRate8);
+        ahli_rate_fieldname[9] = (TextView) findViewById(R.id.textViewAhliRate9);
+        ahli_rate_fieldname[10] = (TextView) findViewById(R.id.textViewAhliRate10);
+        ahli_rate_fieldname[11] = (TextView) findViewById(R.id.textViewAhliRate11);
+
+        return ahli_rate_fieldname;
+    }
+
+    /**
+     * Created by Taufiq
+     * @return textView array variable
+     */
+    protected TextView[] setTextViewAttBeliRate () {
+        //  declare and initiate textview as array string
+        TextView[] beli_rate_fieldname = new TextView[12];
+        beli_rate_fieldname[0] = (TextView) findViewById(R.id.textViewBeliRate0);
+        beli_rate_fieldname[1] = (TextView) findViewById(R.id.textViewBeliRate1);
+        beli_rate_fieldname[2] = (TextView) findViewById(R.id.textViewBeliRate2);
+        beli_rate_fieldname[3] = (TextView) findViewById(R.id.textViewBeliRate3);
+        beli_rate_fieldname[4] = (TextView) findViewById(R.id.textViewBeliRate4);
+        beli_rate_fieldname[5] = (TextView) findViewById(R.id.textViewBeliRate5);
+        beli_rate_fieldname[6] = (TextView) findViewById(R.id.textViewBeliRate6);
+        beli_rate_fieldname[7] = (TextView) findViewById(R.id.textViewBeliRate7);
+        beli_rate_fieldname[8] = (TextView) findViewById(R.id.textViewBeliRate8);
+        beli_rate_fieldname[9] = (TextView) findViewById(R.id.textViewBeliRate9);
+        beli_rate_fieldname[10] = (TextView) findViewById(R.id.textViewBeliRate10);
+        beli_rate_fieldname[11] = (TextView) findViewById(R.id.textViewBeliRate11);
+
+        return beli_rate_fieldname;
+    }
 }
