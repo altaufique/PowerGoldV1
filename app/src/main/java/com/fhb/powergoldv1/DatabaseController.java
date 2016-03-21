@@ -2,12 +2,15 @@ package com.fhb.powergoldv1;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -80,6 +83,41 @@ public class DatabaseController extends SQLiteOpenHelper {
             return false; // failed
         else*/
             return true;
+    }
+
+    public List<String> query_member() {
+
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + MEMBERS_TBL, null);
+
+        List<String> arr = new ArrayList<>(); Integer i = 0;
+        while (cursor.moveToNext()) {
+            //cursor.getString(0); // index
+            arr.add(cursor.getString(1));
+            System.out.println(cursor.getString(1) + "\n"); // name and so on
+        }
+
+        // Get the columns names of members_tbl into an array
+/*
+        int i = 0;
+        String[] arr = new String[12];
+
+        Integer length = member_tbl.size();
+        for(Map.Entry<String, String> entry : member_tbl.entrySet()){
+            if (i < length - 1) arr[i]=entry.getKey();
+            i++;
+        }
+*/
+
+       // Cursor cursor = db.query(MEMBERS_TBL, arr, arr[0] + "*?", new String[] {String.valueOf(id), null, null, null, null});
+        /* Use list.add to build list array after query data from db.
+        list.add("RANJITH");
+        list.add("ARUN");
+        list.add("JEESMON");
+        list.add("NISAM");
+        list.add("SREEJITH");
+        */
+
+        return arr;
     }
 
     @Override

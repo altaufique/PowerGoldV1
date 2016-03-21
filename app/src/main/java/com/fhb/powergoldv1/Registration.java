@@ -15,14 +15,15 @@ public class Registration extends Activity {
         setContentView(R.layout.registration); // View must refer to the Registration layout.
     }
 
-    public void onClickRegisterActivity(View v) {
-        if (v.getId() == R.id.button_Register_New) {
-            Intent i = new Intent(this, NewMemberRegistration.class);
+    public void onClickRegisterMenu(View v) {
+        if (v.getId() == R.id.buttonAddMember) {
+            Intent i = new Intent(this, NewRegistration.class);
             startActivity(i);
         }
-    }
 
-    private void manageMember() {
-
-    }
+        if (v.getId() == R.id.buttonUpdateMember) {
+            Intent i = new Intent(this, UpdateRegistration.class);
+            startActivity(i);
+        }
+ }
 }

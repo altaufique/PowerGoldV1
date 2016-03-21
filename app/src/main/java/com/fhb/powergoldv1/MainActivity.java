@@ -13,42 +13,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void onClickRegister(View v) {
-        if (v.getId() == R.id.button_Register_New) {
+    public void onClickMainMenu(View v) {
+        if (v.getId() == R.id.buttonAddMember) {
             Intent i = new Intent(this, Registration.class);
             startActivity(i);
         }
-    }
 
-    public void onClickViewCurrRate(View v) {
         if (v.getId() == R.id.button_CurrentRate) {
             Intent i = new Intent(this, ViewCurrentPGrate.class);
             startActivity(i);
         }
-    }
 
-    public void onClickRePurchase(View v) {
         if (v.getId() == R.id.button_Purchase) {
             Intent i = new Intent(this, RePurchase.class);
             startActivity(i);
         }
-    }
 
-    public void onClickMyInventory(View v) {
         if (v.getId() == R.id.button_MyInventory) {
             Intent i = new Intent(this, MyInventory.class);
             startActivity(i);
         }
-    }
 
-    public void onClickPackageInfo(View v) {
         if (v.getId() == R.id.button_PackageInfo) {
             Intent i = new Intent(this, PackageInfo.class);
             startActivity(i);
         }
-    }
 
-    public void onClickAbout(View v) {
         if (v.getId() == R.id.button_About) {
             Intent i = new Intent(this, About.class);
             startActivity(i);
