@@ -14,44 +14,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Registration"
-        android:id="@+id/textView_Registration"
+        android:text="Member&apos;s Menu"
+        android:id="@+id/textViewRegistration"
         android:textColor="#febf05"
-        android:textAlignment="gravity"
-        android:textSize="40sp"
+        android:textAlignment="center"
+        android:textSize="35sp"
         android:background="#050505"
         android:textStyle="bold"
-        android:paddingEnd="@android:dimen/app_icon_size"
-        android:paddingStart="@android:dimen/app_icon_size"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp" />
+        android:layout_marginTop="28dp"
+        android:password="false"
+        android:padding="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NEW MEMBER"
-        android:id="@+id/button_Register_New"
+        android:text="ADD NEW"
+        android:id="@+id/buttonAddMember"
         android:textSize="20sp"
         android:width="280sp"
         android:textColor="#2620a1"
         android:textStyle="normal"
         android:layout_marginTop="28dp"
-        android:layout_below="@+id/textView_Registration"
-        android:layout_alignLeft="@+id/button"
-        android:onClick="onClickRegisterActivity"
-        android:layout_alignStart="@+id/button" />
+        android:layout_below="@+id/textViewRegistration"
+        android:layout_alignLeft="@+id/buttonUpdateMember"
+        android:onClick="onClickRegisterMenu"
+        android:layout_alignStart="@+id/buttonUpdateMember" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MANAGE MEMBERS"
-        android:id="@+id/button"
+        android:text="UPDATE or DELETE"
+        android:id="@+id/buttonUpdateMember"
         android:textSize="20sp"
         android:width="280sp"
         android:textColor="#2620a1"
         android:textStyle="normal"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/button_Register_New" />
+        android:layout_below="@+id/buttonAddMember"
+        android:onClick="onClickRegisterMenu"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

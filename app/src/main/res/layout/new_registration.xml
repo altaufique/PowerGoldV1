@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
@@ -19,7 +20,9 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/editTextMemberName"
-            android:hint="Enter Your Name" />
+            android:hint="Enter Your Name"
+            android:singleLine="true"
+            android:maxLength="30" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -30,7 +33,9 @@
             android:layout_below="@+id/linearLayout2"
             android:layout_alignRight="@+id/linearLayout"
             android:layout_alignEnd="@+id/linearLayout"
-            android:hint="Postal Address" />
+            android:hint="Postal Address"
+            android:singleLine="true"
+            android:maxLength="50" />
     </LinearLayout>
 
     <LinearLayout
@@ -41,7 +46,7 @@
         android:id="@+id/linearLayout4">
 
         <EditText
-            android:layout_width="214dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
@@ -49,7 +54,11 @@
             android:layout_below="@+id/linearLayout3"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:hint="Email" />
+            android:hint="Email"
+            android:singleLine="true"
+            android:maxLength="25"
+            android:layout_weight="0.4"/>
+        <!-- Use layout_weight and decimal parameter to represent % i.e. 0.4 = 40% -->
 
         <EditText
             android:layout_width="match_parent"
@@ -60,8 +69,11 @@
             android:layout_below="@+id/linearLayout3"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_weight="1"
-            android:hint="Phone" />
+            android:layout_weight="0.6"
+            android:hint="Phone"
+            android:singleLine="true"
+            android:maxLength="11" />
+        <!-- Use layout_weight and decimal parameter to represent % i.e.0.6 = 60% -->
     </LinearLayout>
 
     <LinearLayout
@@ -75,21 +87,28 @@
         android:id="@+id/linearLayout5">
 
         <EditText
-            android:layout_width="214dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.4"
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/editTextAccNo"
             android:layout_below="@+id/linearLayout4"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:hint="Account No" />
+            android:hint="Account No"
+            android:singleLine="true"
+            android:maxLength="20" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.6"
             android:id="@+id/editTextBank"
-            android:hint="Bank" />
+            android:hint="Bank"
+            android:singleLine="true"
+            android:capitalize="sentences"
+            android:maxLength="15" />
     </LinearLayout>
 
     <LinearLayout
@@ -102,20 +121,26 @@
         android:id="@+id/linearLayout6">
 
         <EditText
-            android:layout_width="214dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.4"
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/editTextICno"
-            android:hint="IC/ID Number" />
+            android:hint="IC/ID Number"
+            android:singleLine="true"
+            android:maxLength="12" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.6"
             android:inputType="date"
             android:ems="10"
             android:id="@+id/editTextDateJoined"
-            android:hint="Date Join" />
+            android:hint="Date Joined"
+            android:singleLine="true"
+            android:maxLength="12" />
     </LinearLayout>
 
     <LinearLayout
@@ -128,16 +153,22 @@
         android:id="@+id/linearLayout7">
 
         <EditText
-            android:layout_width="214dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.4"
             android:id="@+id/editTextPGusername"
-            android:hint="Username" />
+            android:hint="Username"
+            android:singleLine="true"
+            android:maxLength="20" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0.6"
             android:id="@+id/editTextPGpackage"
-            android:hint="PG Package" />
+            android:hint="PG Package"
+            android:singleLine="true"
+            android:maxLength="12" />
 
     </LinearLayout>
 
@@ -163,7 +194,8 @@
                 android:layout_weight="0.12"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:onClick="onClickInsertMember"/>
+                android:onClick="onClickInsertMember"
+                android:enabled="true" />
             android:layout_alignParentStart="true" />
 
             <Button
@@ -174,7 +206,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:onClick="onClickInsertMember"/>
+                android:onClick="onClickInsertMember"
+                android:enabled="true" />
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

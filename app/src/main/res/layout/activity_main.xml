@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="PowerGold"
-        android:id="@+id/textView_Registration"
+        android:id="@+id/textViewRegistration"
         android:textColor="#febf05"
         android:textAlignment="gravity"
         android:textSize="40sp"
@@ -38,15 +38,15 @@
         android:textStyle="normal"
         android:layout_marginTop="47dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textView_Registration"
+        android:layout_below="@+id/textViewRegistration"
         android:layout_alignParentStart="false"
-        android:onClick="onClickViewCurrRate" />
+        android:onClick="onClickMainMenu" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="REGISTRATION"
-        android:id="@+id/button_Register_New"
+        android:id="@+id/buttonAddMember"
         android:textSize="20sp"
         android:width="280sp"
         android:textColor="#2620a1"
@@ -54,7 +54,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/button_CurrentRate"
         android:layout_alignParentStart="false"
-        android:onClick="onClickRegister" />
+        android:onClick="onClickMainMenu" />
 
     <Button
         android:layout_width="wrap_content"
@@ -66,8 +66,8 @@
         android:textColor="#2620a1"
         android:textStyle="normal"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/button_Register_New"
-        android:onClick="onClickRePurchase" />
+        android:layout_below="@+id/buttonAddMember"
+        android:onClick="onClickMainMenu" />
 
     <Button
         android:layout_width="wrap_content"
@@ -80,7 +80,7 @@
         android:textStyle="normal"
         android:layout_below="@+id/button_Purchase"
         android:layout_centerHorizontal="true"
-        android:onClick="onClickMyInventory" />
+        android:onClick="onClickMainMenu" />
 
     <Button
         android:layout_width="wrap_content"
@@ -93,7 +93,7 @@
         android:textStyle="normal"
         android:layout_below="@+id/button_MyInventory"
         android:layout_centerHorizontal="true"
-        android:onClick="onClickPackageInfo" />
+        android:onClick="onClickMainMenu" />
 
     <Button
         android:layout_width="wrap_content"
@@ -104,7 +104,7 @@
         android:width="280sp"
         android:textColor="#2620a1"
         android:textStyle="normal"
-        android:onClick="onClickAbout"
+        android:onClick="onClickMainMenu"
         android:layout_below="@+id/button_PackageInfo"
         android:layout_centerHorizontal="true" />
 
