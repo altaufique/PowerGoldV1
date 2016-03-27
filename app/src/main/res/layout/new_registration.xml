@@ -22,7 +22,7 @@
             android:id="@+id/editTextMemberName"
             android:hint="Enter Your Name"
             android:singleLine="true"
-            android:maxLength="30" />
+            android:maxLength="50" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -138,9 +138,9 @@
             android:inputType="date"
             android:ems="10"
             android:id="@+id/editTextDateJoined"
-            android:hint="Date Joined"
             android:singleLine="true"
-            android:maxLength="12" />
+            android:maxLength="12"
+            android:hint="@string/date_joined"/>
     </LinearLayout>
 
     <LinearLayout
@@ -161,13 +161,15 @@
             android:singleLine="true"
             android:maxLength="20" />
 
-        <EditText
-            android:layout_width="match_parent"
+        <Spinner
+            android:id="@+id/spinnerPackageName"
+            android:layout_width="190dp"
+            android:layout_weight="0.17"
             android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:id="@+id/editTextPGpackage"
-            android:hint="PG Package"
-            android:singleLine="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignBottom="@+id/buttonDeleteRecord"
+            android:textAlignment="center"
             android:maxLength="12" />
 
     </LinearLayout>
@@ -186,7 +188,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
+            Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cancel"
@@ -201,11 +203,10 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Submit"
+                android:text="Save"
                 android:id="@+id/button_Insert_Member"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentEnd="false"
                 android:onClick="onClickInsertMember"
                 android:enabled="true" />
         </RelativeLayout>
