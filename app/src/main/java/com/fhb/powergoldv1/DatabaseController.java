@@ -8,18 +8,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
- * Created by VAIO on 3/6/2016.
+ * Created by FHB:Taufiq on 3/6/2016.
  */
 public class DatabaseController extends SQLiteOpenHelper {
     // Database details
     public static final String DATABASE_NAME = "PG.db";
-    public static final Integer DB_VERSION = 4;
+    public static final Integer DB_VERSION = 5;
 
     // Members table details
     public static final String MEMBERS_TBL = "MEMBERS";
@@ -34,13 +34,13 @@ public class DatabaseController extends SQLiteOpenHelper {
         aMap.put("MOBILE_NO", "TEXT");
         aMap.put("IC", "TEXT");
         aMap.put("EMAIL", "TEXT");
-        aMap.put("PG_USERNAME", "TEXT");
+        aMap.put("PG_USERNAME", "TEXT UNIQUE");
         aMap.put("BANK", "TEXT");
         aMap.put("BANK_ACC_NO", "TEXT");
         aMap.put("PG_PKG", "TEXT");
         aMap.put("DATE_REGISTERED", "TEXT");
         member_tbl = Collections.unmodifiableMap(aMap);
-    };
+    }
 
     public DatabaseController(Context context) {
         super(context, DATABASE_NAME, null, DB_VERSION);
@@ -61,7 +61,7 @@ public class DatabaseController extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(string);
     }
 
-    public boolean insert_member(String[] strings) {
+    public boolean insert_member(String[] strings) throws Exception {
         // Open database connection. Remember to close by calling close()
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -69,55 +69,82 @@ public class DatabaseController extends SQLiteOpenHelper {
         Integer i = 0;
         for(Map.Entry<String, String> entry : member_tbl.entrySet()){
             // Skip first column for  ID auto increment
-            if (entry.getKey() == "ID") continue;
+            if (entry.getKey().matches("ID")) continue;
             contentValues.put(entry.getKey(), strings[i++]);
         }
 
-        this.getWritableDatabase().insertOrThrow(MEMBERS_TBL, "", contentValues);
+        Long isInserted;
+        isInserted = db.insertOrThrow(MEMBERS_TBL, "", contentValues);
        // long result = db.insert(MEMBERS_TBL, null, contentValues);
 
         // Close the database
         db.close();
 
-/*        if (result == -1)
-            return false; // failed
-        else*/
-            return true;
+        return isInserted != -1;
     }
 
-    public List<String> query_member() {
+    /**
+     * query member extract rows from database and return List of Arraylist of each element in row
+     * @return List of String array
+     */
+    public List<List<String>> query_member() {
 
         Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + MEMBERS_TBL, null);
 
-        List<String> arr = new ArrayList<>(); Integer i = 0;
+        List<List<String>> arr_arr = new ArrayList<>();
+        Integer i;
+        Integer count=cursor.getCount();
+        Integer cols = cursor.getColumnCount();
         while (cursor.moveToNext()) {
-            //cursor.getString(0); // index
-            arr.add(cursor.getString(1));
-            System.out.println(cursor.getString(1) + "\n"); // name and so on
+            List<String> arr = new ArrayList<>(); // this is the way to declare at the same time reset arr to clear content insted of arr.clear() to store new element or array.
+            for (i = 0; i < cols; i++) {
+                arr.add(cursor.getString(i));
+            }
+            arr_arr.add(arr);
         }
+        return arr_arr;
+    }
 
-        // Get the columns names of members_tbl into an array
-/*
-        int i = 0;
-        String[] arr = new String[12];
+    public boolean update_member(Integer name_ID, String[] strings) {
+        // Open database connection. Remember to close by calling close()
+        SQLiteDatabase db = this.getWritableDatabase();
 
-        Integer length = member_tbl.size();
-        for(Map.Entry<String, String> entry : member_tbl.entrySet()){
-            if (i < length - 1) arr[i]=entry.getKey();
-            i++;
+        ContentValues contentValues = new ContentValues();
+        Set<String> keys = member_tbl.keySet(); // get all the keys
+        Integer i = 0;
+        String where_str = null; // store ID key name to add in db.update argument.
+        for(String s : keys) {
+            //Skip the ID key and continue
+            if(s.equals("ID")) {
+                where_str = s + "=" + name_ID;
+                continue;
+            }
+            /*if (s.equals("PG_USERNAME")) {
+                //continue;
+            }*/
+            contentValues.put(s, strings[i++]);
         }
-*/
+        //String id = strings[0];
+        int rowUpdated = db.update(MEMBERS_TBL, contentValues, where_str, null);
+        // long result = db.insert(MEMBERS_TBL, null, contentValues);
 
-       // Cursor cursor = db.query(MEMBERS_TBL, arr, arr[0] + "*?", new String[] {String.valueOf(id), null, null, null, null});
-        /* Use list.add to build list array after query data from db.
-        list.add("RANJITH");
-        list.add("ARUN");
-        list.add("JEESMON");
-        list.add("NISAM");
-        list.add("SREEJITH");
-        */
+        // Close the database
+        db.close();
 
-        return arr;
+        return rowUpdated != -1;
+    }
+
+    public boolean delete_member(Integer name_ID) {
+        // Open database connection. Remember to close by calling close()
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String where_str = "ID=" + name_ID;
+        int rowDeleted = db.delete(MEMBERS_TBL, where_str, null);
+
+        // Close the database
+        db.close();
+
+        return rowDeleted != -1;
     }
 
     @Override
