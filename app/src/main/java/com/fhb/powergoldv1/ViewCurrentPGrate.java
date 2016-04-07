@@ -23,39 +23,33 @@ import java.util.Map;
  */
 public class ViewCurrentPGrate extends Activity {
 
-    String url="https://powergold.biz/logon.asp?username=fadhams&password=030506";
+    String pgURL;
+    String loginURL;
     String raw_page;
     Map<String, Float[]> ratePGtype;
     ProgressDialog progressDialog;
+    DatabaseController pgdb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pg_gold_rate);
+
+        // get PG logon parameter from database AUTHENTICATION
+        pgURL ="https://powergold.biz/logon.asp";
+        pgdb =  new DatabaseController(this);
+
         new GetPGrateTable().execute();
-
-/*
-        Button rateButton = (Button) findViewById(R.id.button_CurrentRate);
-
-        rateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new GetPGrateTable().execute();
-            }
-        });
-*/
     }
 
     private class GetPGrateTable extends AsyncTask<Void, Void, Void> {
-
-        //String raw_page;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(ViewCurrentPGrate.this);
-            progressDialog.setTitle("PowerGold Rate");
-            progressDialog.setMessage("Loading.....");
+            progressDialog.setTitle("PowerGold");
+            progressDialog.setMessage("Getting Gold Rate.....");
             progressDialog.setIndeterminate(false);
             progressDialog.show();
         }
@@ -63,25 +57,17 @@ public class ViewCurrentPGrate extends Activity {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                //Document document = Jsoup.connect(url).get();
-                Document document = Jsoup.connect(url).timeout(20000).get();
-                //raw_page = document.raw_page();
+                // get the login parameter from database to append to pg URL.
+                loginURL = pgURL + pgdb.getAuthParam();
+
+                Document document = Jsoup.connect(loginURL).timeout(20000).get();
+
                 raw_page = document.toString();
                 Document parseDoc = Jsoup.parse(raw_page);
                 String[] indexTable = arrangeTable(parseDoc);
 
-                // Clean indexTable from empty string
-                Integer i , k=0; String[] cleanTable = new String[100];
-                for (i=0 ; i<indexTable.length ; i++) {
-                    if (indexTable[i] == null) continue;
-                    if (indexTable[i].length() < 2) continue;
-                    cleanTable[k++] = indexTable[i];
-                }
-
                 // scrap and return PowerGold Rate arraylist of array only
-                ratePGtype = getPowerGoldTable(cleanTable);
-                //showTable(ratePGtype);
-
+                ratePGtype = getPowerGoldTable(indexTable);
 
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -91,8 +77,6 @@ public class ViewCurrentPGrate extends Activity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            //TextView txtTitle = (TextView) findViewById(R.id.titletxt);
-            //txtTitle.setText(raw_page);
 
             TextView[] gold_type_att_arr = new TextView[12];
             gold_type_att_arr = setTextViewAttGoldTYpe();
@@ -118,7 +102,6 @@ public class ViewCurrentPGrate extends Activity {
                 String num1 = myFormatter.format(val[1]);
                 String num2 = myFormatter.format(val[2]);
 
-
                 gold_type_att_arr[i].setText(entry.getKey());
                 stokis_rate_att_arr[i].setText(num0.toString());
                 ahli_rate_att_arr[i].setText(num1.toString());
@@ -130,8 +113,7 @@ public class ViewCurrentPGrate extends Activity {
         }
     }
 
-    private Map<String, Float[]> getPowerGoldTable(String[] allRate) {
-        String[] ratePG = new String[100];
+    private Map<String, Float[]> getPowerGoldTable(String[] ratePG) {
         Integer i;
         Integer index = 0;
 
@@ -148,86 +130,75 @@ public class ViewCurrentPGrate extends Activity {
         Float[] quarterDinar = new Float[3];
         Float[] halfGramSy = new Float[3];
 
-        // output array counter
-        Integer header=0;
-
-        // get rate for PowerGold only
-        for (i=0 ; i<70 ; i++){
-            //if (allRate[i].length() < 2) continue; // skip single white space
-            if (i<15 ) continue; // skip to index 15 where PG data starts.
-            // remove space-like character ascii code 160.
-            //if (allRate[i] == null) continue;
-            ratePG[index++] = allRate[i].replace(String.valueOf((char) 160), "").trim();
-        }
-
         // start ordering
         // 1Gram rate
         index = 0; // reset the counter
-        for (i=8 ; i<13 ; i=i+2) {
+        for (i=2 ; i<8 ; i=i+2) {
             oneGram[index++] = Float.parseFloat(ratePG[i]);
         }
 
         // 1GramSy rate
         index = 0; // reset the counter
-        for (i=9 ; i<14 ; i=i+2) {
+        for (i=3 ; i<9 ; i=i+2) {
             oneGramSy[index++] = Float.parseFloat(ratePG[i]);
         }
 
         // 5Gram rate
         index = 0; // reset the counter
-        for (i=15 ; i<18 ; i++) {
+        for (i=9 ; i<12 ; i++) {
             fiveGram[index++] = Float.parseFloat(ratePG[i]);
         }
 
         // 10Gram rate -> data break at index 27
-        tenGram[0] = Float.parseFloat(ratePG[23]);
-        tenGram[1] = Float.parseFloat(ratePG[29]);
-        tenGram[2] = Float.parseFloat(ratePG[34]);
+        tenGram[0] = Float.parseFloat(ratePG[17]);
+        tenGram[1] = Float.parseFloat(ratePG[22]);
+        tenGram[2] = Float.parseFloat(ratePG[27]);
 
         // 20Gram rate -> data break at index 27
-        twentyGram[0] = Float.parseFloat(ratePG[24]);
-        twentyGram[1] = Float.parseFloat(ratePG[30]);
-        twentyGram[2] = Float.parseFloat(ratePG[35]);
+        twentyGram[0] = Float.parseFloat(ratePG[18]);
+        twentyGram[1] = Float.parseFloat(ratePG[23]);
+        twentyGram[2] = Float.parseFloat(ratePG[28]);
 
         // 50Gram rate -> data break at index 27
-        fiftyGram[0] = Float.parseFloat(ratePG[25]);
-        fiftyGram[1] = Float.parseFloat(ratePG[31]);
-        fiftyGram[2] = Float.parseFloat(ratePG[36]);
+        fiftyGram[0] = Float.parseFloat(ratePG[19]);
+        fiftyGram[1] = Float.parseFloat(ratePG[24]);
+        fiftyGram[2] = Float.parseFloat(ratePG[29]);
 
         // 100Gram rate -> data break at index 27
-        oneHundredGram[0] = Float.parseFloat(ratePG[26]);
-        oneHundredGram[1] = Float.parseFloat(ratePG[32]);
-        oneHundredGram[2] = Float.parseFloat(ratePG[37]);
+        oneHundredGram[0] = Float.parseFloat(ratePG[20]);
+        oneHundredGram[1] = Float.parseFloat(ratePG[25]);
+        oneHundredGram[2] = Float.parseFloat(ratePG[30]);
 
         // 500Gram rate -> data break at index 27
-        fiveHundredGram[0] = Float.parseFloat(ratePG[27] + ratePG[28]);
-        fiveHundredGram[1] = Float.parseFloat(ratePG[33]);
-        fiveHundredGram[2] = Float.parseFloat(ratePG[38]);
+        // corrected. previous fiveHundredGram[0] = Float.parseFloat(ratePG[27] + ratePG[28]);
+        fiveHundredGram[0] = Float.parseFloat(ratePG[21]);
+        fiveHundredGram[1] = Float.parseFloat(ratePG[26]);
+        fiveHundredGram[2] = Float.parseFloat(ratePG[31]);
 
         // twoDinar
         index = 0; // reset the counter
-        for (i=43 ; i<48 ; i=i+4) {
+        for (i=36 ; i<44 ; i=i+4) {
             twoDinar[index++] = Float.parseFloat(ratePG[i]);
         }
         twoDinar[index++] = Float.parseFloat(ratePG[i].substring(0, ratePG[i].indexOf("/")));
 
         // oneDinar
         index = 0; // reset the counter
-        for (i=44 ; i<49 ; i=i+4) {
+        for (i=37 ; i<45 ; i=i+4) {
             oneDinar[index++] = Float.parseFloat(ratePG[i]);
         }
         oneDinar[index++] = Float.parseFloat(ratePG[i].substring(0, ratePG[i].indexOf("/")));
 
         // quarterDinar
         index = 0; // reset the counter
-        for (i=45 ; i<50 ; i=i+4) {
+        for (i=38 ; i<46 ; i=i+4) {
             quarterDinar[index++] = Float.parseFloat(ratePG[i]);
         }
         quarterDinar[index++] = Float.parseFloat(ratePG[i].substring(0, ratePG[i].indexOf("/")));
 
         // halfGramSy
         index = 0; // reset the counter
-        for (i=46 ; i<51 ; i=i+4) {
+        for (i=39 ; i<47 ; i=i+4) {
             halfGramSy[index++] = Float.parseFloat(ratePG[i]);
         }
         halfGramSy[index++] = Float.parseFloat(ratePG[i].substring(0, ratePG[i].indexOf("/")));
@@ -261,21 +232,13 @@ public class ViewCurrentPGrate extends Activity {
             tablePG.put(headerPGtype[i], ratePGtype.get(i));
         }
 
-/*
-        // Checking the value in tablePG
-        Float[] ttt = new Float[12];
-        for (i=0 ; i < 12 ; i++) {
-            ttt = tablePG.get(headerPGtype[i]);
-            System.out.println(headerPGtype[i] + ";" + ttt[0] + ";" + ttt[1] + ";" + ttt[2]);
-        }
-*/
-
         return tablePG;
     }
 
     private String[] arrangeTable (Document sane_doc) { // First Priority Table 999.9 PowerGold
 
-        String startValueStringInTable = "HARGA EMAS POWERGOLD HARI INI";
+        //String startValueStringInTable = "HARGA EMAS POWERGOLD HARI INI";
+        String startValueStringInTable = "1G";
         String endValueStringInTable = "9:30-5:00pm ISNIN-JUMAAT";
 
         Integer countElement = 0; // Header Row
@@ -287,9 +250,11 @@ public class ViewCurrentPGrate extends Activity {
         Elements elements = sane_doc.body().select("*");
 
         for (Element element : elements) {
+
+            Integer element_len = element.toString().length();
+
             if (!element.ownText().isEmpty()) {
                 String str = element.ownText().toString().trim();
-
                 // Start saving gold rate table -------------------------------------------
                 if (!str.matches("\\S") || str.matches("[0-9:.].*") ) { // non-white space character-\\S
                     if (str.matches(startValueStringInTable)) {
@@ -302,7 +267,18 @@ public class ViewCurrentPGrate extends Activity {
                         if (str.matches(endValueStringInTable)) { // the line just below the last data value
                             isFound = 0;
                             //break;
-                        } else goldRate[countElement] = str;
+                        } else {
+                            // process str string if number appears to split into two.
+                            // its apper the 2nd split number have longer length and smaller digit number
+                            if (element_len > 100 && str.length() < 4) {
+                                // combine pervious str with splitter number and assigned back.
+                                goldRate[countElement-1] = goldRate[countElement-1] + str;
+                                continue;
+                            } else if (str == null || str.length() < 2) continue;
+
+                            // saving clean array of rate
+                            goldRate[countElement] = str.replace(String.valueOf((char) 160), "").trim();
+                        }
                     }
                 } else {
                     //System.out.println(countElement + "-> " + str);  // uncommented this line to see line not captured.
@@ -311,25 +287,9 @@ public class ViewCurrentPGrate extends Activity {
                 countElement++;
             }
         }
+
         return goldRate;
     }
-
-/*
-    public void showTable (Map<String, Float[]> tblStr) {
-        // Checking the value in tablePG
-        // for-each loop, use Map.keySet() for iterating keys, Map.values() for iterating values
-        // and Map.entrySet() for iterating key/value pairs.
-        Float[] ttt = new Float[12];
-        Integer i;
-        for(Map.Entry<String, Float[]> entry : tblStr.entrySet()){
-            // Since ratePGtype value is an array[], need to create additional step for its value
-            ttt = entry.getValue(); // an array of float value
-            System.out.printf("%s-> %.2f:%.2f:%.2f\n", entry.getKey(), ttt[0], ttt[1], ttt[2]);
-        }
-        ((TextView)findViewById(R.id.textView10)).setText("test");
-        //TextView r2c1 = R.id.textView10
-    }
-*/
 
     /**
      * Created by Taufiq

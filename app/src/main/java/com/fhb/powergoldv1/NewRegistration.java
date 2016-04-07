@@ -46,6 +46,8 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
     Spinner spinner_pg_package;
     //TextView spinner_textview for spinner items
 
+    public PGtables pgTables = new PGtables();
+
     Button buttonRecordMember;
     Button buttonCancel;
 
@@ -112,7 +114,6 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
             case R.id.button_Insert_Member:
                 // build an array to pass to method Insert_Member in DatabaseController Class
                 String[] member_info = getInputDetails();
-                PGtables pgtables = new PGtables();
 
                 // Checking name field is correctly entered.
                 if (member_info[0].length() < 6 || !member_info[0].matches("^[a-zA-Z ]*$")) {
@@ -122,7 +123,7 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
 
                 boolean isInserted;
                 try {
-                    isInserted = pgdb.insert_value(pgtables.getMemberTableName(), pgtables.getMemberSchema(),member_info);
+                    isInserted = pgdb.insert_value(pgTables.memberTableName, pgTables.membersSchema,member_info);
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(NewRegistration.this, "Error !! " +

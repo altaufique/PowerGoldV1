@@ -349,25 +349,4 @@ public class UpdateRegistration extends Activity implements AdapterView.OnItemSe
         }
         editTextDateJoined.setText(list.get(10));
     }
-
-/*    private void confirmDialog(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(UpdateRegistration.this);
-
-        builder
-                .setTitle(title)
-                .setMessage("Are you sure?")
-                .setPositiveButton("Yes",  new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        //Boolean isDeleted = pgdb.delete_member(col_ID);
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog,int id) {
-                        dialog.cancel();
-                    }
-                })
-                .show();
-    }*/
 }
