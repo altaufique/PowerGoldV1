@@ -18,7 +18,7 @@ import java.util.Set;
 public class DatabaseController extends SQLiteOpenHelper {
     // Database details
     public static final String DATABASE_NAME = "PG.db";
-    public static final Integer DB_VERSION = 18;
+    public static final Integer DB_VERSION = 19;
 
     // Get all the tables property
     public PGtables pgTables = new PGtables();

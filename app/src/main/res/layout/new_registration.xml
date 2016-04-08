@@ -35,7 +35,7 @@
             android:layout_alignEnd="@+id/linearLayout"
             android:hint="Postal Address"
             android:singleLine="true"
-            android:maxLength="50" />
+            android:maxLength="100" />
     </LinearLayout>
 
     <LinearLayout
@@ -72,7 +72,7 @@
             android:layout_weight="0.6"
             android:hint="Phone"
             android:singleLine="true"
-            android:maxLength="11" />
+            android:maxLength="12" />
         <!-- Use layout_weight and decimal parameter to represent % i.e.0.6 = 60% -->
     </LinearLayout>
 
@@ -131,11 +131,14 @@
             android:singleLine="true"
             android:maxLength="12" />
 
+        <!--descendant... not working to block entering text from keyboard  -->
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.6"
-            android:inputType="date"
+            android:inputType="none"
+            android:focusableInTouchMode="false"
+            android:descendantFocusability="blocksDescendants"
             android:ems="10"
             android:id="@+id/editTextDateJoined"
             android:singleLine="true"

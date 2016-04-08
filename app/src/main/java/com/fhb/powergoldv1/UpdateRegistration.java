@@ -2,10 +2,12 @@ package com.fhb.powergoldv1;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -90,6 +92,12 @@ public class UpdateRegistration extends Activity implements AdapterView.OnItemSe
 
         setSpinnerMember();
         setSpinnerPackage();
+
+        editTextMemberName.requestFocus(); // set focus to Name field and draw a keyboard below
+        //InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY); // other option
+
+
 
         onClickDeleteMember(); // set onclick for confirmation action
 
@@ -186,7 +194,6 @@ public class UpdateRegistration extends Activity implements AdapterView.OnItemSe
         if (parent == findViewById(R.id.spinnerPackageName)) {
             spinner_pg_package.setSelection(position);
             editTextPGpkg = (String) spinner_pg_package.getSelectedItem();
-
         } else {
             spinner_member.setSelection(position);
             String sel_member = (String) spinner_member.getSelectedItem();
@@ -233,28 +240,28 @@ public class UpdateRegistration extends Activity implements AdapterView.OnItemSe
     }
 
     public void onClickEditMember(View v) {
-                String[] member_details = getInputDetails();
+        String[] member_details = getInputDetails();
 
-                // Checking name field is correctly entered.
-                if (member_details[0].length() < 6 || !member_details[0].matches("^[a-zA-Z ]*$")) {
-                    Toast.makeText(UpdateRegistration.this, "Error !! Invalid Name.", Toast.LENGTH_LONG).show();
-                    return;
-                }
+        // Checking name field is correctly entered.
+        if (member_details[0].length() < 6 || !member_details[0].matches("^[a-zA-Z ]*$")) {
+            Toast.makeText(UpdateRegistration.this, "Error !! Invalid Name.", Toast.LENGTH_LONG).show();
+            return;
+        }
 
-                Boolean isUpdated = pgdb.update_member(col_ID, member_details);
-                if (isUpdated) {
-                    Toast.makeText(UpdateRegistration.this, "Success!! " +
-                            editTextMemberName.getText() +
-                            " is updated.", Toast.LENGTH_LONG).show();
+        Boolean isUpdated = pgdb.update_member(col_ID, member_details);
+        if (isUpdated) {
+            Toast.makeText(UpdateRegistration.this, "Success!! " +
+                    editTextMemberName.getText() +
+                    " is updated.", Toast.LENGTH_LONG).show();
 
-                    // save the selected value, refresh the view and defaulted back to selected value;
-                    changeSpinnerPosition(spinner_member, 0);
+            // save the selected value, refresh the view and defaulted back to selected value;
+            changeSpinnerPosition(spinner_member, 0);
 
-                } else {
-                    Toast.makeText(UpdateRegistration.this, "Error !! " +
-                            editTextMemberName.getText() +
-                            " could not update.", Toast.LENGTH_LONG).show();
-                }
+        } else {
+            Toast.makeText(UpdateRegistration.this, "Error !! " +
+                    editTextMemberName.getText() +
+                    " could not update.", Toast.LENGTH_LONG).show();
+        }
     }
 
     /**
@@ -292,6 +299,7 @@ public class UpdateRegistration extends Activity implements AdapterView.OnItemSe
                         Log.d("FHB", "You choose No button.");
                     }
                 });
+
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }

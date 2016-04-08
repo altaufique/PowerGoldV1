@@ -1,8 +1,11 @@
 package com.fhb.powergoldv1;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -76,6 +79,9 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
         setDateTimeField();
 
         setSpinnerPackage();
+
+        editTextMemberName.requestFocus(); // set focus to Name field and draw a keyboard below
+        this.toggleFocusedSoftKeyboard(); // draw softkeyboard to appear.
 
         callStetho();
     }
@@ -216,16 +222,19 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
     }
 
     public void clearInputDetails () {
-                editTextMemberName.setText("");
-                editTextAddress.setText("");
-                editTextMobileNo.setText("");
-                editTextICno.setText("");
-                editTextEmail.setText("");
-                editTextPGusername.setText("");
-                editTextBank.setText("");
-                editTextAccNo.setText("");
-                //editTextPGpkg.setText("");
-                editTextDateJoined.setText("");
+        editTextMemberName.setText("");
+        editTextAddress.setText("");
+        editTextMobileNo.setText("");
+        editTextICno.setText("");
+        editTextEmail.setText("");
+        editTextPGusername.setText("");
+        editTextBank.setText("");
+        editTextAccNo.setText("");
+        //editTextPGpkg.setText("");
+        editTextDateJoined.setText("");
+
+        editTextMemberName.requestFocus();
+        this.toggleFocusedSoftKeyboard(); // TODO not working as expected
     }
 
     // Call Stheto library to do database and other resources checking
@@ -237,5 +246,18 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
                         .enableWebKitInspector(
                                 Stetho.defaultInspectorModulesProvider(this))
                         .build());
+    }
+
+    private void toggleFocusedSoftKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY); // other option
+        /*if (toggle > 0) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0); // other option
+
+        } else {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+            //imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        }*/
     }
 }
