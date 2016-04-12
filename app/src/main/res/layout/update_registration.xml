@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/layout_menu"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
@@ -14,28 +15,18 @@
         android:id="@+id/linearLayout3">
 
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            style="@style/editTextBase"
             android:inputType="textPersonName"
-            android:ems="10"
             android:id="@+id/editTextMemberName"
-            android:hint="Enter Your Name"
-            android:singleLine="true"
+            android:hint="@string/enter_name"
             android:maxLength="150" />
 
         <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            style="@style/editTextBase"
             android:inputType="textPostalAddress"
-            android:ems="10"
             android:id="@+id/editTextAddress"
-            android:layout_below="@+id/editTextMemberName"
-            android:layout_alignRight="@+id/linearLayout"
-            android:layout_alignEnd="@+id/linearLayout"
-            android:hint="Postal Address"
-            android:singleLine="true"
-            android:maxLength="80"
-            android:clickable="false" />
+            android:hint="@string/postal_address"
+            android:maxLength="80" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,35 +38,21 @@
         android:clickable="false">
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/editTextBase"
             android:inputType="textEmailAddress"
-            android:ems="10"
             android:id="@+id/editTextEmail"
-            android:layout_below="@+id/linearLayout3"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:hint="Email"
-            android:singleLine="true"
+            android:hint="@string/email"
             android:maxLength="25"
-            android:layout_weight="0.4"
-            android:clickable="false" />
+            android:layout_weight="0.4" />
         <!-- Use layout_weight and decimal parameter to represent % i.e. 0.4 = 40% -->
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/editTextBase"
             android:inputType="phone"
-            android:ems="10"
             android:id="@+id/editTextPhone"
-            android:layout_below="@+id/linearLayout3"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:layout_weight="0.6"
-            android:hint="Phone"
-            android:singleLine="true"
-            android:maxLength="12"
-            android:clickable="false" />
+            android:hint="@string/phone"
+            android:maxLength="12"/>
         <!-- Use layout_weight and decimal parameter to represent % i.e.0.6 = 60% -->
     </LinearLayout>
 
@@ -83,7 +60,6 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1.94"
         android:layout_below="@+id/linearLayout4"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -91,30 +67,19 @@
         android:clickable="false">
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/editTextBase"
             android:layout_weight="0.4"
             android:inputType="numberDecimal"
-            android:ems="10"
             android:id="@+id/editTextAccNo"
-            android:layout_below="@+id/linearLayout4"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:hint="Account No"
-            android:singleLine="true"
-            android:maxLength="20"
-            android:clickable="false" />
+            android:hint="@string/acc_no"
+            android:maxLength="20" />
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/editTextBase"
             android:layout_weight="0.6"
             android:id="@+id/editTextBank"
-            android:hint="Bank"
-            android:singleLine="true"
-            android:capitalize="sentences"
-            android:maxLength="15"
-            android:clickable="false" />
+            android:hint="@string/bank"
+            android:maxLength="15" />
     </LinearLayout>
 
     <LinearLayout
@@ -128,29 +93,21 @@
         android:clickable="false">
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/editTextBase"
             android:layout_weight="0.4"
             android:inputType="numberDecimal"
-            android:ems="10"
             android:id="@+id/editTextICno"
-            android:hint="IC/ID Number"
-            android:singleLine="true"
-            android:maxLength="12"
-            android:clickable="false" />
+            android:hint="@string/ic_no"
+            android:maxLength="12" />
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/editTextBase"
             android:focusableInTouchMode="false"
             android:layout_weight="0.6"
             android:inputType="date"
-            android:ems="10"
             android:id="@+id/editTextDateJoined"
-            android:hint="Date Joined"
-            android:singleLine="true"
-            android:maxLength="12"
-            android:clickable="false" />
+            android:hint="@string/date_joined"
+            android:maxLength="12" />
     </LinearLayout>
 
     <LinearLayout
@@ -164,23 +121,18 @@
         android:clickable="false">
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/editTextBase"
             android:layout_weight="0.4"
             android:id="@+id/editTextPGusername"
-            android:hint="Username"
-            android:singleLine="true"
+            android:hint="@string/username"
             android:maxLength="20" />
 
         <Spinner
             android:id="@+id/spinnerPackageName"
-            android:layout_width="155dp"
-            android:layout_weight="0"
+            android:spinnerMode="dialog"
+            android:layout_width="190dp"
+            android:layout_weight="0.17"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_alignBottom="@+id/buttonDeleteRecord"
-            android:textAlignment="center"
             android:maxLength="12" />
 
     </LinearLayout>
@@ -202,7 +154,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete"
+                android:text="@string/delete_button"
                 android:id="@+id/buttonDeleteRecord"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
@@ -212,6 +164,7 @@
 
             <Spinner
                 android:id="@+id/spinnerMemberName"
+                android:spinnerMode="dialog"
                 android:layout_width="185dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -222,7 +175,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Update"
+                android:text="@string/update_button"
                 android:id="@+id/buttonEditRecord"
                 android:enabled="true"
                 android:layout_alignParentTop="true"

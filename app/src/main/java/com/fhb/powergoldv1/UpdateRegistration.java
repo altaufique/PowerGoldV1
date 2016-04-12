@@ -122,6 +122,7 @@ public class UpdateRegistration extends Activity implements AdapterView.OnItemSe
     private void setSpinnerMember () {
         // declare the spinner from layout
         spinner_member = (Spinner) findViewById(R.id.spinnerMemberName);
+        spinner_member.setPrompt("Edit Member...");
 
         // -- Spinner setting section.
         // 1) Add spinner object in layout file
@@ -162,6 +163,7 @@ public class UpdateRegistration extends Activity implements AdapterView.OnItemSe
     private void setSpinnerPackage () {
         // declare the spinner from layout
         spinner_pg_package = (Spinner) findViewById(R.id.spinnerPackageName);
+        spinner_pg_package.setPrompt("Purchased Package");
 
         // -- Spinner setting section.
         // 1) Add spinner object in layout file

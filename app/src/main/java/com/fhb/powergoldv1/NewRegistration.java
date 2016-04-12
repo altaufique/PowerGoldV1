@@ -47,9 +47,9 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
     private SimpleDateFormat dateFormatter;
 
     Spinner spinner_pg_package;
-    //TextView spinner_textview for spinner items
+    String[] pkg_elements;
 
-    public PGtables pgTables = new PGtables();
+    PGtables pgTables = new PGtables();
 
     Button buttonRecordMember;
     Button buttonCancel;
@@ -161,6 +161,7 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
     private void setSpinnerPackage () {
         // declare the spinner from layout
         spinner_pg_package = (Spinner) findViewById(R.id.spinnerPackageName);
+        spinner_pg_package.setPrompt("Purchased Package");
 
         // -- Spinner setting section.
         // 1) Add spinner object in layout file
@@ -169,7 +170,7 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
         //
         // 2) Initialize string array package_list
         pgdb = new DatabaseController(this);
-        String[] pkg_elements = {"Gold", "Solid Gold", "SPower Gold"};
+        pkg_elements = new String[]{"Gold", "Solid Gold", "SPower Gold"};
 
         //
         // 3) Bound the spinner through array adapter from public ArrayAdapter (Context context, int resource, List<T> object)
@@ -208,16 +209,16 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
      */
     public String[] getInputDetails () {
         return new String[]{
-                editTextMemberName.getText().toString(),
-                editTextAddress.getText().toString(),
-                editTextMobileNo.getText().toString(),
-                editTextICno.getText().toString(),
-                editTextEmail.getText().toString(),
-                editTextPGusername.getText().toString(),
-                editTextBank.getText().toString(),
-                editTextAccNo.getText().toString(),
-                editTextPGpkg,
-                editTextDateJoined.getText().toString()
+            editTextMemberName.getText().toString(),
+            editTextAddress.getText().toString(),
+            editTextMobileNo.getText().toString(),
+            editTextICno.getText().toString(),
+            editTextEmail.getText().toString(),
+            editTextPGusername.getText().toString(),
+            editTextBank.getText().toString(),
+            editTextAccNo.getText().toString(),
+            editTextPGpkg,
+            editTextDateJoined.getText().toString()
         };
     }
 
@@ -235,6 +236,9 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
 
         editTextMemberName.requestFocus();
         this.toggleFocusedSoftKeyboard(); // TODO not working as expected
+
+        // Reset package spinner to topmost.
+        spinner_pg_package.setSelection(0);
     }
 
     // Call Stheto library to do database and other resources checking

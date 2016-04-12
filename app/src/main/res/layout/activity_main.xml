@@ -2,111 +2,61 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.fhb.powergold.MainActivity">
+    style="@style/layout_menu"
+    tools:context="com.fhb.powergoldv1.MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="PowerGold"
-        android:id="@+id/textViewRegistration"
-        android:textColor="#febf05"
-        android:textAlignment="gravity"
-        android:textSize="40sp"
-        android:background="#050505"
-        android:textStyle="bold"
-        android:paddingEnd="@android:dimen/app_icon_size"
-        android:paddingStart="@android:dimen/app_icon_size"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp" />
+        style="@style/main_title"
+        android:text="@string/app_name"
+        android:id="@+id/textViewMainTitle" />
+
+    <TextView
+        style="@style/sub_title"
+        android:text="@string/sub_title"
+        android:id="@+id/textViewPersonalAssistance"
+        android:layout_centerHorizontal="true" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CURRENT RATE"
+        style="@style/button_menu"
+        android:text="@string/current_rate"
         android:id="@+id/button_CurrentRate"
-        android:textSize="20sp"
-        android:width="280sp"
-        android:textColor="#2620a1"
-        android:textStyle="normal"
-        android:layout_marginTop="47dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textViewRegistration"
-        android:layout_alignParentStart="false"
-        android:onClick="onClickMainMenu" />
+        android:onClick="onClickMainMenu"
+        android:layout_below="@+id/textViewPersonalAssistance"
+        android:layout_marginTop="39dp" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="REGISTRATION"
+        style="@style/button_menu"
+        android:text="@string/registration"
         android:id="@+id/buttonAddMember"
-        android:textSize="20sp"
-        android:width="280sp"
-        android:textColor="#2620a1"
-        android:textStyle="normal"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/button_CurrentRate"
-        android:layout_alignParentStart="false"
         android:onClick="onClickMainMenu" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="(Re) Purchase"
+        style="@style/button_menu"
+        android:text="@string/re_purchase"
         android:id="@+id/button_Purchase"
-        android:textSize="20sp"
-        android:width="280sp"
-        android:textColor="#2620a1"
-        android:textStyle="normal"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/buttonAddMember"
         android:onClick="onClickMainMenu" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MY INVENTORY"
+        style="@style/button_menu"
+        android:text="@string/my_inventory"
         android:id="@+id/button_MyInventory"
-        android:textSize="20sp"
-        android:width="280sp"
-        android:textColor="#2620a1"
-        android:textStyle="normal"
         android:layout_below="@+id/button_Purchase"
-        android:layout_centerHorizontal="true"
         android:onClick="onClickMainMenu" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PACKAGE INFO"
+        style="@style/button_menu"
+        android:text="@string/package_info"
         android:id="@+id/button_PackageInfo"
-        android:textSize="20sp"
-        android:width="280sp"
-        android:textColor="#2620a1"
-        android:textStyle="normal"
         android:layout_below="@+id/button_MyInventory"
-        android:layout_centerHorizontal="true"
         android:onClick="onClickMainMenu" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ABOUT PG APP"
+        style="@style/button_menu"
+        android:text="@string/about"
         android:id="@+id/button_About"
-        android:textSize="20sp"
-        android:width="280sp"
-        android:textColor="#2620a1"
-        android:textStyle="normal"
         android:onClick="onClickMainMenu"
-        android:layout_below="@+id/button_PackageInfo"
-        android:layout_centerHorizontal="true" />
-
+        android:layout_below="@+id/button_PackageInfo" />
 </RelativeLayout>
 

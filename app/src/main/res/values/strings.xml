@@ -1,0 +1,30 @@
+<resources xmlns:android="http://schemas.android.com/tools">
+    <!-- ActionBar -->
+    <string name="action_settings">Setting</string>
+
+    <!-- Title and sub-title Strings -->
+    <string name="app_name">PowerGold</string>
+    <string name="sub_title">Personal Assistance</string>
+
+    <!-- Main Menu Strings -->
+    <string name="current_rate">Current Rate</string>
+    <string name="registration">Registration</string>
+    <string name="re_purchase">(Re) Purchase</string>
+    <string name="my_inventory">My Inventory</string>
+    <string name="package_info">Package Info</string>
+    <string name="about">About PG Info</string>
+
+    <!-- New and Update Registration-->
+    <string name="enter_name">Enter Your Name</string>
+    <string name="postal_address">Postal Address</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="acc_no">Account No</string>
+    <string name="bank">Bank</string>
+    <string name="ic_no">IC/ID Number</string>
+    <string name="username">Username</string>
+    <string name="date_joined">Date Joined</string>
+    <string name="save_button">Save</string>
+    <string name="update_button">Update</string>
+    <string name="delete_button">Delete?</string>
+</resources>

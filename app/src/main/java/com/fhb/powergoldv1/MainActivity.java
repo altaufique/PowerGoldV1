@@ -1,10 +1,12 @@
 package com.fhb.powergoldv1;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuInflater;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,38 +28,6 @@ public class MainActivity extends Activity {
             startActivity(i);
         }
     }
-/*
-    public void onClickMainMenu(View v) {
-        if (v.getId() == R.id.buttonAddMember) {
-            Intent i = new Intent(this, Registration.class);
-            startActivity(i);
-        }
-
-        if (v.getId() == R.id.button_CurrentRate) {
-            Intent i = new Intent(this, ViewCurrentPGrate.class);
-            startActivity(i);
-        }
-
-        if (v.getId() == R.id.button_Purchase) {
-            Intent i = new Intent(this, RePurchase.class);
-            startActivity(i);
-        }
-
-        if (v.getId() == R.id.button_MyInventory) {
-            Intent i = new Intent(this, MyInventory.class);
-            startActivity(i);
-        }
-
-        if (v.getId() == R.id.button_PackageInfo) {
-            Intent i = new Intent(this, PackageInfo.class);
-            startActivity(i);
-        }
-
-        if (v.getId() == R.id.button_About) {
-            Intent i = new Intent(this, About.class);
-            startActivity(i);
-        }
-    }*/
 }
 
 
