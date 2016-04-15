@@ -20,9 +20,14 @@ public class DatabaseController extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "PG.db";
     public static final Integer DB_VERSION = 19;
 
+    SQLiteDatabase db;
+
     // Get all the tables property
     public PGtables pgTables = new PGtables();
     public String pgAuthParam;
+
+    private String dbFilePath;
+
     public DatabaseController(Context context) {
         super(context, DATABASE_NAME, null, DB_VERSION);
     }
@@ -51,14 +56,14 @@ public class DatabaseController extends SQLiteOpenHelper {
 
         //  insert data for into package table
         List<String[]> pkg_data = pgTables.setPackageData(pgTables.packageSchema);
-        for (int i=0; i<pkg_data.size(); i++ ) {
+        for (int i = 0; i < pkg_data.size(); i++) {
             try {
                 // onCreate automatic run when database not found and already have all the database
                 // functionality. Don't call getWritable() or getReadable() again to avoid error
                 // "getDatabase called recursively". Use sqLiteDatabase.insert() directly from here.
 
                 // List<String[]> pkg_data to ContentValues to use saLiteDatabase.insert()
-                ContentValues contentValues = (ContentValues) convertToContentvalues(pgTables.packageSchema, pkg_data.get(i));
+                ContentValues contentValues = convertToContentvalues(pgTables.packageSchema, pkg_data.get(i));
 
                 sqLiteDatabase.insertOrThrow(pgTables.packageTableName, null, contentValues);
             } catch (Exception e) {
@@ -68,16 +73,17 @@ public class DatabaseController extends SQLiteOpenHelper {
 
         // insert data for gold weight table
         String[] weight_data = pgTables.setWeightData(pgTables.weightSchema);
-        ContentValues weightContentValues = (ContentValues) convertToContentvalues(pgTables.weightSchema, weight_data);
+        ContentValues weightContentValues = convertToContentvalues(pgTables.weightSchema, weight_data);
         sqLiteDatabase.insertOrThrow(pgTables.weightTableName, null, weightContentValues);
     }
 
     public String createTableSQLstring(Map<String, String> members_schema) {
 
         // Build create table sql string
-        int i = 0; String sql_str = "";
+        int i = 0;
+        String sql_str = "";
         Integer length = members_schema.size();
-        for(Map.Entry<String, String> entry : members_schema.entrySet()){
+        for (Map.Entry<String, String> entry : members_schema.entrySet()) {
             if (i < length - 1) sql_str = sql_str + entry.getKey() + " " + entry.getValue() + ", ";
             else sql_str = sql_str + entry.getKey() + " " + entry.getValue();
             i++;
@@ -91,7 +97,7 @@ public class DatabaseController extends SQLiteOpenHelper {
 
         ContentValues contentValues = new ContentValues();
         Integer i = 0;
-        for(Map.Entry<String, String> entry : schema.entrySet()){
+        for (Map.Entry<String, String> entry : schema.entrySet()) {
             // Skip first column for  ID auto increment
             if (entry.getKey().matches("ID")) continue;
             contentValues.put(entry.getKey(), strings[i++]);
@@ -109,6 +115,7 @@ public class DatabaseController extends SQLiteOpenHelper {
 
     /**
      * query member extract rows from database and return List of Arraylist of each element in row
+     *
      * @return List of String array
      */
     public List<List<String>> query_member() {
@@ -128,7 +135,38 @@ public class DatabaseController extends SQLiteOpenHelper {
         return arr_arr;
     }
 
-    public boolean update_member(Integer name_ID, String[] strings) {
+    public List<List<String>> queryAuth() {
+
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + pgTables.authTableName, null);
+
+        List<List<String>> arr_arr = new ArrayList<>();
+        Integer i;
+        Integer cols = cursor.getColumnCount();
+        while (cursor.moveToNext()) {
+            List<String> arr = new ArrayList<>(); // this is the way to declare at the same time reset arr to clear content insted of arr.clear() to store new element or array.
+            for (i = 0; i < cols; i++) {
+                arr.add(cursor.getString(i));
+            }
+            arr_arr.add(arr);
+        }
+        return arr_arr;
+    }
+
+    public boolean updateAuth(String password, String formParam) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues newValues = new ContentValues();
+        newValues.put("PG_PASSWORD", password);
+        newValues.put("PG_WEBPARAM", formParam);
+
+        db.update(pgTables.authTableName, newValues, "id=1", null);
+        //db.execSQL("UPDATE AUTHENTICATION SET PG_PASSWORD=" + password + "");
+        db.close();
+
+        return true;
+    }
+
+    public boolean updateMember(Integer name_ID, String[] strings) {
         // Open database connection. Remember to close by calling close()
         SQLiteDatabase db = this.getWritableDatabase();
         Map<String, String> members_schema = pgTables.membersSchema;
@@ -137,9 +175,9 @@ public class DatabaseController extends SQLiteOpenHelper {
         Set<String> keys = members_schema.keySet(); // get all the keys
         Integer i = 0;
         String where_str = null; // store ID key name to add in db.update argument.
-        for(String s : keys) {
+        for (String s : keys) {
             //Skip the ID key and continue
-            if(s.equals("ID")) {
+            if (s.equals("ID")) {
                 where_str = s + "=" + name_ID;
                 continue;
             }
@@ -158,7 +196,7 @@ public class DatabaseController extends SQLiteOpenHelper {
         return rowUpdated != -1;
     }
 
-    public boolean delete_member(Integer name_ID) {
+    public boolean deleteMember(Integer name_ID) {
         // Open database connection. Remember to close by calling close()
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -171,8 +209,7 @@ public class DatabaseController extends SQLiteOpenHelper {
         return rowDeleted != -1;
     }
 
-    public String getAuthParam () {
-
+    public String getAuthParam() {
         Cursor cursor = this.getReadableDatabase().rawQuery("SELECT PG_WEBPARAM FROM " + pgTables.authTableName, null);
         // Since there is only one value querry interation is not required. Value in cursor.getString(0)
         pgAuthParam = getOneValue(cursor, 1);
@@ -182,20 +219,17 @@ public class DatabaseController extends SQLiteOpenHelper {
 
     public boolean isTableExists(String tableName) {
         SQLiteDatabase db = this.getReadableDatabase();
-        if (tableName == null || db == null || !db.isOpen())
-        {
+        if (tableName == null || db == null || !db.isOpen()) {
             return false;
         }
-        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type = ? AND name = ?", new String[] {"table", tableName});
-        if (!cursor.moveToFirst())
-        {
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE type = ? AND name = ?", new String[]{"table", tableName});
+        if (!cursor.moveToFirst()) {
             return false;
         }
 
         // count the record
         cursor = db.rawQuery("SELECT COUNT(*) FROM " + tableName, null);
-        if (!cursor.moveToFirst())
-        {
+        if (!cursor.moveToFirst()) {
             return false;
         }
 
@@ -205,7 +239,7 @@ public class DatabaseController extends SQLiteOpenHelper {
         return count > 0;
     }
 
-    public void createAuthTable () {
+    public void createAuthTable() {
         String auth_table_schema = createTableSQLstring(pgTables.authSchema);
 
         // create tables
@@ -215,7 +249,7 @@ public class DatabaseController extends SQLiteOpenHelper {
         db.close();
     }
 
-    public ContentValues convertToContentvalues (Map<String, String> schema, String[] strings) {
+    public ContentValues convertToContentvalues(Map<String, String> schema, String[] strings) {
         ContentValues contentValues = new ContentValues();
         Integer i = 0;
         for (Map.Entry<String, String> entry : schema.entrySet()) {
@@ -237,7 +271,7 @@ public class DatabaseController extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public String getOneValue (Cursor cursor, int col_index){
+    public String getOneValue(Cursor cursor, int col_index) {
         Integer i;
         Integer cols = cursor.getColumnCount();
         List<String> arr = new ArrayList<>(); // this is the way to declare at the same time reset arr to clear content insted of arr.clear() to store new element or array.
@@ -247,5 +281,19 @@ public class DatabaseController extends SQLiteOpenHelper {
             }
         }
         return arr.get(col_index - 1);
+    }
+
+/*    public SQLiteDatabase getWritableDatabase () {
+        return db.getWritableDatabase();
+    }*/
+
+    public void setDbPath () {
+        //SQLiteDatabase db = this.getWritableDatabase();
+        dbFilePath = db.getPath();
+    }
+
+    public String getDbPath () {
+        //SQLiteDatabase db = this.getWritableDatabase();
+        return dbFilePath;
     }
 }

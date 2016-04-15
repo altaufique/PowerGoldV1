@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
@@ -11,6 +13,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -38,7 +41,6 @@ public class ViewCurrentPGrate extends Activity {
         // get PG logon parameter from database AUTHENTICATION
         pgURL ="https://powergold.biz/logon.asp";
         pgdb =  new DatabaseController(this);
-
         new GetPGrateTable().execute();
     }
 
@@ -78,37 +80,42 @@ public class ViewCurrentPGrate extends Activity {
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            TextView[] gold_type_att_arr = new TextView[12];
-            gold_type_att_arr = setTextViewAttGoldTYpe();
+            // data error handlng, ratePGtype return null from getPowerGoldTable method
+            if (ratePGtype != null) {
+                TextView[] gold_type_att_arr;
+                gold_type_att_arr = setTextViewAttGoldTYpe();
 
-            TextView[] stokis_rate_att_arr = new TextView[12];
-            stokis_rate_att_arr = setTextViewAttStokisRate();
+                TextView[] stokis_rate_att_arr;
+                stokis_rate_att_arr = setTextViewAttStokisRate();
 
-            TextView[] ahli_rate_att_arr = new TextView[12];
-            ahli_rate_att_arr = setTextViewAttAhliRate();
+                TextView[] ahli_rate_att_arr;
+                ahli_rate_att_arr = setTextViewAttAhliRate();
 
-            TextView[] beli_rate_att_arr = new TextView[12];
-            beli_rate_att_arr = setTextViewAttBeliRate();
+                TextView[] beli_rate_att_arr;
+                beli_rate_att_arr = setTextViewAttBeliRate();
 
-            Float[] val = new Float[12];
-            Integer i=0;
-            for(Map.Entry<String, Float[]> entry : ratePGtype.entrySet()){
-                // Since ratePGtype value is an array[], need to create additional step for its value
-                val = entry.getValue(); // an array of float value
+                Float[] val;
+                Integer i=0;
+                for(Map.Entry<String, Float[]> entry : ratePGtype.entrySet()){
+                    // Since ratePGtype value is an array[], need to create additional step for its value
+                    val = entry.getValue(); // an array of float value
 
-                //System.out.printf("%s-> %.2f:%.2f:%.2f\n", entry.getKey(), val[0], val[1], val[2]);
-                DecimalFormat myFormatter = new DecimalFormat("#,##0.00");
-                String num0 = myFormatter.format(val[0]);
-                String num1 = myFormatter.format(val[1]);
-                String num2 = myFormatter.format(val[2]);
+                    //System.out.printf("%s-> %.2f:%.2f:%.2f\n", entry.getKey(), val[0], val[1], val[2]);
+                    DecimalFormat myFormatter = new DecimalFormat("#,##0.00");
+                    String num0 = myFormatter.format(val[0]);
+                    String num1 = myFormatter.format(val[1]);
+                    String num2 = myFormatter.format(val[2]);
 
-                gold_type_att_arr[i].setText(entry.getKey());
-                stokis_rate_att_arr[i].setText(num0.toString());
-                ahli_rate_att_arr[i].setText(num1.toString());
-                beli_rate_att_arr[i].setText(num2.toString());
-                i++;
+                    gold_type_att_arr[i].setText(entry.getKey());
+                    stokis_rate_att_arr[i].setText(num0.toString());
+                    ahli_rate_att_arr[i].setText(num1.toString());
+                    beli_rate_att_arr[i].setText(num2.toString());
+                    i++;
+                }
+            } else {
+                TextView errMsg = (TextView)findViewById(R.id.textViewPGrateMsg);
+                errMsg.setText("Data Error or check PG password!!");
             }
-            //((TextView)findViewById(R.id.textView10)).setText("test");
             progressDialog.dismiss();
         }
     }

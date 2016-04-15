@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,9 +32,15 @@ import org.jsoup.select.Elements;
 public class PGloginParam extends Activity { // Stub error if add "extends Activity"
     EditText editTexUsername;
     EditText editTextPassword;
+    EditText editTextOldPassword;
+    EditText editTextNewPassword;
     TextView textViewWaitMsg;
+
     Integer webResponseCode;
     String pgLoginParam;
+    Boolean changePassword;
+    String username; // decalared publicly because to use for both new login and edit password
+    List<String> oldLoginPassword;
     private List<String> cookies;
     private HttpsURLConnection conn;
     DatabaseController pgdb;
@@ -42,24 +50,68 @@ public class PGloginParam extends Activity { // Stub error if add "extends Activ
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_setup);
 
-        textViewWaitMsg = (TextView)findViewById(R.id.textViewWaitPrompt);
-        editTexUsername = (EditText)findViewById(R.id.editTextPGusername);
-        editTextPassword = (EditText)findViewById(R.id.editTextPGpassword);
-        textViewWaitMsg = (TextView)findViewById(R.id.textViewWaitPrompt);
+        changePassword=false;
+
+        Bundle bundle = getIntent().getExtras(); // get extra value from caller class
+        if (bundle != null) {
+            changePassword = bundle.getBoolean("changePassword");
+        }
+
+        if (!changePassword) { // first time login, login layout
+            setContentView(R.layout.login_setup);
+            editTexUsername = (EditText)findViewById(R.id.editTextPGusername);
+            editTextPassword = (EditText)findViewById(R.id.editTextPGpassword);
+            textViewWaitMsg = (TextView)findViewById(R.id.textViewWaitPrompt);
+        } else { // change password update loyout
+            //Toast.makeText(this, "inside PGLoginParam - " + changePassword, Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.login_update);
+            editTextOldPassword = (EditText)findViewById(R.id.editTextOldpassword);
+            editTextNewPassword = (EditText)findViewById(R.id.editTextNewPassword);
+            textViewWaitMsg = (TextView)findViewById(R.id.textViewWaitPrompt);
+        }
         pgdb =  new DatabaseController(this);
 
     }
 
-    public void onClickCheckLogin (View v) throws Exception {
+    public void onClickLoginPassword(View v) throws Exception {
+        Boolean isUsernameOK = true;
         if (v.getId() == R.id.buttonLoginSetup) {
-            textViewWaitMsg.setText("Wait .....");
+            textViewWaitMsg.setText("Wait!! .....");
+        } if (v.getId() == R.id.buttonUpdatePassword) {
+            //oldLoginPassword = new ArrayList<>();
+            oldLoginPassword = this.getLoginPassword();
+            if (oldLoginPassword.get(2).matches(editTextOldPassword.getText().toString())) {
+                // get post param for login and new password
+                textViewWaitMsg.setText("Wait!! Checking new password..");
+                username = oldLoginPassword.get(1); // defined as public to access in getFormParam
+                // assign the right variables for checking and updating database
 
-            // Check access into PG membership web
-            // user class with AsyncTask to avoid error main thread
-            new PGwebTestAccess().execute();
+            } else {
+                isUsernameOK = false;
+                Toast.makeText(this, "Error!! Wrong Old Password..", Toast.LENGTH_LONG).show();
+                textViewWaitMsg.setText("");
+                //editTextNewPassword.setText("");
+                editTextOldPassword.setText("");
+                editTextOldPassword.requestFocus();
+            }
         }
+        // Check access into PG membership web
+        // user class with AsyncTask to avoid error main thread
+        if (isUsernameOK) new PGwebTestAccess().execute();
+    }
+
+    public List<String> getLoginPassword() {
+        List<List<String>> raw_arr_result = pgdb.queryAuth();
+
+        int size = raw_arr_result.size();
+        List<String> auth_lst = new ArrayList<>();
+        // iterate
+        Integer i=0; Integer count=raw_arr_result.size();
+        for (List<String> innerList : raw_arr_result) {
+            auth_lst = innerList;
+        }
+        return auth_lst;
     }
 
     private class PGwebTestAccess extends AsyncTask<Void, Void, Void> {
@@ -104,30 +156,49 @@ public class PGloginParam extends Activity { // Stub error if add "extends Activ
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if(isCorrectLogin){
-                // Create user table and preserv/insert the login and password.
-                PGtables pgTables = new PGtables();
-                pgdb.createAuthTable(); // create if not exist
+                if (!changePassword) { // first time login
+                    // Create user table and preserv/insert the login and password.
+                    PGtables pgTables = new PGtables();
+                    pgdb.createAuthTable(); // create if not exist
 
-                String username = editTexUsername.getText().toString();
-                String password = editTextPassword.getText().toString();
+                    String username = editTexUsername.getText().toString();
+                    String password = editTextPassword.getText().toString();
 
-                String[] user_auth = {username, password, pgLoginParam};
-                // table automatic will be created from onCreate method in DatabaseController class
-                boolean isCreated = pgdb.insert_value(pgTables.authTableName, pgTables.authSchema, user_auth);
-                // todo - to change from insert to update database is option change password is added.
+                    String[] user_auth = {username, password, pgLoginParam};
+                    // table automatic will be created from onCreate method in DatabaseController class
+                    boolean isCreated = pgdb.insert_value(pgTables.authTableName, pgTables.authSchema, user_auth);
+                    // todo - to change from insert to update database is option change password is added.
 
-                if (isCreated){
-                    // call a method to open activity from non activity class.
-                    OpenActivity openActivity = new OpenActivity();
-                    openActivity.mainMenu(PGloginParam.this);
-                } else {
-                    textViewWaitMsg.setText("Error creating user table!!");
+                    if (isCreated) {
+                        // call a method to open activity from non activity class.
+                        OpenActivity openActivity = new OpenActivity();
+                        openActivity.mainMenu(PGloginParam.this);
+                    } else {
+                        textViewWaitMsg.setText("Error creating user table!!");
+                    }
+                } else { // change password
+                    // Update database with new password and new form parameters.
+                    String newPassword = editTextNewPassword.getText().toString();
+                    Log.d("FHB", username + ", " + newPassword + ", " + pgLoginParam);
+
+                    Boolean isUpdated = pgdb.updateAuth(newPassword, pgLoginParam);
+                    if (isUpdated) {
+                        OpenActivity openActivity = new OpenActivity();
+                        openActivity.mainMenu(PGloginParam.this);
+                    } else {
+                        textViewWaitMsg.setText("Error!!.. Unable to update.");
+                    }
                 }
 
             } else {
-                editTexUsername.setText("");
-                editTextPassword.setText("");
-                textViewWaitMsg.setText("Invalid Login!!");
+                if (!changePassword) {
+                    editTexUsername.setText("");
+                    editTextPassword.setText("");
+                    textViewWaitMsg.setText("Invalid Login!!");
+                } else {
+                    textViewWaitMsg.setText("Invalid PG Password!!");
+                    editTextNewPassword.requestFocus();
+                }
             }
         }
     }
@@ -178,8 +249,15 @@ public class PGloginParam extends Activity { // Stub error if add "extends Activ
             throws UnsupportedEncodingException {
 
         // check login attempt into PG web.
-        String username = editTexUsername.getText().toString();
-        String password = editTextPassword.getText().toString();
+        // String username;
+        String password;
+        if (changePassword) {
+            // username is public variable already assigned in change password block
+            password = editTextNewPassword.getText().toString();
+        } else {
+            username = editTexUsername.getText().toString();
+            password = editTextPassword.getText().toString();
+        }
         System.out.println("Extracting form's data...");
 
         Document doc = Jsoup.parse(html);
@@ -190,7 +268,7 @@ public class PGloginParam extends Activity { // Stub error if add "extends Activ
         Elements inputElements = loginform.getElementsByTag("input");
 
         // initialize paramList to store all the parameter
-        List<String> paramList = new ArrayList<String>();
+        List<String> paramList = new ArrayList<>();
         for (Element inputElement : inputElements) {
             String key = inputElement.attr("name");
             String value = inputElement.attr("value");

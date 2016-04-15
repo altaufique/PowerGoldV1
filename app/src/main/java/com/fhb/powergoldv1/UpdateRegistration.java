@@ -2,12 +2,10 @@ package com.fhb.powergoldv1;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -250,7 +248,7 @@ public class UpdateRegistration extends Activity implements AdapterView.OnItemSe
             return;
         }
 
-        Boolean isUpdated = pgdb.update_member(col_ID, member_details);
+        Boolean isUpdated = pgdb.updateMember(col_ID, member_details);
         if (isUpdated) {
             Toast.makeText(UpdateRegistration.this, "Success!! " +
                     editTextMemberName.getText() +
@@ -280,7 +278,7 @@ public class UpdateRegistration extends Activity implements AdapterView.OnItemSe
                     public void onClick(DialogInterface dialog, int which) {
                         // Delete the selected record.
                         // Boolean isDeleted = true;
-                        Boolean isDeleted = pgdb.delete_member(col_ID);
+                        Boolean isDeleted = pgdb.deleteMember(col_ID);
                         if (isDeleted) {
                             Toast.makeText(UpdateRegistration.this, "Success!! " +
                                     editTextMemberName.getText() +
