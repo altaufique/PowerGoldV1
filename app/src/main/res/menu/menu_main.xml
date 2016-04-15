@@ -1,0 +1,22 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+          tools:context="com.fhb.actionbar.MainActivity">
+
+    <item
+        android:id="@+id/change_password"
+        android:orderInCategory="100"
+        android:title="Change Password"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/backup_db"
+        android:orderInCategory="100"
+        android:title="Backup Data"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/restore_db"
+        android:orderInCategory="100"
+        android:title="Restore Data"
+        app:showAsAction="never" />
+</menu>

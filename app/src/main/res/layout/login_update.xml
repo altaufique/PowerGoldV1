@@ -27,15 +27,16 @@
 
         <EditText
             style="@style/editTextLogin"
-            android:id="@+id/editTextPGusername"
+            android:inputType="textPassword"
+            android:id="@+id/editTextOldpassword"
             android:layout_marginTop="68dp"
-            android:hint="PG Username" />
+            android:hint="PG Old Password" />
 
         <EditText
             style="@style/editTextLogin"
             android:inputType="textPassword"
-            android:id="@+id/editTextPGpassword"
-            android:hint="PG Password"
+            android:id="@+id/editTextNewPassword"
+            android:hint="PG New Password"
             android:textIsSelectable="false" />
 
         <TextView
@@ -47,8 +48,8 @@
             style="@style/button_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login"
-            android:id="@+id/buttonLoginSetup"
+            android:text="Change"
+            android:id="@+id/buttonUpdatePassword"
             android:layout_marginTop="30dp"
             android:onClick="onClickLoginPassword" />
 
