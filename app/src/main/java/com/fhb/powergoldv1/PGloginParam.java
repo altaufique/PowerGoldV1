@@ -121,8 +121,6 @@ public class PGloginParam extends AppCompatActivity { // Stub error if add "exte
         @Override
         protected Void doInBackground(Void... params) {
             URL url, urlLogon;
-            String startMemberInfoStringTable = "Username:";
-            String endMemberInfoStringTable = "Total RP I:";
 
             try {
                 url = new URL("https://powergold.biz/default.asp");
@@ -173,11 +171,17 @@ public class PGloginParam extends AppCompatActivity { // Stub error if add "exte
                     String endString = "Total Pairing:";
                     wth.setWebTable(memberPageContent, beginString, endString);
                     String[] webTable = wth.getWebTable(); // element 3, 11 and 13 are Name, Date ragistered and Package
-                    String[] user_auth = {username, password, pgLoginParam, webTable[3],webTable[11],webTable[13]};
+                    String[] user_auth = {  username,
+                                            password,
+                                            pgLoginParam,
+                                            webTable[3], // Full Name
+                                            webTable[11], // Registered Data
+                                            webTable[13]   //Package
+                                        };
 
                     // table automatic will be created from onCreate method in DatabaseController class
                     // Only one record is allowed for auth table. Delete any existing record before insert new.
-                    boolean isDeleted = pgdb.deleteAllAuthRec();
+                    pgdb.deleteAllAuthRec();
                     boolean isCreated = pgdb.insert_value(pgTables.authTableName, pgTables.authSchema, user_auth);
 
                     if (isCreated) {
