@@ -1,11 +1,10 @@
 package com.fhb.powergoldv1;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,7 +20,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 import org.jsoup.Jsoup;
@@ -29,7 +30,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class PGloginParam extends Activity { // Stub error if add "extends Activity"
+public class PGloginParam extends AppCompatActivity { // Stub error if add "extends Activity"
     EditText editTexUsername;
     EditText editTextPassword;
     EditText editTextOldPassword;
@@ -38,7 +39,8 @@ public class PGloginParam extends Activity { // Stub error if add "extends Activ
 
     Integer webResponseCode;
     String pgLoginParam;
-    Boolean changePassword;
+    private Document memberPageContent;
+    private Boolean changePassword;
     String username; // decalared publicly because to use for both new login and edit password
     List<String> oldLoginPassword;
     private List<String> cookies;
@@ -71,7 +73,6 @@ public class PGloginParam extends Activity { // Stub error if add "extends Activ
             textViewWaitMsg = (TextView)findViewById(R.id.textViewWaitPrompt);
         }
         pgdb =  new DatabaseController(this);
-
     }
 
     public void onClickLoginPassword(View v) throws Exception {
@@ -81,10 +82,10 @@ public class PGloginParam extends Activity { // Stub error if add "extends Activ
         } if (v.getId() == R.id.buttonUpdatePassword) {
             //oldLoginPassword = new ArrayList<>();
             oldLoginPassword = this.getLoginPassword();
-            if (oldLoginPassword.get(2).matches(editTextOldPassword.getText().toString())) {
+            if (oldLoginPassword.get(1).matches(editTextOldPassword.getText().toString())) {
                 // get post param for login and new password
                 textViewWaitMsg.setText("Wait!! Checking new password..");
-                username = oldLoginPassword.get(1); // defined as public to access in getFormParam
+                username = oldLoginPassword.get(0); // defined as public to access in getFormParam
                 // assign the right variables for checking and updating database
 
             } else {
@@ -104,10 +105,8 @@ public class PGloginParam extends Activity { // Stub error if add "extends Activ
     public List<String> getLoginPassword() {
         List<List<String>> raw_arr_result = pgdb.queryAuth();
 
-        int size = raw_arr_result.size();
         List<String> auth_lst = new ArrayList<>();
         // iterate
-        Integer i=0; Integer count=raw_arr_result.size();
         for (List<String> innerList : raw_arr_result) {
             auth_lst = innerList;
         }
@@ -122,6 +121,9 @@ public class PGloginParam extends Activity { // Stub error if add "extends Activ
         @Override
         protected Void doInBackground(Void... params) {
             URL url, urlLogon;
+            String startMemberInfoStringTable = "Username:";
+            String endMemberInfoStringTable = "Total RP I:";
+
             try {
                 url = new URL("https://powergold.biz/default.asp");
 
@@ -136,9 +138,9 @@ public class PGloginParam extends Activity { // Stub error if add "extends Activ
 
                 // Test access into PGWebsite
                 urlLogon = new URL("https://powergold.biz/logon.asp" + pgLoginParam);
-                String userPage = getPageContent(urlLogon);
+                memberPageContent = Jsoup.connect(urlLogon.toString()).timeout(20000).get();
 
-                if (!userPage.contains("Invalid Username")) isCorrectLogin = true;
+                if (!memberPageContent.toString().contains("Invalid Username")) isCorrectLogin = true;
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -164,10 +166,19 @@ public class PGloginParam extends Activity { // Stub error if add "extends Activ
                     String username = editTexUsername.getText().toString();
                     String password = editTextPassword.getText().toString();
 
-                    String[] user_auth = {username, password, pgLoginParam};
+                    // process memberPageContent to add user details into the auth database
+                    WebTableHelper wth = new WebTableHelper();
+
+                    String beginString = "Username:";
+                    String endString = "Total Pairing:";
+                    wth.setWebTable(memberPageContent, beginString, endString);
+                    String[] webTable = wth.getWebTable(); // element 3, 11 and 13 are Name, Date ragistered and Package
+                    String[] user_auth = {username, password, pgLoginParam, webTable[3],webTable[11],webTable[13]};
+
                     // table automatic will be created from onCreate method in DatabaseController class
+                    // Only one record is allowed for auth table. Delete any existing record before insert new.
+                    boolean isDeleted = pgdb.deleteAllAuthRec();
                     boolean isCreated = pgdb.insert_value(pgTables.authTableName, pgTables.authSchema, user_auth);
-                    // todo - to change from insert to update database is option change password is added.
 
                     if (isCreated) {
                         // call a method to open activity from non activity class.
@@ -179,7 +190,7 @@ public class PGloginParam extends Activity { // Stub error if add "extends Activ
                 } else { // change password
                     // Update database with new password and new form parameters.
                     String newPassword = editTextNewPassword.getText().toString();
-                    Log.d("FHB", username + ", " + newPassword + ", " + pgLoginParam);
+                    //Log.d("FHB", username + ", " + newPassword + ", " + pgLoginParam);
 
                     Boolean isUpdated = pgdb.updateAuth(newPassword, pgLoginParam);
                     if (isUpdated) {

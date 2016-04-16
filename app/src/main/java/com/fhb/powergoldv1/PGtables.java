@@ -48,10 +48,13 @@ public class PGtables {
         Map<String, String> auth_table;
         {
             Map<String, String> aMap = new LinkedHashMap<>();
-            aMap.put("ID", "INTEGER PRIMARY KEY AUTOINCREMENT");
+            //aMap.put("ID", "INTEGER");
             aMap.put("PG_USERNAME", "TEXT");
             aMap.put("PG_PASSWORD", "TEXT");
             aMap.put("PG_WEBPARAM", "TEXT"); //each time password changed, param need to be updated.
+            aMap.put("NAME", "TEXT");
+            aMap.put("DATE_REGISTERED", "TEXT");
+            aMap.put("PACKAGE", "TEXT");
             auth_table = Collections.unmodifiableMap(aMap);
         }
         return auth_table;

@@ -18,7 +18,7 @@ import java.util.Set;
 public class DatabaseController extends SQLiteOpenHelper {
     // Database details
     public static final String DATABASE_NAME = "PG.db";
-    public static final Integer DB_VERSION = 19;
+    public static final Integer DB_VERSION = 21;
 
     SQLiteDatabase db;
 
@@ -159,7 +159,7 @@ public class DatabaseController extends SQLiteOpenHelper {
         newValues.put("PG_PASSWORD", password);
         newValues.put("PG_WEBPARAM", formParam);
 
-        db.update(pgTables.authTableName, newValues, "id=1", null);
+        db.update(pgTables.authTableName, newValues, null, null);
         //db.execSQL("UPDATE AUTHENTICATION SET PG_PASSWORD=" + password + "");
         db.close();
 
@@ -215,6 +215,18 @@ public class DatabaseController extends SQLiteOpenHelper {
         pgAuthParam = getOneValue(cursor, 1);
 
         return pgAuthParam;
+    }
+
+    public boolean deleteAllAuthRec () {
+        // Open database connection. Remember to close by calling close()
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int rowDeleted = db.delete(pgTables.authTableName, null, null);
+
+        // Close the database
+        db.close();
+
+        return rowDeleted != -1;
     }
 
     public boolean isTableExists(String tableName) {

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
@@ -13,7 +11,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -65,11 +62,16 @@ public class ViewCurrentPGrate extends Activity {
                 Document document = Jsoup.connect(loginURL).timeout(20000).get();
 
                 raw_page = document.toString();
+
                 Document parseDoc = Jsoup.parse(raw_page);
-                String[] indexTable = arrangeTable(parseDoc);
+
+                //String startValueStringInTable = "HARGA EMAS POWERGOLD HARI INI";
+                String beginString = "1G";
+                String endString = "9:30-5:00pm ISNIN-JUMAAT";
+                String[] cleanedRateTable = arrangeRateTable(parseDoc, beginString, endString);
 
                 // scrap and return PowerGold Rate arraylist of array only
-                ratePGtype = getPowerGoldTable(indexTable);
+                ratePGtype = getPowerGoldTable(cleanedRateTable);
 
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -107,9 +109,9 @@ public class ViewCurrentPGrate extends Activity {
                     String num2 = myFormatter.format(val[2]);
 
                     gold_type_att_arr[i].setText(entry.getKey());
-                    stokis_rate_att_arr[i].setText(num0.toString());
-                    ahli_rate_att_arr[i].setText(num1.toString());
-                    beli_rate_att_arr[i].setText(num2.toString());
+                    stokis_rate_att_arr[i].setText(num0);
+                    ahli_rate_att_arr[i].setText(num1);
+                    beli_rate_att_arr[i].setText(num2);
                     i++;
                 }
             } else {
@@ -242,11 +244,14 @@ public class ViewCurrentPGrate extends Activity {
         return tablePG;
     }
 
-    private String[] arrangeTable (Document sane_doc) { // First Priority Table 999.9 PowerGold
-
-        //String startValueStringInTable = "HARGA EMAS POWERGOLD HARI INI";
-        String startValueStringInTable = "1G";
-        String endValueStringInTable = "9:30-5:00pm ISNIN-JUMAAT";
+    /**
+     * Special design and unique method only to extract numbers from PGrate table
+     * @param sane_doc -> Document type result of Jsoup parse
+     * @param beginStr -> String to mark the starting location
+     * @param endStr -> String to mark the end location
+     * @return -> String array of proper arrange value
+     */
+    private String[] arrangeRateTable(Document sane_doc, String beginStr, String endStr) { // First Priority Table 999.9 PowerGold
 
         Integer countElement = 0; // Header Row
         //List<String> header = Arrays.asList("Gold", "Stokis", "Ahli", "Belian");
@@ -257,21 +262,21 @@ public class ViewCurrentPGrate extends Activity {
         Elements elements = sane_doc.body().select("*");
 
         for (Element element : elements) {
-
             Integer element_len = element.toString().length();
 
             if (!element.ownText().isEmpty()) {
                 String str = element.ownText().toString().trim();
                 // Start saving gold rate table -------------------------------------------
                 if (!str.matches("\\S") || str.matches("[0-9:.].*") ) { // non-white space character-\\S
-                    if (str.matches(startValueStringInTable)) {
+                    // Extract rate table block
+                    if (str.matches(beginStr)) {
                         countElement = 0; // Reset the counter if right table found
                         goldRate[countElement] = str;
                         countElement = 1; // Reset the counter if right table found
                         isFound = 1;
                         continue;
                     } else if (isFound == 1) {
-                        if (str.matches(endValueStringInTable)) { // the line just below the last data value
+                        if (str.matches(endStr)) { // the line just below the last data value
                             isFound = 0;
                             //break;
                         } else {
@@ -294,7 +299,6 @@ public class ViewCurrentPGrate extends Activity {
                 countElement++;
             }
         }
-
         return goldRate;
     }
 

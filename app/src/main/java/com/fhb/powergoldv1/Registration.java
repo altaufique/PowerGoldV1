@@ -1,18 +1,29 @@
 package com.fhb.powergoldv1;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 
 /**
  * Created by VAIO on 2/20/2016.
  */
-public class Registration extends Activity {
+public class Registration extends AppCompatActivity {
+    private Button bt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration); // View must refer to the Registration layout.
+        DatabaseController db = new DatabaseController(this);
+        if (db.query_member().isEmpty()) {
+            // Boolean updateMember = false; // no data in database. Update member button disable.
+            // bt.setTextColor(ContextCompat.getColor(this, R.color.black));
+            bt = (Button)findViewById(R.id.buttonUpdateMember);
+            bt.setClickable(false);
+        }
+
     }
 
     public void onClickRegisterMenu(View v) {

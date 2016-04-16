@@ -15,8 +15,8 @@ public class MainActivity extends AppCompatActivity  {
         // Check if it is first time login
         DatabaseController pgdb =  new DatabaseController(this);
         PGtables pgTables = new PGtables();
+        //Boolean isUserExist = false;
         Boolean isUserExist = pgdb.isTableExists(pgTables.authTableName);
-        //Boolean isTableExist = true;
 
         // if not, open login LoginSetup activity.
         if (!isUserExist) {
