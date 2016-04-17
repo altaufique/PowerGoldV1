@@ -37,25 +37,25 @@ public class DatabaseController extends SQLiteOpenHelper {
         // build sql string for table schemas
 
         // Only create authentication tables during first login
-        String auth_table_schema = createTableSQLstring(pgTables.authSchema);
-        String member_table_schema = createTableSQLstring(pgTables.membersSchema);
-        String package_table_schema = createTableSQLstring(pgTables.packageSchema);
-        String weight_table_schema = createTableSQLstring(pgTables.weightSchema);
-        String rate_table_schema = createTableSQLstring(pgTables.rateSchema);
+        String auth_table_schema = createTableSQLstring(pgTables.getAuthSchema());
+        String member_table_schema = createTableSQLstring(pgTables.getMemberSchema());
+        String package_table_schema = createTableSQLstring(pgTables.getPkgSchema());
+        String weight_table_schema = createTableSQLstring(pgTables.getWeightSchema());
+        String rate_table_schema = createTableSQLstring(pgTables.getRateSchema());
 
         // create tables
         // Only create authentication tables during first login
-        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.authTableName + " (" + auth_table_schema + ");");
-        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.memberTableName + " (" + member_table_schema + ");");
-        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.packageTableName + " (" + package_table_schema + ");");
-        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.weightTableName + " (" + weight_table_schema + ");");
-        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.rateTableName + " (" + rate_table_schema + ");");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.getAuthTableName() + " (" + auth_table_schema + ");");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.getMemberTableName() + " (" + member_table_schema + ");");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.getPackageTableName() + " (" + package_table_schema + ");");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.getWeightTableName() + " (" + weight_table_schema + ");");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.getRateTableName() + " (" + rate_table_schema + ");");
 
         // insert data for user authentication into AUTHENTICATION table
 
 
         //  insert data for into package table
-        List<String[]> pkg_data = pgTables.setPackageData(pgTables.packageSchema);
+        List<String[]> pkg_data = pgTables.getPackageData(pgTables.getPkgSchema());
         for (int i = 0; i < pkg_data.size(); i++) {
             try {
                 // onCreate automatic run when database not found and already have all the database
@@ -63,18 +63,18 @@ public class DatabaseController extends SQLiteOpenHelper {
                 // "getDatabase called recursively". Use sqLiteDatabase.insert() directly from here.
 
                 // List<String[]> pkg_data to ContentValues to use saLiteDatabase.insert()
-                ContentValues contentValues = convertToContentvalues(pgTables.packageSchema, pkg_data.get(i));
+                ContentValues contentValues = convertToContentvalues(pgTables.getPkgSchema(), pkg_data.get(i));
 
-                sqLiteDatabase.insertOrThrow(pgTables.packageTableName, null, contentValues);
+                sqLiteDatabase.insertOrThrow(pgTables.getPackageTableName(), null, contentValues);
             } catch (Exception e) {
                 Log.d("FHB", e.toString());
             }
         }
 
         // insert data for gold weight table
-        String[] weight_data = pgTables.setWeightData(pgTables.weightSchema);
-        ContentValues weightContentValues = convertToContentvalues(pgTables.weightSchema, weight_data);
-        sqLiteDatabase.insertOrThrow(pgTables.weightTableName, null, weightContentValues);
+        String[] weight_data = pgTables.setWeightData(pgTables.getWeightSchema());
+        ContentValues weightContentValues = convertToContentvalues(pgTables.getWeightSchema(), weight_data);
+        sqLiteDatabase.insertOrThrow(pgTables.getWeightTableName(), null, weightContentValues);
     }
 
     public String createTableSQLstring(Map<String, String> members_schema) {
@@ -120,7 +120,7 @@ public class DatabaseController extends SQLiteOpenHelper {
      */
     public List<List<String>> query_member() {
 
-        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + pgTables.memberTableName, null);
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + pgTables.getMemberTableName(), null);
 
         List<List<String>> arr_arr = new ArrayList<>();
         Integer i;
@@ -137,7 +137,7 @@ public class DatabaseController extends SQLiteOpenHelper {
 
     public List<List<String>> queryAuth() {
 
-        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + pgTables.authTableName, null);
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + pgTables.getAuthTableName(), null);
 
         List<List<String>> arr_arr = new ArrayList<>();
         Integer i;
@@ -159,7 +159,7 @@ public class DatabaseController extends SQLiteOpenHelper {
         newValues.put("PG_PASSWORD", password);
         newValues.put("PG_WEBPARAM", formParam);
 
-        db.update(pgTables.authTableName, newValues, null, null);
+        db.update(pgTables.getAuthTableName(), newValues, null, null);
         //db.execSQL("UPDATE AUTHENTICATION SET PG_PASSWORD=" + password + "");
         db.close();
 
@@ -169,7 +169,7 @@ public class DatabaseController extends SQLiteOpenHelper {
     public boolean updateMember(Integer name_ID, String[] strings) {
         // Open database connection. Remember to close by calling close()
         SQLiteDatabase db = this.getWritableDatabase();
-        Map<String, String> members_schema = pgTables.membersSchema;
+        Map<String, String> members_schema = pgTables.getMemberSchema();
 
         ContentValues contentValues = new ContentValues();
         Set<String> keys = members_schema.keySet(); // get all the keys
@@ -187,7 +187,7 @@ public class DatabaseController extends SQLiteOpenHelper {
             contentValues.put(s, strings[i++]);
         }
         //String id = strings[0];
-        int rowUpdated = db.update(pgTables.memberTableName, contentValues, where_str, null);
+        int rowUpdated = db.update(pgTables.getMemberTableName(), contentValues, where_str, null);
         // long result = db.insert(MEMBERS_TBL, null, contentValues);
 
         // Close the database
@@ -201,7 +201,7 @@ public class DatabaseController extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String where_str = "ID=" + name_ID;
-        int rowDeleted = db.delete(pgTables.memberTableName, where_str, null);
+        int rowDeleted = db.delete(pgTables.getMemberTableName(), where_str, null);
 
         // Close the database
         db.close();
@@ -210,7 +210,7 @@ public class DatabaseController extends SQLiteOpenHelper {
     }
 
     public String getAuthParam() {
-        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT PG_WEBPARAM FROM " + pgTables.authTableName, null);
+        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT PG_WEBPARAM FROM " + pgTables.getAuthTableName(), null);
         // Since there is only one value querry interation is not required. Value in cursor.getString(0)
         pgAuthParam = getOneValue(cursor, 1);
 
@@ -221,7 +221,7 @@ public class DatabaseController extends SQLiteOpenHelper {
         // Open database connection. Remember to close by calling close()
         SQLiteDatabase db = this.getWritableDatabase();
 
-        int rowDeleted = db.delete(pgTables.authTableName, null, null);
+        int rowDeleted = db.delete(pgTables.getAuthTableName(), null, null);
 
         // Close the database
         db.close();
@@ -252,11 +252,11 @@ public class DatabaseController extends SQLiteOpenHelper {
     }
 
     public void createAuthTable() {
-        String auth_table_schema = createTableSQLstring(pgTables.authSchema);
+        String auth_table_schema = createTableSQLstring(pgTables.getAuthSchema());
 
         // create tables
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.authTableName + " (" + auth_table_schema + ");");
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.getAuthTableName() + " (" + auth_table_schema + ");");
 
         db.close();
     }
@@ -275,11 +275,11 @@ public class DatabaseController extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         PGtables pgtables = new PGtables();
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.authTableName);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.memberTableName);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.packageTableName);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.weightTableName);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.rateTableName);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.getAuthTableName());
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.getMemberTableName());
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.getPackageTableName());
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.getWeightTableName());
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.getRateTableName());
         onCreate(sqLiteDatabase);
     }
 

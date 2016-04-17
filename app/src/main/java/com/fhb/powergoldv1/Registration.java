@@ -2,7 +2,6 @@ package com.fhb.powergoldv1;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -10,12 +9,18 @@ import android.widget.Button;
 /**
  * Created by VAIO on 2/20/2016.
  */
-public class Registration extends AppCompatActivity {
+public class Registration extends ActionBar {
     private Button bt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration); // View must refer to the Registration layout.
+
+        // get the actionbar
+        //MainMenu mn = new MainMenu();
+        setActionBarMenu();
+
+
         DatabaseController db = new DatabaseController(this);
         if (db.query_member().isEmpty()) {
             // Boolean updateMember = false; // no data in database. Update member button disable.

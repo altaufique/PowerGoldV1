@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
@@ -21,7 +22,7 @@ import java.util.Map;
 /**
  * Created by VAIO on 3/11/2016.
  */
-public class ViewCurrentPGrate extends Activity {
+public class ViewCurrentPGrate extends ActionBar {
 
     String pgURL;
     String loginURL;
@@ -34,6 +35,7 @@ public class ViewCurrentPGrate extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pg_gold_rate);
+        setActionBarMenu();
 
         // get PG logon parameter from database AUTHENTICATION
         pgURL ="https://powergold.biz/logon.asp";
@@ -95,7 +97,7 @@ public class ViewCurrentPGrate extends Activity {
 
                 TextView[] beli_rate_att_arr;
                 beli_rate_att_arr = setTextViewAttBeliRate();
-
+// TODO - use the variable below to manage the re purchase
                 Float[] val;
                 Integer i=0;
                 for(Map.Entry<String, Float[]> entry : ratePGtype.entrySet()){

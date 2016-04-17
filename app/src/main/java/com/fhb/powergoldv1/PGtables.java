@@ -12,20 +12,22 @@ import java.util.Map;
  * Created by FHB:Taufiq on 3/6/2016.
  */
 public class PGtables {
-    String memberTableName;
-    Map<String, String> membersSchema;
+    private final static String[] PACKAGE_NAME = {"GOLD", "SOLID GOLD", "SUPER POWER GOLD"};
 
-    String packageTableName;
-    Map<String, String> packageSchema;
+    private String memberTableName;
+    private Map<String, String> membersSchema;
 
-    String weightTableName;
-    Map<String, String> weightSchema;
+    private String packageTableName;
+    private Map<String, String> packageSchema;
 
-    String rateTableName;
-    Map<String, String> rateSchema;
+    private String weightTableName;
+    private Map<String, String> weightSchema;
 
-    String authTableName;
-    Map<String, String> authSchema;
+    private String rateTableName;
+    private Map<String, String> rateSchema;
+
+    private String authTableName;
+    private Map<String, String> authSchema;
 
     public PGtables () {
         memberTableName = getMemberTableName();
@@ -44,7 +46,7 @@ public class PGtables {
         authSchema = getAuthSchema();
     }
 
-    private Map<String,String> getAuthSchema () {
+    public Map<String,String> getAuthSchema () {
         Map<String, String> auth_table;
         {
             Map<String, String> aMap = new LinkedHashMap<>();
@@ -60,7 +62,7 @@ public class PGtables {
         return auth_table;
     }
 
-    private Map<String, String> getPkgSchema() {
+    public Map<String, String> getPkgSchema() {
         Map<String, String> pkg_tbl;
         {
             Map<String, String> aMap = new LinkedHashMap<>();
@@ -82,7 +84,7 @@ public class PGtables {
         return pkg_tbl;
     }
 
-    private Map<String, String> getMemberSchema() {
+    public Map<String, String> getMemberSchema() {
         Map<String, String> member_tbl;
         {
             Map<String, String> aMap = new LinkedHashMap<>();
@@ -102,7 +104,7 @@ public class PGtables {
         return member_tbl;
     }
 
-    private Map<String, String> getWeightSchema() {
+    public Map<String, String> getWeightSchema() {
         Map<String, String> weight_tbl;
         {
             Map<String, String> aMap = new LinkedHashMap<>();
@@ -124,7 +126,7 @@ public class PGtables {
         return weight_tbl;
     }
 
-    private Map<String, String> getRateSchema() {
+    public Map<String, String> getRateSchema() {
         Map<String, String> rate_tbl;
         {
             Map<String, String> aMap = new LinkedHashMap<>();
@@ -148,10 +150,14 @@ public class PGtables {
         return rate_tbl;
     }
 
-    public List<String[]> setPackageData(Map<String, String> schema) {
-        String[] str1 = {"Gold","G", "350", "0.5gSy", "40", "10", "1", "10", "0", "30", "1", "15"};
-        String[] str2 = {"Solid Gold","SG", "450", "1/4 Dinnar", "50", "10", "1", "10", "0", "30", "1", "20"};
-        String[] str3 = {"Super Power Gold","SP", "3800", "2 Dinnar", "400", "100", "2", "100", "2", "30", "10", "70"};
+    public String[] getPackageName () {
+        return PACKAGE_NAME;
+    }
+
+    public List<String[]> getPackageData(Map<String, String> schema) {
+        String[] str1 = {PACKAGE_NAME[0],"G", "350", "0.5gSy", "40", "10", "1", "10", "0", "30", "1", "15"};
+        String[] str2 = {PACKAGE_NAME[1],"SG", "450", "1/4 Dinnar", "50", "10", "1", "10", "0", "30", "1", "20"};
+        String[] str3 = {PACKAGE_NAME[2],"SPG", "3800", "2 Dinnar", "400", "100", "2", "100", "2", "30", "10", "70"};
 
         List<String[]> lst_lstStr = new ArrayList<>();
         lst_lstStr.add(str1);
@@ -165,23 +171,23 @@ public class PGtables {
         return new String[]{"1.00", "1.00", "5.00", "10.00", "20.00", "50.00", "100.00", "500.00", "8.50", "4.25", "1.06", "0.50"};
     }
 
-    private String getAuthTableName () {
+    public String getAuthTableName () {
         return "AUTHENTICATION";
     }
 
-    private String getMemberTableName () {
+    public String getMemberTableName () {
         return "MEMBERS";
     }
 
-    private String getPackageTableName () {
+    public String getPackageTableName () {
         return "PACKAGES";
     }
 
-    private String getWeightTableName () {
+    public String getWeightTableName () {
         return "WEIGHT";
     }
 
-    private String getRateTableName () {
+    public String getRateTableName () {
         return "RATE";
     }
 

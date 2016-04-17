@@ -1,14 +1,11 @@
 package com.fhb.powergoldv1;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -16,7 +13,6 @@ import android.widget.Toast;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.text.InputType;
-import android.view.Menu;
 import android.view.View.OnClickListener;
 import android.widget.DatePicker;
 import java.text.SimpleDateFormat;
@@ -29,7 +25,7 @@ import com.facebook.stetho.Stetho;
 /**
  * Created by FHB:Taufiq on 3/6/2016.
  */
-public class NewRegistration extends Activity implements AdapterView.OnItemSelectedListener, OnClickListener {
+public class NewRegistration extends ActionBar implements AdapterView.OnItemSelectedListener, OnClickListener {
     DatabaseController pgdb;
 
     EditText editTextMemberName;
@@ -47,17 +43,18 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
     private SimpleDateFormat dateFormatter;
 
     Spinner spinner_pg_package;
-    String[] pkg_elements;
+    // delete me String[] pkg_elements;
 
     PGtables pgTables = new PGtables();
 
-    Button buttonRecordMember;
-    Button buttonCancel;
+    //Button buttonRecordMember;
+    //Button buttonCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_registration);
+        setActionBarMenu();
 
         pgdb = new DatabaseController(this);
 
@@ -101,12 +98,13 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 
-    @Override
+/*    @Override
+    // in ActionBar class also has this method. Use the one in ActionBar
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
+    }*/
 
     @Override
     public void onClick(View view) {
@@ -129,7 +127,7 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
 
                 boolean isInserted;
                 try {
-                    isInserted = pgdb.insert_value(pgTables.memberTableName, pgTables.membersSchema,member_info);
+                    isInserted = pgdb.insert_value(pgTables.getMemberTableName(), pgTables.getMemberSchema(),member_info);
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(NewRegistration.this, "Error !! " +
@@ -170,12 +168,12 @@ public class NewRegistration extends Activity implements AdapterView.OnItemSelec
         //
         // 2) Initialize string array package_list
         pgdb = new DatabaseController(this);
-        pkg_elements = new String[]{"Gold", "Solid Gold", "SPower Gold"};
+        // pkg_elements = new String[]{"Gold", "Solid Gold", "SPower Gold"};
 
         //
         // 3) Bound the spinner through array adapter from public ArrayAdapter (Context context, int resource, List<T> object)
         ArrayAdapter<String> adapter_pkg = new ArrayAdapter<>(this,
-                R.layout.spinner_textview_pkg, pkg_elements);
+                R.layout.spinner_textview_pkg, pgTables.getPackageName());
 
         // Set the layout resources to create the dropdown view and bind to spinner object
         adapter_pkg

@@ -182,7 +182,7 @@ public class PGloginParam extends AppCompatActivity { // Stub error if add "exte
                     // table automatic will be created from onCreate method in DatabaseController class
                     // Only one record is allowed for auth table. Delete any existing record before insert new.
                     pgdb.deleteAllAuthRec();
-                    boolean isCreated = pgdb.insert_value(pgTables.authTableName, pgTables.authSchema, user_auth);
+                    boolean isCreated = pgdb.insert_value(pgTables.getAuthTableName(), pgTables.getAuthSchema(), user_auth);
 
                     if (isCreated) {
                         // call a method to open activity from non activity class.

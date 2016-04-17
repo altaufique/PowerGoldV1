@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,8 +34,9 @@ import java.util.Map;
 /**
  * Created by VAIO on 3/20/2016.
  */
-public class UpdateRegistration extends Activity implements AdapterView.OnItemSelectedListener, OnClickListener {
+public class UpdateRegistration extends ActionBar implements AdapterView.OnItemSelectedListener, OnClickListener {
     DatabaseController pgdb;
+    PGtables pgTables;
 
     EditText editTextMemberName;
     EditText editTextAddress;
@@ -54,7 +56,7 @@ public class UpdateRegistration extends Activity implements AdapterView.OnItemSe
     private SimpleDateFormat dateFormatter;
 
     Spinner spinner_pg_package;
-    String[] pkg_elements = {"Gold", "Solid Gold", "SPower Gold"};
+    // delete me - String[] pkg_elements = {"Gold", "Solid Gold", "SPower Gold"};
     Map<Integer, String> pkg_elements_map = new LinkedHashMap<>();
 
     Spinner spinner_member;
@@ -65,8 +67,10 @@ public class UpdateRegistration extends Activity implements AdapterView.OnItemSe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.update_registration);
+        setActionBarMenu();
 
         pgdb = new DatabaseController(this);
+        pgTables = new PGtables();
 
         // Casting declared Widgets
         editTextMemberName = (EditText)findViewById(R.id.editTextMemberName);
@@ -176,7 +180,7 @@ public class UpdateRegistration extends Activity implements AdapterView.OnItemSe
         //
         // 3) Bound the spinner through array adapter from public ArrayAdapter (Context context, int resource, List<T> object)
         ArrayAdapter<String> adapter_pkg = new ArrayAdapter<>(this,
-                R.layout.spinner_textview_pkg, pkg_elements);
+                R.layout.spinner_textview_pkg, pgTables.getPackageName());
 
         // Set the layout resources to create the dropdown view and bind to spinner object
         adapter_pkg
@@ -220,13 +224,13 @@ public class UpdateRegistration extends Activity implements AdapterView.OnItemSe
         //TODO
     }
 
-    // Spinner method
-    @Override
+/*    @Override
+    // in ActionBar class also has this method. Use the one in ActionBar
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        // getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
+    }*/
 
     /**
      * Method to change default position in spinner by increment or decrement (minus integer sign)
