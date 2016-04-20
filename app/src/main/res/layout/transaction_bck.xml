@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="0.5sp"
+                android:id="@+id/tableRow2">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linearLayoutLeft"
+                    android:paddingTop="5sp"
+                    android:paddingBottom="5sp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="1 Dinar Sell(RM1,400@RM722)"
+                        android:id="@+id/textView11"
+                        android:paddingLeft="4sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Buy 17/12/2016 (x2@RM734"
+                        android:gravity="end"
+                        android:id="@+id/textView9"
+                        android:paddingLeft="4sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linearLayoutRight"
+                    android:paddingTop="5sp"
+                    android:paddingBottom="5sp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="RM (68)"
+                        android:textSize="17sp"
+                        android:id="@+id/textProfit"
+                        android:gravity="end"
+                        android:paddingRight="4sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="RM1,400"
+                        android:id="@+id/textViewBuy"
+                        android:gravity="end"
+                        android:layout_gravity="end"
+                        android:paddingRight="4sp"/>
+                </LinearLayout>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="0.5sp"
+                android:layout_below="@+id/tableRow2"
+                android:id="@+id/tableRow3">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linearLayoutLeft2"
+                    android:paddingTop="5sp"
+                    android:paddingBottom="5sp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="1 Dinar Sell(RM1,400@RM722)"
+                        android:id="@+id/textView112"
+                        android:paddingLeft="4sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Buy 17/12/2016 (x2@RM734"
+                        android:gravity="end"
+                        android:id="@+id/textView92"
+                        android:paddingLeft="4sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5sp"
+                    android:paddingBottom="5sp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="RM (68)"
+                        android:textSize="17sp"
+                        android:id="@+id/textProfit2"
+                        android:gravity="end"
+                        android:paddingRight="4sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="RM1,400"
+                        android:id="@+id/textViewBuy2"
+                        android:gravity="end"
+                        android:layout_gravity="end"
+                        android:paddingRight="4sp"/>
+                </LinearLayout>
+            </TableRow>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

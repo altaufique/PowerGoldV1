@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <RelativeLayout
+        style="@style/layout_menu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/frameLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-        <RelativeLayout
-            style="@style/layout_menu"
+        <android.support.v7.widget.Toolbar
+            style="@style/DarkToolBarTheme"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/frameLayout"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_height="56dp"
+            android:id="@+id/toolbar"/>
+
+        <TextView
+            style="@style/main_title"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="PG Current Rate"
+            android:id="@+id/textViewMainTitle"
+            android:layout_marginTop="56dp"
+            android:layout_below="@+id/toolbar"
+            android:layout_centerHorizontal="true" />
 
             <TableLayout
                 android:layout_width="wrap_content"
@@ -21,14 +31,13 @@
                 android:layout_gravity="center_horizontal"
                 android:divider="#faf6f6"
                 android:baselineAligned="false"
-                android:elevation="20dp"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:id="@+id/tableLayout"
                 android:background="@color/lightgrey"
-                android:layout_below="@+id/textViewMainTitle"
+                android:layout_below="@+id/toolbar"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="70dp">
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -798,34 +807,14 @@
                 </TableRow>
             </TableLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
-                android:id="@+id/tableRow"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
-
-            </RelativeLayout>
-
-            <TextView
-                style="@style/main_title"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="PG Current Rate"
-                android:id="@+id/textViewMainTitle"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
-
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Refresh"
                 android:id="@+id/buttonUpdateMember"
-                android:layout_below="@+id/tableLayout"
+                android:layout_alignTop="@+id/button2"
                 android:layout_alignLeft="@+id/tableLayout"
-                android:layout_alignStart="@+id/tableLayout"
-                android:layout_marginTop="33dp" />
+                android:layout_alignStart="@+id/tableLayout" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -849,7 +838,4 @@
             />
 
         </RelativeLayout>
-
-    </RelativeLayout>
-
 </FrameLayout>

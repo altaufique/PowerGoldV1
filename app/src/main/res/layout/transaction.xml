@@ -1,941 +1,883 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="match_parent">
-    <ScrollView
+    <!--main.xml-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="vertical"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:background="@color/black" >
+    <android.support.v7.widget.Toolbar
+        style="@style/DarkToolBarTheme"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="56dp"
+        android:id="@+id/toolbar"
+        android:layout_alignParentTop="true"
+        android:gravity="center"/>
+<TextView
+    style="@style/main_title"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="My Repurchase Activity"
+    android:gravity="center_vertical|center_horizontal"
+    android:layout_marginTop="0dp"
+    android:layout_below="@+id/toolbar" />
+
+<LinearLayout android:id="@+id/ll_heading"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#555555">
+    <TextView android:id="@+id/tv_11"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Transaction"
+        android:textStyle="normal|bold"
+        android:textColor="#FFFFFF"
+        android:layout_weight="3"
+        android:textSize="18dip">
+    </TextView>
+    <TextView android:id="@+id/tv_12"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="RM"
+        android:textStyle="normal|bold"
+        android:textColor="#FFFFFF"
+        android:layout_weight="1"
+        android:textSize="18dip"
+        android:layout_toRightOf="@+id/tv_11">
+    </TextView>
+</LinearLayout>
+<LinearLayout
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
+    <ScrollView
+        android:id="@+id/ScrollView11"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TableRow
-                android:layout_width="match_parent"
+            android:layout_margin="5dip">
+            <TableLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:id="@+id/tableRow2">
-                <LinearLayout
-                    android:orientation="vertical"
+                android:id="@+id/country_table">
+                <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/linearLayoutLeft"
                     android:paddingTop="5sp"
-                    android:paddingBottom="5sp">
+                    android:background="@color/white">
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
-                        android:id="@+id/textView11"
-                        android:paddingLeft="4sp"/>
-
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
+                        android:id="@+id/tvSellDesp"
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="end"/>
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView9"
-                        android:paddingLeft="4sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
+                        android:text="(68)"
                         android:textSize="17sp"
-                        android:id="@+id/textProfit"
+                        android:id="@+id/tvProfit"
                         android:gravity="end"
-                        android:paddingRight="4sp"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
-                        android:id="@+id/textViewBuy"
-                        android:gravity="end"
-                        android:layout_gravity="end"
-                        android:paddingRight="4sp"/>
-                </LinearLayout>
-            </TableRow>
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:layout_below="@+id/tableRow2"
-                android:id="@+id/tableRow3">
-                <LinearLayout
-                    android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:paddingRight="2sp"/>
+                </TableRow>
+                <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/linearLayoutLeft2"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp">
+                    android:id="@+id/linearLayoutRight"
+                    android:background="@color/white"
+                    android:paddingBottom="5sp"
+                    android:layout_marginBottom="0.5sp">
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
-                        android:id="@+id/textView112"
-                        android:paddingLeft="4sp"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView92"
-                        android:paddingLeft="4sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp">
-
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/tvBuyDesc"
+                        android:layout_weight="3"
+                        android:gravity="end"/>
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
-                        android:textSize="17sp"
-                        android:id="@+id/textProfit2"
-                        android:gravity="end"
-                        android:paddingRight="4sp"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
-                        android:id="@+id/textViewBuy2"
+                        android:text="1,400"
+                        android:id="@+id/tvBuyTotal"
                         android:gravity="end"
-                        android:layout_gravity="end"
+                        android:layout_weight="1"
                         android:paddingRight="4sp"/>
-                </LinearLayout>
-            </TableRow>
+                </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:layout_below="@+id/tableRow3"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/tableRow4">
-
-                <LinearLayout
-                    android:orientation="vertical"
+                <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout"
+                    android:id="@+id/tableRow4"
                     android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
+                    android:layout_marginTop="0.5sp"
+                    android:background="@color/white" >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
                         android:id="@+id/textView10"
-                        android:paddingLeft="4sp" />
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="start" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView12"
-                        android:paddingLeft="4sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
+                        android:text="(68)"
                         android:textSize="17sp"
-                        android:id="@+id/textView13"
+                        android:id="@+id/textView12"
                         android:gravity="end"
-                        android:paddingRight="4sp" />
+                        android:layout_weight="1"
+                        android:paddingRight="2sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow5"
+                    android:background="@color/white"
+                    android:paddingBottom="5sp"
+                    android:layout_marginBottom="0.5sp">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/textView13"
+                        android:layout_weight="3"
+                        android:gravity="start" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1,400"
                         android:id="@+id/textView14"
                         android:gravity="end"
-                        android:layout_gravity="end"
+                        android:layout_weight="1"
                         android:paddingRight="4sp" />
-                </LinearLayout>
-            </TableRow>
+                </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:layout_below="@+id/tableRow4"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/tableRow8">
-
-                <LinearLayout
-                    android:orientation="vertical"
+                <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout2"
+                    android:id="@+id/tableRow6"
                     android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
+                    android:layout_marginTop="0.5sp"
+                    android:background="@color/white" >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
                         android:id="@+id/textView15"
-                        android:paddingLeft="4sp" />
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="end" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView16"
-                        android:paddingLeft="4sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
+                        android:text="(68)"
                         android:textSize="17sp"
-                        android:id="@+id/textView17"
+                        android:id="@+id/textView16"
                         android:gravity="end"
-                        android:paddingRight="4sp" />
+                        android:layout_weight="1"
+                        android:paddingRight="2sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow7"
+                    android:paddingBottom="5sp"
+                    android:layout_marginBottom="0.5sp"
+                    android:background="@color/white" >
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/textView17"
+                        android:layout_weight="3"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1,400"
                         android:id="@+id/textView18"
                         android:gravity="end"
-                        android:layout_gravity="end"
+                        android:layout_weight="1"
                         android:paddingRight="4sp" />
-                </LinearLayout>
-            </TableRow>
+                </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:id="@+id/tableRow5"
-                android:layout_below="@+id/tableRow8"
-                android:layout_centerHorizontal="true">
-
-                <LinearLayout
-                    android:orientation="vertical"
+                <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout9"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
+                    android:id="@+id/tableRow8"
+                    android:paddingTop="2.5sp"
+                    android:layout_marginTop="0.5sp"
+                    android:background="@color/lightgrey" >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
                         android:id="@+id/textView19"
-                        android:paddingLeft="4sp" />
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="end" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView20"
-                        android:paddingLeft="4sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
+                        android:text="(68)"
                         android:textSize="17sp"
-                        android:id="@+id/textView21"
+                        android:id="@+id/textView20"
                         android:gravity="end"
-                        android:paddingRight="4sp" />
+                        android:layout_weight="1"
+                        android:paddingRight="2sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow9"
+                    android:background="@color/lightgrey" >
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/textView21"
+                        android:layout_weight="3"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1,400"
                         android:id="@+id/textView22"
                         android:gravity="end"
-                        android:layout_gravity="end"
+                        android:layout_weight="1"
                         android:paddingRight="4sp" />
-                </LinearLayout>
-            </TableRow>
+                </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:id="@+id/tableRow6"
-                android:layout_below="@+id/tableRow5"
-                android:layout_centerHorizontal="true">
-
-                <LinearLayout
-                    android:orientation="vertical"
+                <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout10"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
+                    android:id="@+id/tableRow10"
+                    android:paddingTop="2.5sp"
+                    android:background="@color/white" >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
                         android:id="@+id/textView23"
-                        android:paddingLeft="4sp" />
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="end" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView24"
-                        android:paddingLeft="4sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
+                        android:text="(68)"
                         android:textSize="17sp"
-                        android:id="@+id/textView25"
+                        android:id="@+id/textView24"
                         android:gravity="end"
-                        android:paddingRight="4sp" />
+                        android:layout_weight="1"
+                        android:paddingRight="2sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow11"
+                    android:background="@color/white" >
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/textView25"
+                        android:layout_weight="3"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1,400"
                         android:id="@+id/textView26"
                         android:gravity="end"
-                        android:layout_gravity="end"
+                        android:layout_weight="1"
                         android:paddingRight="4sp" />
-                </LinearLayout>
-            </TableRow>
+                </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:layout_alignParentStart="true"
-                android:id="@+id/tableRow7"
-                android:layout_below="@+id/tableRow6"
-                android:layout_centerHorizontal="true">
-
-                <LinearLayout
-                    android:orientation="vertical"
+                <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout11"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
+                    android:id="@+id/tableRow12"
+                    android:paddingTop="2.5sp"
+                    android:background="@color/lightgrey" >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
                         android:id="@+id/textView27"
-                        android:paddingLeft="4sp" />
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="end" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView28"
-                        android:paddingLeft="4sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
+                        android:text="(68)"
                         android:textSize="17sp"
-                        android:id="@+id/textView29"
+                        android:id="@+id/textView28"
                         android:gravity="end"
-                        android:paddingRight="4sp" />
+                        android:layout_weight="1"
+                        android:paddingRight="2sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow13"
+                    android:background="@color/lightgrey" >
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/textView29"
+                        android:layout_weight="3"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1,400"
                         android:id="@+id/textView30"
                         android:gravity="end"
-                        android:layout_gravity="end"
+                        android:layout_weight="1"
                         android:paddingRight="4sp" />
-                </LinearLayout>
-            </TableRow>
+                </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tableRow7"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/tableRow12">
-
-                <LinearLayout
-                    android:orientation="vertical"
+                <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout12"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
+                    android:id="@+id/tableRow14"
+                    android:paddingTop="2.5sp"
+                    android:background="@color/white" >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
                         android:id="@+id/textView31"
-                        android:paddingLeft="4sp" />
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="end" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView32"
-                        android:paddingLeft="4sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
+                        android:text="(68)"
                         android:textSize="17sp"
-                        android:id="@+id/textView33"
+                        android:id="@+id/textView32"
                         android:gravity="end"
-                        android:paddingRight="4sp" />
+                        android:layout_weight="1"
+                        android:paddingRight="2sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow15"
+                    android:background="@color/white" >
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/textView33"
+                        android:layout_weight="3"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1,400"
                         android:id="@+id/textView34"
                         android:gravity="end"
-                        android:layout_gravity="end"
+                        android:layout_weight="1"
                         android:paddingRight="4sp" />
-                </LinearLayout>
-            </TableRow>
+                </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:id="@+id/tableRow9"
-                android:layout_below="@+id/tableRow12"
-                android:layout_centerHorizontal="true">
-
-                <LinearLayout
-                    android:orientation="vertical"
+                <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout13"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
+                    android:id="@+id/tableRow16"
+                    android:paddingTop="2.5sp"
+                    android:background="@color/lightgrey" >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
                         android:id="@+id/textView35"
-                        android:paddingLeft="4sp" />
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="end" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView36"
-                        android:paddingLeft="4sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
+                        android:text="(68)"
                         android:textSize="17sp"
-                        android:id="@+id/textView37"
+                        android:id="@+id/textView36"
                         android:gravity="end"
-                        android:paddingRight="4sp" />
+                        android:layout_weight="1"
+                        android:paddingRight="2sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow17"
+                    android:background="@color/lightgrey" >
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/textView37"
+                        android:layout_weight="3"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1,400"
                         android:id="@+id/textView38"
                         android:gravity="end"
-                        android:layout_gravity="end"
+                        android:layout_weight="1"
                         android:paddingRight="4sp" />
-                </LinearLayout>
-            </TableRow>
+                </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:id="@+id/tableRow10"
-                android:layout_below="@+id/tableRow9"
-                android:layout_centerHorizontal="true">
-
-                <LinearLayout
-                    android:orientation="vertical"
+                <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout14"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
+                    android:id="@+id/tableRow18"
+                    android:paddingTop="2.5sp"
+                    android:background="@color/white" >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
                         android:id="@+id/textView39"
-                        android:paddingLeft="4sp" />
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="end" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView40"
-                        android:paddingLeft="4sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
+                        android:text="(68)"
                         android:textSize="17sp"
-                        android:id="@+id/textView41"
+                        android:id="@+id/textView40"
                         android:gravity="end"
-                        android:paddingRight="4sp" />
+                        android:layout_weight="1"
+                        android:paddingRight="2sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow19"
+                    android:background="@color/white" >
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/textView41"
+                        android:layout_weight="3"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1,400"
                         android:id="@+id/textView42"
                         android:gravity="end"
-                        android:layout_gravity="end"
+                        android:layout_weight="1"
                         android:paddingRight="4sp" />
-                </LinearLayout>
-            </TableRow>
+                </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:layout_alignParentStart="true"
-                android:id="@+id/tableRow11"
-                android:layout_below="@+id/tableRow10"
-                android:layout_centerHorizontal="true">
-
-                <LinearLayout
-                    android:orientation="vertical"
+                <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout15"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
+                    android:id="@+id/tableRow20"
+                    android:paddingTop="2.5sp"
+                    android:background="@color/lightgrey" >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
                         android:id="@+id/textView43"
-                        android:paddingLeft="4sp" />
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="end" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView44"
-                        android:paddingLeft="4sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
+                        android:text="(68)"
                         android:textSize="17sp"
-                        android:id="@+id/textView45"
+                        android:id="@+id/textView44"
                         android:gravity="end"
-                        android:paddingRight="4sp" />
+                        android:layout_weight="1"
+                        android:paddingRight="2sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow21"
+                    android:background="@color/lightgrey" >
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/textView45"
+                        android:layout_weight="3"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1,400"
                         android:id="@+id/textView46"
                         android:gravity="end"
-                        android:layout_gravity="end"
+                        android:layout_weight="1"
                         android:paddingRight="4sp" />
-                </LinearLayout>
-            </TableRow>
+                </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tableRow11"
-                android:layout_centerHorizontal="true">
-
-                <LinearLayout
-                    android:orientation="vertical"
+                <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout16"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
+                    android:id="@+id/tableRow22"
+                    android:paddingTop="2.5sp"
+                    android:background="@color/white" >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
                         android:id="@+id/textView47"
-                        android:paddingLeft="4sp" />
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="end" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView48"
-                        android:paddingLeft="4sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
+                        android:text="(68)"
                         android:textSize="17sp"
-                        android:id="@+id/textView49"
+                        android:id="@+id/textView48"
                         android:gravity="end"
-                        android:paddingRight="4sp" />
+                        android:layout_weight="1"
+                        android:paddingRight="2sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow23"
+                    android:background="@color/white" >
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/textView49"
+                        android:layout_weight="3"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1,400"
                         android:id="@+id/textView50"
                         android:gravity="end"
-                        android:layout_gravity="end"
+                        android:layout_weight="1"
                         android:paddingRight="4sp" />
-                </LinearLayout>
-            </TableRow>
+                </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tableRow11"
-                android:layout_centerHorizontal="true" >
-
-                <LinearLayout
-                    android:orientation="vertical"
+                <TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout3"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
+                    android:id="@+id/tableRow24"
+                    android:paddingTop="2.5sp"
+                    android:background="@color/lightgrey" >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
-                        android:id="@+id/textView"
-                        android:paddingLeft="4sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView2"
-                        android:paddingLeft="4sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
-                        android:textSize="17sp"
-                        android:id="@+id/textView3"
-                        android:gravity="end"
-                        android:paddingRight="4sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
-                        android:id="@+id/textView4"
-                        android:gravity="end"
-                        android:layout_gravity="end"
-                        android:paddingRight="4sp" />
-                </LinearLayout>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:id="@+id/tableRow"
-                android:layout_below="@+id/tableRow9"
-                android:layout_centerHorizontal="true" >
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout4"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
-                        android:id="@+id/textView5"
-                        android:paddingLeft="4sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView6"
-                        android:paddingLeft="4sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
-                        android:textSize="17sp"
-                        android:id="@+id/textView7"
-                        android:gravity="end"
-                        android:paddingRight="4sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
-                        android:id="@+id/textView8"
-                        android:gravity="end"
-                        android:layout_gravity="end"
-                        android:paddingRight="4sp" />
-                </LinearLayout>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="0.5sp"
-                android:layout_alignParentStart="true"
-                android:id="@+id/tableRow13"
-                android:layout_below="@+id/tableRow10"
-                android:layout_centerHorizontal="true" >
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/linearLayout5"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="17sp"
-                        android:text="1 Dinar Sell(RM1,400@RM722)"
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
                         android:id="@+id/textView51"
-                        android:paddingLeft="4sp" />
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="end" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Buy 17/12/2016 (x2@RM734"
-                        android:gravity="end"
-                        android:id="@+id/textView52"
-                        android:paddingLeft="4sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="5sp"
-                    android:paddingBottom="5sp" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="RM (68)"
+                        android:text="(68)"
                         android:textSize="17sp"
-                        android:id="@+id/textView53"
+                        android:id="@+id/textView52"
                         android:gravity="end"
-                        android:paddingRight="4sp" />
+                        android:layout_weight="1"
+                        android:paddingRight="2sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow25"
+                    android:background="@color/lightgrey" >
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="RM1,400"
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/textView53"
+                        android:layout_weight="3"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1,400"
                         android:id="@+id/textView54"
                         android:gravity="end"
-                        android:layout_gravity="end"
+                        android:layout_weight="1"
                         android:paddingRight="4sp" />
-                </LinearLayout>
-            </TableRow>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow26"
+                    android:paddingTop="2.5sp"
+                    android:background="@color/white" >
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
+                        android:id="@+id/textView55"
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:text="(68)"
+                        android:textSize="17sp"
+                        android:id="@+id/textView56"
+                        android:gravity="end"
+                        android:layout_weight="1"
+                        android:paddingRight="2sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow27"
+                    android:background="@color/white" >
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/textView57"
+                        android:layout_weight="3"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1,400"
+                        android:id="@+id/textView58"
+                        android:gravity="end"
+                        android:layout_weight="1"
+                        android:paddingRight="4sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow28"
+                    android:paddingTop="2.5sp"
+                    android:background="@color/lightgrey" >
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
+                        android:id="@+id/textView59"
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:text="(68)"
+                        android:textSize="17sp"
+                        android:id="@+id/textView60"
+                        android:gravity="end"
+                        android:layout_weight="1"
+                        android:paddingRight="2sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow29"
+                    android:background="@color/lightgrey" >
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/textView61"
+                        android:layout_weight="3"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1,400"
+                        android:id="@+id/textView62"
+                        android:gravity="end"
+                        android:layout_weight="1"
+                        android:paddingRight="4sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow30"
+                    android:paddingTop="2.5sp"
+                    android:background="@color/white" >
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:text="1 Dinar Sell(RM1,400 @RM722)"
+                        android:id="@+id/textView63"
+                        android:layout_weight="3"
+                        android:paddingLeft="2sp"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:text="(68)"
+                        android:textSize="17sp"
+                        android:id="@+id/textView64"
+                        android:gravity="end"
+                        android:layout_weight="1"
+                        android:paddingRight="2sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tableRow31"
+                    android:background="@color/white" >
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="17/12/2016 Buy (x2 @RM734)"
+                        android:id="@+id/textView65"
+                        android:layout_weight="3"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="1,400"
+                        android:id="@+id/textView66"
+                        android:gravity="end"
+                        android:layout_weight="1"
+                        android:paddingRight="4sp" />
+                </TableRow>
+            </TableLayout>
         </LinearLayout>
     </ScrollView>
-</RelativeLayout>
+</LinearLayout>
+</LinearLayout>

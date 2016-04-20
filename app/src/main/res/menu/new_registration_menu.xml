@@ -1,10 +1,14 @@
-<!-- Common Menu for all activity -->
-
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-          tools:context="com.fhb.powergoldv1.MainActivity">
+          tools:context="com.fhb.powergoldv1.NewRegistration">
+    <item
+        android:id="@+id/save_member"
+        android:orderInCategory="100"
+        android:title="Save"
+        android:icon="@drawable/ic_action_save"
+        app:showAsAction="always" />
     <item
         android:id="@+id/change_password"
         android:title="Change Password"

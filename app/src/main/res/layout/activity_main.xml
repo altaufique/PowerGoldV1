@@ -5,15 +5,26 @@
     style="@style/layout_menu"
     tools:context="com.fhb.powergoldv1.MainActivity">
 
+    <android.support.v7.widget.Toolbar
+        style="@style/DarkToolBarTheme"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:id="@+id/toolbar"/>
+
     <TextView
         style="@style/main_title"
         android:text="@string/app_name"
-        android:id="@+id/textViewMainTitle" />
+        android:id="@+id/textViewMainTitle"
+        android:layout_marginTop="56dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         style="@style/sub_title"
         android:text="@string/sub_title"
         android:id="@+id/textViewPersonalAssistance"
+        android:layout_marginTop="90dp"
+        android:layout_below="@+id/toolbar"
         android:layout_centerHorizontal="true" />
 
     <Button

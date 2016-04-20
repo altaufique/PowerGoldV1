@@ -4,16 +4,23 @@
     style="@style/layout_menu"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp">
+    android:orientation="horizontal">
+
+    <!-- must have this to call toolbar -->
+    <android.support.v7.widget.Toolbar
+        style="@style/DarkToolBarTheme"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:id="@+id/toolbar"
+        android:layout_alignParentTop="true"
+        android:gravity="center"/>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout3">
+        android:id="@+id/linearLayout3"
+        android:layout_below="@+id/toolbar">
 
         <EditText
             style="@style/editTextBase"
@@ -21,22 +28,25 @@
             android:ems="10"
             android:id="@+id/editTextMemberName"
             android:hint="@string/enter_name"
-            android:maxLength="50" />
+            android:maxLength="50"
+            android:paddingLeft="10sp" />
 
         <EditText
             style="@style/editTextBase"
             android:inputType="textPostalAddress"
             android:id="@+id/editTextAddress"
             android:hint="@string/postal_address"
-            android:maxLength="100" />
+            android:maxLength="100"
+            android:paddingLeft="10sp" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/linearLayout4"
         android:layout_below="@+id/linearLayout3"
-        android:id="@+id/linearLayout4">
+        android:layout_alignParentRight="true">
 
         <EditText
             style="@style/editTextBase"
@@ -44,7 +54,8 @@
             android:id="@+id/editTextEmail"
             android:hint="@string/email"
             android:maxLength="25"
-            android:layout_weight="0.4"/>
+            android:layout_weight="0.4"
+            android:paddingLeft="10sp" />
         <!-- Use layout_weight and decimal parameter to represent % i.e. 0.4 = 40% -->
 
         <EditText
@@ -54,7 +65,8 @@
             android:id="@+id/editTextPhone"
             android:layout_weight="0.6"
             android:hint="@string/phone"
-            android:maxLength="12" />
+            android:maxLength="12"
+            android:paddingRight="5sp" />
         <!-- Use layout_weight and decimal parameter to represent % i.e.0.6 = 60% -->
     </LinearLayout>
 
@@ -63,10 +75,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1.94"
-        android:layout_below="@+id/linearLayout4"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout5">
+        android:id="@+id/linearLayout5"
+        android:layout_below="@+id/linearLayout4"
+        android:layout_alignParentRight="true">
 
         <EditText
             style="@style/editTextBase"
@@ -74,24 +86,26 @@
             android:inputType="numberDecimal"
             android:id="@+id/editTextAccNo"
             android:hint="@string/acc_no"
-            android:maxLength="20" />
+            android:maxLength="20"
+            android:paddingLeft="10sp" />
 
         <EditText
             style="@style/editTextBase"
             android:layout_weight="0.6"
             android:id="@+id/editTextBank"
             android:hint="@string/bank"
-            android:maxLength="15" />
+            android:maxLength="15"
+            android:paddingRight="5sp" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout5"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout6">
+        android:id="@+id/linearLayout6"
+        android:layout_below="@+id/linearLayout5"
+        android:layout_alignParentRight="true">
 
         <EditText
             style="@style/editTextBase"
@@ -99,7 +113,8 @@
             android:inputType="numberDecimal"
             android:id="@+id/editTextICno"
             android:hint="@string/ic_no"
-            android:maxLength="12" />
+            android:maxLength="12"
+            android:paddingLeft="10sp" />
 
         <EditText
             style="@style/editTextBase"
@@ -109,24 +124,26 @@
             android:id="@+id/editTextDateJoined"
             android:singleLine="true"
             android:maxLength="12"
-            android:hint="@string/date_joined"/>
+            android:hint="@string/date_joined"
+            android:paddingRight="5sp" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout6"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout7">
+        android:id="@+id/linearLayout7"
+        android:layout_below="@+id/linearLayout6"
+        android:layout_alignParentRight="true">
 
         <EditText
             style="@style/editTextBase"
             android:layout_weight="0.4"
             android:id="@+id/editTextPGusername"
             android:hint="@string/username"
-            android:maxLength="20" />
+            android:maxLength="20"
+            android:paddingLeft="10sp" />
 
         <Spinner
             android:id="@+id/spinnerPackageName"
@@ -143,10 +160,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1"
-        android:layout_below="@+id/linearLayout7"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout8">
+        android:id="@+id/linearLayout8"
+        android:layout_below="@+id/linearLayout7"
+        android:layout_alignParentRight="true">
 
         <RelativeLayout
             android:layout_width="match_parent"

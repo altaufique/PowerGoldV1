@@ -4,17 +4,29 @@
     style="@style/layout_menu"
     tools:context="com.fhb.powergoldv1.Registration">
 
+    <android.support.v7.widget.Toolbar
+        style="@style/DarkToolBarTheme"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:id="@+id/toolbar"
+        android:layout_alignParentTop="true"
+        android:gravity="center"/>
 
     <TextView
         style="@style/main_title"
         android:text="Members Menu"
-        android:id="@+id/textViewMemberTitle" />
+        android:id="@+id/textViewMemberTitle"
+        android:layout_marginTop="52dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         style="@style/sub_title"
         android:text="Members Management"
         android:id="@+id/textViewMemberSubTitle"
-        android:layout_below="@+id/textViewMemberTitle" />
+        android:layout_marginTop="90dp"
+        android:layout_below="@+id/textViewMemberTitle"
+        android:layout_centerHorizontal="true" />
 
     <Button
         style="@style/button_menu"
