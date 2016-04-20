@@ -2,6 +2,8 @@ package com.fhb.powergoldv1;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -47,13 +49,16 @@ public class NewRegistration extends ActionBar implements AdapterView.OnItemSele
 
     PGtables pgTables = new PGtables();
 
-    //Button buttonRecordMember;
-    //Button buttonCancel;
+    String[] newMemberDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_registration);
+
+        // Putting toolbar on top of activity
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         setActionBarMenu();
 
         pgdb = new DatabaseController(this);
@@ -172,8 +177,9 @@ public class NewRegistration extends ActionBar implements AdapterView.OnItemSele
 
         //
         // 3) Bound the spinner through array adapter from public ArrayAdapter (Context context, int resource, List<T> object)
+        // pgTables.setPackageNameKey();
         ArrayAdapter<String> adapter_pkg = new ArrayAdapter<>(this,
-                R.layout.spinner_textview_pkg, pgTables.getPackageName());
+                R.layout.spinner_textview_pkg, pgTables.PACKAGE_NAME);
 
         // Set the layout resources to create the dropdown view and bind to spinner object
         adapter_pkg
@@ -261,5 +267,38 @@ public class NewRegistration extends ActionBar implements AdapterView.OnItemSele
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
             //imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.HIDE_IMPLICIT_ONLY);
         }*/
+    }
+
+    public void setNewMemberDetail (String[] details){
+        newMemberDetail = details;
+    }
+
+    public String saveActionMenuInsertMember() {
+        // build an array to pass to method Insert_Member in DatabaseController Class
+        //String[] newMemberDetail = getInputDetails();
+        // PGtables pgTables =  new PGtables();
+
+        // Checking name field is correctly entered.
+        if (newMemberDetail[0].length() < 6 || !this.newMemberDetail[0].matches("^[a-zA-Z ]*$")) {
+            return "Error!! Invalid Name";
+        }
+
+        pgdb = new DatabaseController(this);
+        boolean isInserted;
+        try {
+            isInserted = pgdb.insert_value(pgTables.getMemberTableName(), pgTables.getMemberSchema(), newMemberDetail);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("FHB", e.toString());
+            return  "Error !! " + this.newMemberDetail[0] + " could not registered. Check username!!";
+        }
+
+        if (isInserted) {
+            // Clear all the inputs
+            clearInputDetails();
+            return "Success!! " +  this.newMemberDetail[0] + " is registered.";
+        }
+
+        return "Error !! " + this.newMemberDetail[0] + " could not registered.";
     }
 }

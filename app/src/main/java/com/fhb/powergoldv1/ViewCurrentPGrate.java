@@ -1,10 +1,10 @@
 package com.fhb.powergoldv1;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
@@ -31,10 +31,23 @@ public class ViewCurrentPGrate extends ActionBar {
     ProgressDialog progressDialog;
     DatabaseController pgdb;
 
+    private static final String[] headerPGtype =
+            {"1gm","1gmSy","5gm","10gm","20gm","50gm","100gm","500gm",
+            "2dr", "1dr", "1/4dr", "1/2gmSy"};
+
+    private String[] pgStokisRate;
+    private String[] pgMemberRate;
+    private String[] pgSellingRate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pg_gold_rate);
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        //toolbar.setOverflowIcon(R.drawable.ic_action_overflow);
+
         setActionBarMenu();
 
         // get PG logon parameter from database AUTHENTICATION
@@ -92,12 +105,17 @@ public class ViewCurrentPGrate extends ActionBar {
                 TextView[] stokis_rate_att_arr;
                 stokis_rate_att_arr = setTextViewAttStokisRate();
 
-                TextView[] ahli_rate_att_arr;
-                ahli_rate_att_arr = setTextViewAttAhliRate();
+                TextView[] member_rate_att_arr;
+                member_rate_att_arr = setTextViewAttAhliRate();
 
-                TextView[] beli_rate_att_arr;
-                beli_rate_att_arr = setTextViewAttBeliRate();
-// TODO - use the variable below to manage the re purchase
+                TextView[] selling_rate_att_arr;
+                selling_rate_att_arr = setTextViewAttBeliRate();
+
+                // TODO - use the variable below to manage the re purchase
+                // Color some text from a string
+                // string = "<font color='#FFFFFF'>This is my text </font>" + "<font color='#000000'> Another text </font>";
+                // textView.setText(Html.fromHtml(string));
+
                 Float[] val;
                 Integer i=0;
                 for(Map.Entry<String, Float[]> entry : ratePGtype.entrySet()){
@@ -112,8 +130,8 @@ public class ViewCurrentPGrate extends ActionBar {
 
                     gold_type_att_arr[i].setText(entry.getKey());
                     stokis_rate_att_arr[i].setText(num0);
-                    ahli_rate_att_arr[i].setText(num1);
-                    beli_rate_att_arr[i].setText(num2);
+                    member_rate_att_arr[i].setText(num1);
+                    selling_rate_att_arr[i].setText(num2);
                     i++;
                 }
             } else {
@@ -233,9 +251,6 @@ public class ViewCurrentPGrate extends ActionBar {
         //for (Float[] strArr : ratePGtype) {
         //    System.out.println(Arrays.toString(strArr));
         //}
-
-        String[] headerPGtype = {"1 gram","1 gramSy","5 gram","10 gram","20 gram","50 gram","100 gram","500 gram",
-                "2 Dinar", "1 Dinar", "1/4 Dinar", "1/2 gramSy"};
 
         // Looping the headerPGtype and ratePGtype to create HashMap data type to pair both together
         Map<String, Float[]> tablePG = new LinkedHashMap<String, Float[]>();

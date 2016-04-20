@@ -12,6 +12,5 @@ public class About extends ActionBar {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
-        setActionBarMenu();
     }
 }

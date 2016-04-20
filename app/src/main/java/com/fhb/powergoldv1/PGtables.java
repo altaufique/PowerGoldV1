@@ -12,13 +12,15 @@ import java.util.Map;
  * Created by FHB:Taufiq on 3/6/2016.
  */
 public class PGtables {
-    private final static String[] PACKAGE_NAME = {"GOLD", "SOLID GOLD", "SUPER POWER GOLD"};
+    public final static String[] PACKAGE_NAME = {"GOLD", "SOLID GOLD", "SUPER POWER GOLD"};
 
     private String memberTableName;
     private Map<String, String> membersSchema;
 
+    private Map<Integer,String > packageNameKey;
     private String packageTableName;
     private Map<String, String> packageSchema;
+    private List<String[]> packageData;
 
     private String weightTableName;
     private Map<String, String> weightSchema;
@@ -29,25 +31,21 @@ public class PGtables {
     private String authTableName;
     private Map<String, String> authSchema;
 
+    private String transcTableName;
+    private Map<String, String> trancSchema;
+
     public PGtables () {
-        memberTableName = getMemberTableName();
-        membersSchema = getMemberSchema();
-
-        packageTableName = getPackageTableName();
-        packageSchema = getPkgSchema();
-
-        weightTableName = getWeightTableName();
-        weightSchema = getWeightSchema();
-
-        rateTableName = getRateTableName();
-        rateSchema = getRateSchema();
-
-        authTableName = getAuthTableName();
-        authSchema = getAuthSchema();
+        memberTableName = "MEMBERS";
+        packageTableName = "PACKAGES";
+        weightTableName = "WEIGHT";
+        rateTableName = "RATE";
+        authTableName = "AUTHENTICATION";
+        transcTableName = "TRADE";
+        this.setPackageNameKey();
     }
 
     public Map<String,String> getAuthSchema () {
-        Map<String, String> auth_table;
+        Map<String, String> auth_schema;
         {
             Map<String, String> aMap = new LinkedHashMap<>();
             //aMap.put("ID", "INTEGER");
@@ -57,13 +55,13 @@ public class PGtables {
             aMap.put("NAME", "TEXT");
             aMap.put("DATE_REGISTERED", "TEXT");
             aMap.put("PACKAGE", "TEXT");
-            auth_table = Collections.unmodifiableMap(aMap);
+            auth_schema = Collections.unmodifiableMap(aMap);
         }
-        return auth_table;
+        return auth_schema;
     }
 
     public Map<String, String> getPkgSchema() {
-        Map<String, String> pkg_tbl;
+        Map<String, String> pkg_schema;
         {
             Map<String, String> aMap = new LinkedHashMap<>();
             aMap.put("ID", "INTEGER PRIMARY KEY AUTOINCREMENT");
@@ -79,13 +77,13 @@ public class PGtables {
             aMap.put("BONUS_PAIR", "TEXT");
             aMap.put("BONUS_POINT_PERPAIR", "TEXT");
             aMap.put("MAX_PAIR_DAILY", "TEXT");
-            pkg_tbl = Collections.unmodifiableMap(aMap);
+            pkg_schema = Collections.unmodifiableMap(aMap);
         }
-        return pkg_tbl;
+        return pkg_schema;
     }
 
     public Map<String, String> getMemberSchema() {
-        Map<String, String> member_tbl;
+        Map<String, String> member_schema;
         {
             Map<String, String> aMap = new LinkedHashMap<>();
             aMap.put("ID", "INTEGER PRIMARY KEY AUTOINCREMENT");
@@ -99,13 +97,13 @@ public class PGtables {
             aMap.put("BANK_ACC_NO", "TEXT");
             aMap.put("PG_PKG", "TEXT");
             aMap.put("DATE_REGISTERED", "TEXT");
-            member_tbl = Collections.unmodifiableMap(aMap);
+            member_schema = Collections.unmodifiableMap(aMap);
         }
-        return member_tbl;
+        return member_schema;
     }
 
     public Map<String, String> getWeightSchema() {
-        Map<String, String> weight_tbl;
+        Map<String, String> weight_schema;
         {
             Map<String, String> aMap = new LinkedHashMap<>();
             aMap.put("ID", "INTEGER PRIMARY KEY AUTOINCREMENT");
@@ -121,13 +119,13 @@ public class PGtables {
             aMap.put("ONE_DINAR", "TEXT");
             aMap.put("QUARTER_DINAR", "TEXT");
             aMap.put("HALF_GRAM_SY", "TEXT");
-            weight_tbl = Collections.unmodifiableMap(aMap);
+            weight_schema = Collections.unmodifiableMap(aMap);
         }
-        return weight_tbl;
+        return weight_schema;
     }
 
     public Map<String, String> getRateSchema() {
-        Map<String, String> rate_tbl;
+        Map<String, String> rate_schema;
         {
             Map<String, String> aMap = new LinkedHashMap<>();
             aMap.put("ID", "INTEGER PRIMARY KEY AUTOINCREMENT");
@@ -145,16 +143,46 @@ public class PGtables {
             aMap.put("ONE_DINAR", "TEXT");
             aMap.put("QTR_DINAR", "TEXT");
             aMap.put("HALF_GRAM_SY", "TEXT");
-            rate_tbl = Collections.unmodifiableMap(aMap);
+            rate_schema = Collections.unmodifiableMap(aMap);
         }
-        return rate_tbl;
+        return rate_schema;
     }
 
-    public String[] getPackageName () {
-        return PACKAGE_NAME;
+    public Map<String,String> getTradeSchema() {
+        Map<String, String> transc_table;
+        {
+            Map<String, String> aMap = new LinkedHashMap<>();
+            aMap.put("ID", "INTEGER PRIMARY KEY AUTOINCREMENT");
+            aMap.put("GOLD_ID", "INTEGER");
+            aMap.put("DATE_PURCHASE", "TEXT");
+            aMap.put("UNIT_RATE", "TEXT"); //each time password changed, param need to be updated.
+            aMap.put("UNIT_PURCHASE", "TEXT");
+            aMap.put("SOLD_RATE", "TEXT");
+            aMap.put("SOLD_DATE", "TEXT");
+            transc_table = Collections.unmodifiableMap(aMap);
+        }
+        return transc_table;
     }
 
-    public List<String[]> getPackageData(Map<String, String> schema) {
+    // TODO change the method name to setPackageForSpinner
+    public Map<Integer, String> setPackageNameKey() {
+        Map<Integer, String> pkg = new LinkedHashMap<>();
+        pkg.put(0, PACKAGE_NAME[0]);
+        pkg.put(1, PACKAGE_NAME[1]);
+        pkg.put(2, PACKAGE_NAME[2]);
+        String[] pkgName = new String[3];
+
+
+        return pkg;
+    }
+
+
+    // TODO change the method name to getPackageForSpinner
+    public Map<Integer, String> getPackageNameKey () {
+        return this.setPackageNameKey();
+    }
+
+    public void setPackageData() {
         String[] str1 = {PACKAGE_NAME[0],"G", "350", "0.5gSy", "40", "10", "1", "10", "0", "30", "1", "15"};
         String[] str2 = {PACKAGE_NAME[1],"SG", "450", "1/4 Dinnar", "50", "10", "1", "10", "0", "30", "1", "20"};
         String[] str3 = {PACKAGE_NAME[2],"SPG", "3800", "2 Dinnar", "400", "100", "2", "100", "2", "30", "10", "70"};
@@ -164,7 +192,11 @@ public class PGtables {
         lst_lstStr.add(str2);
         lst_lstStr.add(str3);
 
-        return lst_lstStr;
+        packageData = lst_lstStr;
+    }
+
+    public List<String[]> getPackageData() {
+        return packageData;
     }
 
     public String[] setWeightData(Map<String, String> schema) {
@@ -172,27 +204,30 @@ public class PGtables {
     }
 
     public String getAuthTableName () {
-        return "AUTHENTICATION";
+        return authTableName;
     }
 
     public String getMemberTableName () {
-        return "MEMBERS";
+        return memberTableName;
     }
 
     public String getPackageTableName () {
-        return "PACKAGES";
+        return packageTableName;
     }
 
     public String getWeightTableName () {
-        return "WEIGHT";
+        return weightTableName;
     }
 
     public String getRateTableName () {
-        return "RATE";
+        return rateTableName;
+    }
+
+    public String getTranscTableName() {
+        return transcTableName;
     }
 
     public void setContentValue (Map<String, String> schema, List<String> singlerow, List<String[]> multirow){
-
         ContentValues contentValues1 = new ContentValues();
         ContentValues contentValues2 = new ContentValues();
         ContentValues contentValues3 = new ContentValues();

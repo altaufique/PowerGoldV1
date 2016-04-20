@@ -12,6 +12,5 @@ public class PackageInfo extends ActionBar {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.package_info);
-        setActionBarMenu();
     }
 }

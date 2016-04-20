@@ -18,7 +18,7 @@ import java.util.Set;
 public class DatabaseController extends SQLiteOpenHelper {
     // Database details
     public static final String DATABASE_NAME = "PG.db";
-    public static final Integer DB_VERSION = 21;
+    public static final Integer DB_VERSION = 26;
 
     SQLiteDatabase db;
 
@@ -42,6 +42,7 @@ public class DatabaseController extends SQLiteOpenHelper {
         String package_table_schema = createTableSQLstring(pgTables.getPkgSchema());
         String weight_table_schema = createTableSQLstring(pgTables.getWeightSchema());
         String rate_table_schema = createTableSQLstring(pgTables.getRateSchema());
+        String trade_table_schema = createTableSQLstring(pgTables.getTradeSchema());
 
         // create tables
         // Only create authentication tables during first login
@@ -50,12 +51,14 @@ public class DatabaseController extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.getPackageTableName() + " (" + package_table_schema + ");");
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.getWeightTableName() + " (" + weight_table_schema + ");");
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.getRateTableName() + " (" + rate_table_schema + ");");
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS " + pgTables.getTranscTableName() + " (" + trade_table_schema + ");");
 
         // insert data for user authentication into AUTHENTICATION table
 
 
         //  insert data for into package table
-        List<String[]> pkg_data = pgTables.getPackageData(pgTables.getPkgSchema());
+        pgTables.setPackageData();
+        List<String[]> pkg_data = pgTables.getPackageData();
         for (int i = 0; i < pkg_data.size(); i++) {
             try {
                 // onCreate automatic run when database not found and already have all the database
@@ -93,7 +96,7 @@ public class DatabaseController extends SQLiteOpenHelper {
 
     public boolean insert_value(String table, Map<String, String> schema, String[] strings) {
         // Open database connection. Remember to close by calling close()
-        SQLiteDatabase db = this.getWritableDatabase();
+        db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
         Integer i = 0;
@@ -275,11 +278,13 @@ public class DatabaseController extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         PGtables pgtables = new PGtables();
+        //sqLiteDatabase.close();
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.getAuthTableName());
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.getMemberTableName());
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.getPackageTableName());
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.getWeightTableName());
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.getRateTableName());
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + pgTables.getTranscTableName());
         onCreate(sqLiteDatabase);
     }
 
@@ -293,19 +298,5 @@ public class DatabaseController extends SQLiteOpenHelper {
             }
         }
         return arr.get(col_index - 1);
-    }
-
-/*    public SQLiteDatabase getWritableDatabase () {
-        return db.getWritableDatabase();
-    }*/
-
-    public void setDbPath () {
-        //SQLiteDatabase db = this.getWritableDatabase();
-        dbFilePath = db.getPath();
-    }
-
-    public String getDbPath () {
-        //SQLiteDatabase db = this.getWritableDatabase();
-        return dbFilePath;
     }
 }
