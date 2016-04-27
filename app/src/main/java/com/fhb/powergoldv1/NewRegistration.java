@@ -3,14 +3,12 @@ package com.fhb.powergoldv1;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -27,7 +25,7 @@ import com.facebook.stetho.Stetho;
 /**
  * Created by FHB:Taufiq on 3/6/2016.
  */
-public class NewRegistration extends ActionBar implements AdapterView.OnItemSelectedListener, OnClickListener {
+public class NewRegistration extends NewRegistrationActionBar implements AdapterView.OnItemSelectedListener, OnClickListener {
     DatabaseController pgdb;
 
     EditText editTextMemberName;
@@ -103,63 +101,12 @@ public class NewRegistration extends ActionBar implements AdapterView.OnItemSele
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 
-/*    @Override
-    // in ActionBar class also has this method. Use the one in ActionBar
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }*/
-
     @Override
     public void onClick(View view) {
         if(view == editTextDateJoined) {
             dateJoinedPickerDialog.show();
         }
     }
-
-    public void onClickInsertMember(View v) {
-        switch (v.getId()) {
-            case R.id.button_Insert_Member:
-                // build an array to pass to method Insert_Member in DatabaseController Class
-                String[] member_info = getInputDetails();
-
-                // Checking name field is correctly entered.
-                if (member_info[0].length() < 6 || !member_info[0].matches("^[a-zA-Z ]*$")) {
-                    Toast.makeText(NewRegistration.this, "Error !! Invalid Name.", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                boolean isInserted;
-                try {
-                    isInserted = pgdb.insert_value(pgTables.getMemberTableName(), pgTables.getMemberSchema(),member_info);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(NewRegistration.this, "Error !! " +
-                            editTextMemberName.getText() +
-                            " could not registered. Check username!!", Toast.LENGTH_LONG).show();
-                    break;
-                }
-
-                if (isInserted) {
-                    Toast.makeText(NewRegistration.this, "Success!! " +
-                            editTextMemberName.getText() +
-                            " is registered.", Toast.LENGTH_LONG).show();
-
-                    // Clear all the inputs
-                    clearInputDetails();
-                    break;
-                } else {
-                    Toast.makeText(NewRegistration.this, "Error !! " +
-                            editTextMemberName.getText() +
-                            " could not registered.", Toast.LENGTH_LONG).show();
-                }
-/*            case R.id.buttonCancel:
-                Toast.makeText(NewRegistration.this, "Cancel button pressed!!!", Toast.LENGTH_LONG).show();
-                break;*/
-        }
-    }
-
     // Spinner Method
     private void setSpinnerPackage () {
         // declare the spinner from layout
@@ -177,7 +124,7 @@ public class NewRegistration extends ActionBar implements AdapterView.OnItemSele
 
         //
         // 3) Bound the spinner through array adapter from public ArrayAdapter (Context context, int resource, List<T> object)
-        // pgTables.setPackageNameKey();
+        // pgTables.setPackageSpinnerElement();
         ArrayAdapter<String> adapter_pkg = new ArrayAdapter<>(this,
                 R.layout.spinner_textview_pkg, pgTables.PACKAGE_NAME);
 
@@ -196,53 +143,12 @@ public class NewRegistration extends ActionBar implements AdapterView.OnItemSele
         // get the selected position id
         spinner_pg_package.setSelection(position);
         editTextPGpkg = (String) spinner_pg_package.getSelectedItem();
-
-        // process the selection ..... TO DO
-
     }
 
     // Spinner Method
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-    /**
-     * Capture all member inputs and save it in a string array
-     * @return String array
-     */
-    public String[] getInputDetails () {
-        return new String[]{
-            editTextMemberName.getText().toString(),
-            editTextAddress.getText().toString(),
-            editTextMobileNo.getText().toString(),
-            editTextICno.getText().toString(),
-            editTextEmail.getText().toString(),
-            editTextPGusername.getText().toString(),
-            editTextBank.getText().toString(),
-            editTextAccNo.getText().toString(),
-            editTextPGpkg,
-            editTextDateJoined.getText().toString()
-        };
-    }
-
-    public void clearInputDetails () {
-        editTextMemberName.setText("");
-        editTextAddress.setText("");
-        editTextMobileNo.setText("");
-        editTextICno.setText("");
-        editTextEmail.setText("");
-        editTextPGusername.setText("");
-        editTextBank.setText("");
-        editTextAccNo.setText("");
-        //editTextPGpkg.setText("");
-        editTextDateJoined.setText("");
-
-        editTextMemberName.requestFocus();
-        this.toggleFocusedSoftKeyboard(); // TODO not working as expected
-
-        // Reset package spinner to topmost.
-        spinner_pg_package.setSelection(0);
     }
 
     // Call Stheto library to do database and other resources checking
@@ -258,47 +164,10 @@ public class NewRegistration extends ActionBar implements AdapterView.OnItemSele
 
     private void toggleFocusedSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY); // other option
-        /*if (toggle > 0) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-            //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0); // other option
-
-        } else {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-            //imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.HIDE_IMPLICIT_ONLY);
-        }*/
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
     public void setNewMemberDetail (String[] details){
         newMemberDetail = details;
-    }
-
-    public String saveActionMenuInsertMember() {
-        // build an array to pass to method Insert_Member in DatabaseController Class
-        //String[] newMemberDetail = getInputDetails();
-        // PGtables pgTables =  new PGtables();
-
-        // Checking name field is correctly entered.
-        if (newMemberDetail[0].length() < 6 || !this.newMemberDetail[0].matches("^[a-zA-Z ]*$")) {
-            return "Error!! Invalid Name";
-        }
-
-        pgdb = new DatabaseController(this);
-        boolean isInserted;
-        try {
-            isInserted = pgdb.insert_value(pgTables.getMemberTableName(), pgTables.getMemberSchema(), newMemberDetail);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("FHB", e.toString());
-            return  "Error !! " + this.newMemberDetail[0] + " could not registered. Check username!!";
-        }
-
-        if (isInserted) {
-            // Clear all the inputs
-            clearInputDetails();
-            return "Success!! " +  this.newMemberDetail[0] + " is registered.";
-        }
-
-        return "Error !! " + this.newMemberDetail[0] + " could not registered.";
     }
 }

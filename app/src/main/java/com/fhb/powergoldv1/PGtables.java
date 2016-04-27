@@ -41,7 +41,7 @@ public class PGtables {
         rateTableName = "RATE";
         authTableName = "AUTHENTICATION";
         transcTableName = "TRADE";
-        this.setPackageNameKey();
+        this.setPackageSpinnerElement();
     }
 
     public Map<String,String> getAuthSchema () {
@@ -164,8 +164,7 @@ public class PGtables {
         return transc_table;
     }
 
-    // TODO change the method name to setPackageForSpinner
-    public Map<Integer, String> setPackageNameKey() {
+    public Map<Integer, String> setPackageSpinnerElement() {
         Map<Integer, String> pkg = new LinkedHashMap<>();
         pkg.put(0, PACKAGE_NAME[0]);
         pkg.put(1, PACKAGE_NAME[1]);
@@ -177,9 +176,8 @@ public class PGtables {
     }
 
 
-    // TODO change the method name to getPackageForSpinner
     public Map<Integer, String> getPackageNameKey () {
-        return this.setPackageNameKey();
+        return this.setPackageSpinnerElement();
     }
 
     public void setPackageData() {
@@ -220,7 +218,7 @@ public class PGtables {
     }
 
     public String getRateTableName () {
-        return rateTableName;
+        return this.rateTableName;
     }
 
     public String getTranscTableName() {

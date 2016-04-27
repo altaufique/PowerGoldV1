@@ -7,21 +7,18 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.util.Map;
 
 
 /**
@@ -35,7 +32,6 @@ public class ActionBar extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO - changing color or transparency of status bar
         // Setting status bar color to suit with the style.
         // get the height of the status bar to add padding for toolbar.
         // Set the padding to match the Status Bar height
@@ -74,46 +70,6 @@ public class ActionBar extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.save_member:
-                EditText editTextMemberName = (EditText)findViewById(R.id.editTextMemberName);
-                EditText editTextAddress = (EditText)findViewById(R.id.editTextAddress);
-                EditText editTextMobileNo = (EditText)findViewById(R.id.editTextPhone);
-                EditText editTextICno = (EditText)findViewById(R.id.editTextICno);
-                EditText editTextEmail = (EditText)findViewById(R.id.editTextEmail);
-                EditText editTextPGusername = (EditText)findViewById(R.id.editTextPGusername);
-                EditText editTextBank = (EditText)findViewById(R.id.editTextBank);
-                EditText editTextAccNo = (EditText)findViewById(R.id.editTextAccNo);
-                EditText editTextDateJoined = (EditText)findViewById(R.id.editTextDateJoined);
-                // Date picker setup
-                dateFormatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
-                editTextDateJoined.setInputType(InputType.TYPE_NULL);
-
-                Spinner spinner_pg_package = (Spinner) findViewById(R.id.spinnerPackageName);
-                // spinner_pg_package.setSelection(position);
-                String editTextPGpkg = (String) spinner_pg_package.getSelectedItem();
-
-                String[] str = {
-                        editTextMemberName.getText().toString(),
-                        editTextAddress.getText().toString(),
-                        editTextMobileNo.getText().toString(),
-                        editTextICno.getText().toString(),
-                        editTextEmail.getText().toString(),
-                        editTextPGusername.getText().toString(),
-                        editTextBank.getText().toString(),
-                        editTextAccNo.getText().toString(),
-                        editTextPGpkg,
-                        editTextDateJoined.getText().toString()
-                };
-
-                DatabaseController pgdb = new DatabaseController(this);
-                PGtables pgTables = new PGtables();
-                pgdb.insert_value(pgTables.getMemberTableName(), pgTables.getMemberSchema(), str);
-                /*NewRegistration nr = new NewRegistration();
-                nr.setNewMemberDetail(str);
-                String errMsg = nr.saveActionMenuInsertMember();
-                Toast.makeText(getApplicationContext(), errMsg, Toast.LENGTH_LONG).show();*/
-
-                return true;
             case R.id.change_password:
                 //Toast.makeText(getApplicationContext(), "inside change password", Toast.LENGTH_LONG).show();
                 Boolean value = true;

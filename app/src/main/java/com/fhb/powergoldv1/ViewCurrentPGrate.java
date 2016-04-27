@@ -1,11 +1,17 @@
 package com.fhb.powergoldv1;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,53 +20,119 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * Created by VAIO on 3/11/2016.
  */
-public class ViewCurrentPGrate extends ActionBar {
+public class ViewCurrentPGrate extends ViewCurrentRateActionBar{
 
-    String pgURL;
     String loginURL;
     String raw_page;
     Map<String, Float[]> ratePGtype;
     ProgressDialog progressDialog;
+    PGtables pgTable;
     DatabaseController pgdb;
+    List<String> pgRateSP;
+    String pgPkgSP;
+    TextView tvPackage;
+    TextView tvRateDate;
+    TextView tvPriceFlux;
+    TextView tvPGrateMsg;
+    private String rateCategory;
 
     private static final String[] headerPGtype =
             {"1gm","1gmSy","5gm","10gm","20gm","50gm","100gm","500gm",
             "2dr", "1dr", "1/4dr", "1/2gmSy"};
 
-    private String[] pgStokisRate;
-    private String[] pgMemberRate;
-    private String[] pgSellingRate;
+    private MySharedPreferences pgPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pg_gold_rate);
 
+        pgPrefs = new MySharedPreferences();
+        pgTable = new PGtables();
+        pgdb = new DatabaseController(this);
+        tvPackage = (TextView)findViewById(R.id.textViewRepCat);
+        tvRateDate = (TextView)findViewById(R.id.textViewPriceDate);
+        tvPriceFlux = (TextView)findViewById(R.id.textViewPriceChange);
+        tvPGrateMsg = (TextView)findViewById(R.id.textViewPGrateMsg);
+        pgPkgSP = pgPrefs.getPrefsString(getApplicationContext(), "Package");
+        tvPackage.setText(pgPkgSP);
+
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //toolbar.setOverflowIcon(R.drawable.ic_action_overflow);
-
         setActionBarMenu();
 
-        // get PG logon parameter from database AUTHENTICATION
-        pgURL ="https://powergold.biz/logon.asp";
-        pgdb =  new DatabaseController(this);
-        new GetPGrateTable().execute();
+        // check if the actionbar refresh event is clicked or not
+        Boolean isRefresh=false;
+        Bundle bundle = getIntent().getExtras(); // get extra value from caller class
+        if (bundle != null) { // refresh ActionBar is clicked
+            isRefresh = bundle.getBoolean("refresh");
+        }
+
+        // check data in SharedPreference based on Membership PG?
+        pgRateSP = null;
+        if (pgPkgSP.matches("STOCKIS")) {
+            rateCategory = "StokisRate";
+            pgRateSP = pgPrefs.getPrefsList(getApplicationContext(), rateCategory);
+        } else {
+            rateCategory = "MemberRate";
+            pgRateSP = pgPrefs.getPrefsList(getApplicationContext(), rateCategory);
+        }
+
+        // Check if record exist in DB
+        //Boolean isRecInTable = false;
+        //String table = pgTable.getRateTableName();
+        //isRecInTable = pgdb.isTableExists(table);
+        if (pgRateSP != null) { // record exist in database, surely SP data exist, then use SP data
+            if (isRefresh) { // refresh button called, get data from web
+                new GetPGrateTable().execute();
+            } else {
+                // prepare the SP data into Map<String, Float[]> format
+                ratePGtype = arrangeSPrateTable ();
+                setRateChangeDisplay();
+                // pgPrefs.storePrefsString(getApplicationContext(), "Date", currDate);
+                tvPGrateMsg.setText("Rate as per the latest price change recorded.\n Refresh for latest changes is any.");
+                tvRateDate.setText(pgRateSP.get(0));
+                displayRate();
+            }
+        } else { // no record in database, get from web
+            new GetPGrateTable().execute();
+        }
+    }
+
+    private void setRateChangeDisplay() {
+        String prefsflux = pgPrefs.getPrefsString(getApplicationContext(), "Flux");
+        TextView fluxSymbol = (TextView)findViewById(R.id.textViewTiangle);
+        if (prefsflux.contains("-")){
+            fluxSymbol.setText("\u25BC"); // Down symbol with red color
+            fluxSymbol.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+        } else if (prefsflux.matches("0.0") || prefsflux.matches("Initial")) { // show default square
+            fluxSymbol.setText("\u25A0"); // Up Symbol with green color
+        } else {
+            fluxSymbol.setText("\u25B2"); // Up Symbol with green color
+            fluxSymbol.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
+        }
+        tvPriceFlux.setText(prefsflux);
     }
 
     private class GetPGrateTable extends AsyncTask<Void, Void, Void> {
+        String pgURL;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pgURL ="https://powergold.biz/logon.asp";
+
             progressDialog = new ProgressDialog(ViewCurrentPGrate.this);
             progressDialog.setTitle("PowerGold");
             progressDialog.setMessage("Getting Gold Rate.....");
@@ -75,9 +147,7 @@ public class ViewCurrentPGrate extends ActionBar {
                 loginURL = pgURL + pgdb.getAuthParam();
 
                 Document document = Jsoup.connect(loginURL).timeout(20000).get();
-
                 raw_page = document.toString();
-
                 Document parseDoc = Jsoup.parse(raw_page);
 
                 //String startValueStringInTable = "HARGA EMAS POWERGOLD HARI INI";
@@ -86,6 +156,7 @@ public class ViewCurrentPGrate extends ActionBar {
                 String[] cleanedRateTable = arrangeRateTable(parseDoc, beginString, endString);
 
                 // scrap and return PowerGold Rate arraylist of array only
+                // TODO: 4/27/2016
                 ratePGtype = getPowerGoldTable(cleanedRateTable);
 
             } catch (IOException ex) {
@@ -96,50 +167,120 @@ public class ViewCurrentPGrate extends ActionBar {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            Float[] stokis_rate_arr = null;
+            String currDate = getCurrentDate("dd-MMM-yyyy HH:mm");
+
+            TextView tvRateDate = (TextView)findViewById(R.id.textViewPriceDate);
+            tvRateDate.setText(currDate);
 
             // data error handlng, ratePGtype return null from getPowerGoldTable method
-            if (ratePGtype != null) {
-                TextView[] gold_type_att_arr;
-                gold_type_att_arr = setTextViewAttGoldTYpe();
+            String[] oneGramRateWeb = displayRate();
+            String isPriceChanged = getPriceChange(oneGramRateWeb);
+            TextView errMsg = (TextView)findViewById(R.id.textViewPGrateMsg);
 
-                TextView[] stokis_rate_att_arr;
-                stokis_rate_att_arr = setTextViewAttStokisRate();
+            //pgStokisRate.remove(2); // uncomment this to test the price change
+            //pgStokisRate.add(2, "150.0"); // uncomment this to test the price change
+            // display the price change
+            pgPrefs = new MySharedPreferences();
+            if (!isPriceChanged.matches("0.0") || isPriceChanged.matches("Initial")
+                    || pgPrefs.getPrefsBoolean(getApplicationContext(), "PackageChange")) {
 
-                TextView[] member_rate_att_arr;
-                member_rate_att_arr = setTextViewAttAhliRate();
-
-                TextView[] selling_rate_att_arr;
-                selling_rate_att_arr = setTextViewAttBeliRate();
-
-                // TODO - use the variable below to manage the re purchase
-                // Color some text from a string
-                // string = "<font color='#FFFFFF'>This is my text </font>" + "<font color='#000000'> Another text </font>";
-                // textView.setText(Html.fromHtml(string));
-
-                Float[] val;
-                Integer i=0;
-                for(Map.Entry<String, Float[]> entry : ratePGtype.entrySet()){
-                    // Since ratePGtype value is an array[], need to create additional step for its value
-                    val = entry.getValue(); // an array of float value
-
-                    //System.out.printf("%s-> %.2f:%.2f:%.2f\n", entry.getKey(), val[0], val[1], val[2]);
-                    DecimalFormat myFormatter = new DecimalFormat("#,##0.00");
-                    String num0 = myFormatter.format(val[0]);
-                    String num1 = myFormatter.format(val[1]);
-                    String num2 = myFormatter.format(val[2]);
-
-                    gold_type_att_arr[i].setText(entry.getKey());
-                    stokis_rate_att_arr[i].setText(num0);
-                    member_rate_att_arr[i].setText(num1);
-                    selling_rate_att_arr[i].setText(num2);
-                    i++;
+                if (isPriceChanged.matches("Initial")) isPriceChanged = "0.0";
+                if (pgPrefs.getPrefsBoolean(getApplicationContext(), "PackageChange")) {
+                    rateCategory = "StokisRate";
+                    isPriceChanged = "0.0";
+                    // clear the pref for PackageChange
+                    pgPrefs.removePref(getApplicationContext(), "PackageChange");
                 }
-            } else {
-                TextView errMsg = (TextView)findViewById(R.id.textViewPGrateMsg);
-                errMsg.setText("Data Error or check PG password!!");
+
+                // store the variable in SharedPreferences to pass to other activity
+                pgPrefs.storePrefsString(getApplicationContext(), "Flux", isPriceChanged);
+                setRateSharedPreferences();
+
+                // Get the latest rate and store in DB
+                pgRateSP = pgPrefs.getPrefsList(getApplicationContext(), rateCategory);
+                try {
+                    pgdb.insert_value(pgTable.getRateTableName(),pgTable.getRateSchema(),convertListToStringArray(pgRateSP));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+            tvPriceFlux.setText(isPriceChanged);
+            setRateChangeDisplay(); // symbol change and update
+
             progressDialog.dismiss();
         }
+    }
+
+    /**
+     * To obtain 1gram rate from the web for price comparison from last rate
+     * @return String array of 3 elements Stokis, Member and Selling 1gram price rate
+     */
+    private String[] displayRate() {
+        TextView[] gold_type_att_arr = setTextViewAttGoldTYpe();
+        TextView[] stokis_rate_att_arr = setTextViewAttStokisRate();
+        TextView[] member_rate_att_arr = setTextViewAttAhliRate();
+        TextView[] selling_rate_att_arr = setTextViewAttBeliRate();
+
+        Float[] val;
+        Integer i=0;
+        String[] oneGramWebRate = new String[3]; // for stockis, member and sell rate
+
+        for(Map.Entry<String, Float[]> entry : ratePGtype.entrySet()){
+            // Since ratePGtype value is an array[], need to create additional step for its value
+            val = entry.getValue(); // an array of float value
+
+            //System.out.printf("%s-> %.2f:%.2f:%.2f\n", entry.getKey(), val[0], val[1], val[2]);
+            DecimalFormat myFormatter = new DecimalFormat("#,##0.00");
+            String num0 = myFormatter.format(val[0]);
+            String num1 = myFormatter.format(val[1]);
+            String num2 = myFormatter.format(val[2]);
+
+            // populate the table and display
+            gold_type_att_arr[i].setText(entry.getKey());
+            stokis_rate_att_arr[i].setText(num0);
+            member_rate_att_arr[i].setText(num1);
+            selling_rate_att_arr[i].setText(num2);
+
+            if (i == 0) {
+                oneGramWebRate[0] = num0;
+                oneGramWebRate[1] = num1;
+                oneGramWebRate[2] = num2;
+            }
+            i++;
+        }
+        return oneGramWebRate;
+    }
+
+    public void setRateSharedPreferences () {
+        List<String> pgStokisRate = new ArrayList<>();
+        List<String> pgMemberRate = new ArrayList<>();
+        List<String> pgSellingRate = new ArrayList<>();
+
+        Float[] val;
+        String currDate = getCurrentDate("dd-MMM-yyyy HH:mm");
+        pgStokisRate.add(currDate);pgStokisRate.add("STOKIS");
+        pgMemberRate.add(currDate);pgMemberRate.add("MEMBER");
+        pgSellingRate.add(currDate);pgSellingRate.add("SELL");
+
+        for(Map.Entry<String, Float[]> entry : ratePGtype.entrySet()){
+            val = entry.getValue(); // an array of float value
+            DecimalFormat myFormatter = new DecimalFormat("#,##0.00");
+            String num0 = myFormatter.format(val[0]);
+            String num1 = myFormatter.format(val[1]);
+            String num2 = myFormatter.format(val[2]);
+
+            // value to store in internal and SharedPreferencevariable
+            pgStokisRate.add(num0);
+            pgMemberRate.add(num1);
+            pgSellingRate.add(num2);
+        }
+        pgPrefs.storePrefsString(getApplicationContext(), "Date", currDate);
+        pgPrefs.storePrefsList(getApplicationContext(), "StokisRate", pgStokisRate);
+        pgPrefs.storePrefsList(getApplicationContext(), "MemberRate", pgMemberRate);
+        pgPrefs.storePrefsList(getApplicationContext(), "SellRate", pgSellingRate);
+        // the flux price is registered in isPriceChanged method to reflect instantly.
+
     }
 
     private Map<String, Float[]> getPowerGoldTable(String[] ratePG) {
@@ -247,11 +388,6 @@ public class ViewCurrentPGrate extends ActionBar {
         ratePGtype.add(quarterDinar);
         ratePGtype.add(halfGramSy);
 
-        // check PG rate arrays in the ArrayList as in PG formal table web rate
-        //for (Float[] strArr : ratePGtype) {
-        //    System.out.println(Arrays.toString(strArr));
-        //}
-
         // Looping the headerPGtype and ratePGtype to create HashMap data type to pair both together
         Map<String, Float[]> tablePG = new LinkedHashMap<String, Float[]>();
         for (i=0 ; i < 12 ; i++) {
@@ -271,8 +407,6 @@ public class ViewCurrentPGrate extends ActionBar {
     private String[] arrangeRateTable(Document sane_doc, String beginStr, String endStr) { // First Priority Table 999.9 PowerGold
 
         Integer countElement = 0; // Header Row
-        //List<String> header = Arrays.asList("Gold", "Stokis", "Ahli", "Belian");
-        String elementTD;
         String[] goldRate = new String[150];
         Integer isFound = 0; //switch in the right element found
 
@@ -409,5 +543,190 @@ public class ViewCurrentPGrate extends ActionBar {
         beli_rate_fieldname[11] = (TextView) findViewById(R.id.textViewBeliRate11);
 
         return beli_rate_fieldname;
+    }
+
+    public void onClickOpenRepurchase (View v){
+        Map<String, Integer> rateVarName = new LinkedHashMap<>();
+        if (pgPkgSP.matches("STOCKIS")) {
+            rateVarName = getStockisRateTextViewVarName();
+        } else if (pgPkgSP.matches("MEMBER")) {
+            rateVarName = getMemberRateTextViewVarName();
+        }
+        TextView rate = null;
+        String goldType;
+        switch (v.getId()) {
+            case (R.id.tr1gm):
+                goldType = headerPGtype[0];
+                rate = (TextView)findViewById(rateVarName.get(goldType));
+                showDialogInput(goldType, rate.getText().toString());
+                break;
+            case (R.id.tr1gmSY):
+                goldType = headerPGtype[1];
+                rate = (TextView)findViewById(rateVarName.get(goldType));
+                showDialogInput(goldType, rate.getText().toString());
+                break;
+            case (R.id.tr5gm):
+                goldType = headerPGtype[2];
+                rate = (TextView)findViewById(rateVarName.get(goldType));
+                showDialogInput(goldType, rate.getText().toString());
+                break;
+            case (R.id.tr10gm):
+                goldType = headerPGtype[3];
+                rate = (TextView)findViewById(rateVarName.get(goldType));
+                showDialogInput(goldType, rate.getText().toString());
+                break;
+            case (R.id.tr20gm):
+                goldType = headerPGtype[4];
+                rate = (TextView)findViewById(rateVarName.get(goldType));
+                showDialogInput(goldType, rate.getText().toString());
+                break;
+            case (R.id.tr50gm):
+                goldType = headerPGtype[5];
+                rate = (TextView)findViewById(rateVarName.get(goldType));
+                showDialogInput(goldType, rate.getText().toString());
+                break;
+            case (R.id.tr100gm):
+                goldType = headerPGtype[6];
+                rate = (TextView)findViewById(rateVarName.get(goldType));
+                showDialogInput(goldType, rate.getText().toString());
+                break;
+            case (R.id.tr500gm):
+                goldType = headerPGtype[7];
+                rate = (TextView)findViewById(rateVarName.get(goldType));
+                showDialogInput(goldType, rate.getText().toString());
+                break;
+            case (R.id.tr2dnr):
+                goldType = headerPGtype[8];
+                rate = (TextView)findViewById(rateVarName.get(goldType));
+                showDialogInput(goldType, rate.getText().toString());
+                break;
+            case (R.id.tr1dnr):
+                goldType = headerPGtype[9];
+                rate = (TextView)findViewById(rateVarName.get(goldType));
+                showDialogInput(goldType, rate.getText().toString());
+                break;
+            case (R.id.trQtrDnr):
+                goldType = headerPGtype[10];
+                rate = (TextView)findViewById(rateVarName.get(goldType));
+                showDialogInput(goldType, rate.getText().toString());
+                break;
+            case (R.id.trHalfGmSy):
+                goldType = headerPGtype[11];
+                rate = (TextView)findViewById(rateVarName.get(goldType));
+                showDialogInput(goldType, rate.getText().toString());
+                break;
+        }
+    }
+
+    private Map<String, Integer> getStockisRateTextViewVarName() {
+        Map<String, Integer> varRate = new LinkedHashMap<>();
+
+        for (int i=0; i<headerPGtype.length; i++) {
+            int resId = getResources().getIdentifier("textViewStokisRate" + i, "id", getPackageName());
+            varRate.put(headerPGtype[i], resId);
+        }
+        return varRate;
+    }
+
+    private Map<String, Integer> getMemberRateTextViewVarName() {
+        Map<String, Integer> varRate = new LinkedHashMap<>();
+
+        for (int i=0; i<headerPGtype.length; i++) {
+            int resId = getResources().getIdentifier("textViewAhliRate" + i, "id", getPackageName());
+            varRate.put(headerPGtype[i], resId);
+        }
+        return varRate;
+    }
+
+    private void showDialogInput(String goldType , String rate) {
+        final EditText unitAnsw = new EditText(this);
+        unitAnsw.setGravity(1);
+        unitAnsw.setSingleLine();
+        unitAnsw.setInputType(2);
+        unitAnsw.setTextSize(20);
+        // set max character Length
+        int maxLength = 2;
+        InputFilter[] FilterArray = new InputFilter[1];
+        FilterArray[0] = new InputFilter.LengthFilter(maxLength);
+        unitAnsw.setFilters(FilterArray);
+
+        new AlertDialog.Builder(this)
+                .setTitle("RePurchase 999.9 Gold -\n"+goldType+" @RM "+rate)
+                .setMessage("Enter unit?")
+                .setView(unitAnsw)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String unit = unitAnsw.getText().toString();
+                        repurchase(unit);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                .show();
+    }
+
+    public String getCurrentDate(String fmt) {
+        //Get today date
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(fmt);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        String strDate = sdf.format(c.getTime());
+
+        return strDate;
+    }
+
+    public String[] convertListToStringArray (List<String> lst) {
+        String[] arr = new String[lst.size()];
+        return lst.toArray(arr);
+    }
+
+    public String getPriceChange(String[] OneGramRateFromWeb) {
+        // compare current 1gram value with in SP if exist with the latest value
+        Float flux= new Float(0);
+        if (pgRateSP != null) {
+            // data in SP exists.
+            Float oneGramWeb = null;
+            Float oneGramSP = Float.parseFloat(pgRateSP.get(2));
+            // get membership category
+            if (pgPkgSP.matches("STOCKIS")) {
+                oneGramWeb = Float.parseFloat(OneGramRateFromWeb[0]);
+            } else if (pgPkgSP.matches("MEMBER")) {
+                oneGramWeb = Float.parseFloat(OneGramRateFromWeb[1]);
+            } else { //
+                return "Initial";
+            }
+            // compare both data .....
+            flux = oneGramWeb - oneGramSP;
+            return flux.toString(); // 0.0 if not change
+        } else {
+            return "Initial"; // SP not exist, create by passing "initSP" instead of "0.0" to differentiate with compare result
+        }
+    }
+
+    public Map<String, Float[]> arrangeSPrateTable () {
+        List<String> st = pgPrefs.getPrefsList(getApplicationContext(), "StokisRate");
+        List<String> mb = pgPrefs.getPrefsList(getApplicationContext(), "MemberRate");
+        List<String> sl = pgPrefs.getPrefsList(getApplicationContext(), "SellRate");
+
+        Map<String, Float[]> allrate = new LinkedHashMap<>();
+        int type = headerPGtype.length;
+        Float[] temp = null; int k=0;
+        for (int i=0; i<type; i++) {
+            temp = new Float[3];
+            // remove "," from the numbers
+            temp[0] = Float.parseFloat(st.get(k + 2).replace(",", "")); // rate start at index 2
+            temp[1] = Float.parseFloat(mb.get(k + 2).replace(",", "")); // rate start at index 2
+            temp[2] = Float.parseFloat(sl.get(k + 2).replace(",", "")); // rate start at index 2
+
+            allrate.put(headerPGtype[i], temp);
+            k++;
+        }
+        return allrate;
+    }
+
+    public void repurchase(String string) {
+        Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
     }
 }

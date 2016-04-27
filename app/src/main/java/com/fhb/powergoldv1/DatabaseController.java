@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -94,7 +95,7 @@ public class DatabaseController extends SQLiteOpenHelper {
         return sql_str;
     }
 
-    public boolean insert_value(String table, Map<String, String> schema, String[] strings) {
+    public boolean insert_value(String table, Map<String, String> schema, String[] strings) throws Exception{
         // Open database connection. Remember to close by calling close()
         db = this.getWritableDatabase();
 
@@ -135,24 +136,27 @@ public class DatabaseController extends SQLiteOpenHelper {
             }
             arr_arr.add(arr);
         }
+        cursor.close();
         return arr_arr;
     }
 
-    public List<List<String>> queryAuth() {
+    //public List<List<String>> queryAuth() {
+    public Map<String,String> queryAuth() {
 
         Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + pgTables.getAuthTableName(), null);
-
-        List<List<String>> arr_arr = new ArrayList<>();
         Integer i;
         Integer cols = cursor.getColumnCount();
+        Map<String,String> attrAndValue = new HashMap<>();
+        //List<String> arr = new ArrayList<>(); // this is the way to declare and reset arr to clear content instead of arr.clear() to store new element or array.
         while (cursor.moveToNext()) {
-            List<String> arr = new ArrayList<>(); // this is the way to declare at the same time reset arr to clear content insted of arr.clear() to store new element or array.
+            //Since only one record exist in Authentication table, index 0 only exist in cursor.
             for (i = 0; i < cols; i++) {
-                arr.add(cursor.getString(i));
+                attrAndValue.put(cursor.getColumnName(i), cursor.getString(i));
+                //arr.add(cursor.getString(i));
             }
-            arr_arr.add(arr);
         }
-        return arr_arr;
+        cursor.close();
+        return attrAndValue;
     }
 
     public boolean updateAuth(String password, String formParam) {
@@ -215,8 +219,9 @@ public class DatabaseController extends SQLiteOpenHelper {
     public String getAuthParam() {
         Cursor cursor = this.getReadableDatabase().rawQuery("SELECT PG_WEBPARAM FROM " + pgTables.getAuthTableName(), null);
         // Since there is only one value querry interation is not required. Value in cursor.getString(0)
-        pgAuthParam = getOneValue(cursor, 1);
+        pgAuthParam = getOneValue(pgTables.getAuthTableName(), 3);
 
+        cursor.close();
         return pgAuthParam;
     }
 
@@ -288,8 +293,10 @@ public class DatabaseController extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public String getOneValue(Cursor cursor, int col_index) {
+    public String getOneValue(String tableName, int col_index) {
         Integer i;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + tableName, null);
         Integer cols = cursor.getColumnCount();
         List<String> arr = new ArrayList<>(); // this is the way to declare at the same time reset arr to clear content insted of arr.clear() to store new element or array.
         while (cursor.moveToNext()) {

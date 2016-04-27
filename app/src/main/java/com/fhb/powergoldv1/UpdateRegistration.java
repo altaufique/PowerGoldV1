@@ -179,7 +179,7 @@ public class UpdateRegistration extends ActionBar implements AdapterView.OnItemS
         //
         // 2) Initialize string array package_list
         pgdb = new DatabaseController(this);
-        //pgTables.setPackageNameKey();
+        //pgTables.setPackageSpinnerElement();
         pkg_elements_map = pgTables.getPackageNameKey();
 
         // 3) Bound the spinner through array adapter from public ArrayAdapter (Context context, int resource, List<T> object)
@@ -225,7 +225,6 @@ public class UpdateRegistration extends ActionBar implements AdapterView.OnItemS
     // Spinner method
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        //TODO
     }
 
 /*    @Override
@@ -281,7 +280,9 @@ public class UpdateRegistration extends ActionBar implements AdapterView.OnItemS
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(UpdateRegistration.this);
-                builder.setTitle("Delete DB record.").setMessage("Are you sure???").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setTitle("Delete DB record.")
+                        .setMessage("Are you sure???")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Delete the selected record.
@@ -296,8 +297,6 @@ public class UpdateRegistration extends ActionBar implements AdapterView.OnItemS
                                     editTextMemberName.getText() +
                                     " could not delete.", Toast.LENGTH_LONG).show();
                         }
-
-                        Log.d("FHB", "You choose Yes button.");
                         // Change spinner to new position omitting deleted record.
                         changeSpinnerPosition(spinner_member, -1);
                     }

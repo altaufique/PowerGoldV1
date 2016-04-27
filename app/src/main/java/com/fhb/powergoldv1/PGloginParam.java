@@ -20,7 +20,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +41,7 @@ public class PGloginParam extends AppCompatActivity { // Stub error if add "exte
     private Document memberPageContent;
     private Boolean changePassword;
     String username; // decalared publicly because to use for both new login and edit password
-    List<String> oldLoginPassword;
+    String oldLoginPassword;
     private List<String> cookies;
     private HttpsURLConnection conn;
     DatabaseController pgdb;
@@ -81,11 +80,11 @@ public class PGloginParam extends AppCompatActivity { // Stub error if add "exte
             textViewWaitMsg.setText("Wait!! .....");
         } if (v.getId() == R.id.buttonUpdatePassword) {
             //oldLoginPassword = new ArrayList<>();
-            oldLoginPassword = this.getLoginPassword();
-            if (oldLoginPassword.get(1).matches(editTextOldPassword.getText().toString())) {
+            oldLoginPassword = this.getPassword();
+            if (oldLoginPassword.matches(editTextOldPassword.getText().toString())) {
                 // get post param for login and new password
                 textViewWaitMsg.setText("Wait!! Checking new password..");
-                username = oldLoginPassword.get(0); // defined as public to access in getFormParam
+                username = oldLoginPassword; // defined as public to access in getFormParam
                 // assign the right variables for checking and updating database
 
             } else {
@@ -102,15 +101,26 @@ public class PGloginParam extends AppCompatActivity { // Stub error if add "exte
         if (isUsernameOK) new PGwebTestAccess().execute();
     }
 
-    public List<String> getLoginPassword() {
-        List<List<String>> raw_arr_result = pgdb.queryAuth();
-
-        List<String> auth_lst = new ArrayList<>();
-        // iterate
-        for (List<String> innerList : raw_arr_result) {
-            auth_lst = innerList;
+    public String getLogin() {
+        Map<String, String> userList  = pgdb.queryAuth();
+        // Literate over userList
+        for (Map.Entry<String,String> entry:userList.entrySet()) {
+            if (entry.getKey().matches("PG_USERNAME")) {
+                return entry.getValue();
+            }
         }
-        return auth_lst;
+        return "Error!";
+    }
+
+    public String getPassword() {
+        Map<String, String> userList  = pgdb.queryAuth();
+        // Literate over userList
+        for (Map.Entry<String,String> entry:userList.entrySet()) {
+            if (entry.getKey().matches("PG_PASSWORD")) {
+                return entry.getValue();
+            }
+        }
+        return "Error!";
     }
 
     private class PGwebTestAccess extends AsyncTask<Void, Void, Void> {
@@ -182,7 +192,13 @@ public class PGloginParam extends AppCompatActivity { // Stub error if add "exte
                     // table automatic will be created from onCreate method in DatabaseController class
                     // Only one record is allowed for auth table. Delete any existing record before insert new.
                     pgdb.deleteAllAuthRec();
-                    boolean isCreated = pgdb.insert_value(pgTables.getAuthTableName(), pgTables.getAuthSchema(), user_auth);
+                    boolean isCreated = false;
+                    try {
+                        isCreated = pgdb.insert_value(pgTables.getAuthTableName(), pgTables.getAuthSchema(), user_auth);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(PGloginParam.this, "Error !! " + e.toString() ,Toast.LENGTH_SHORT).show();
+                    }
 
                     if (isCreated) {
                         // call a method to open activity from non activity class.

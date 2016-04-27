@@ -111,7 +111,7 @@ public class FileUtils extends DatabaseController {
         String dstDirPath = Environment.getExternalStorageDirectory().getAbsolutePath();
         File newFile=new File(dstDirPath, "PowerGold");
 
-        // TODO check the existence of the directory before creation for next backup operation
+        // check the existence of the directory before creation for next backup operation
         // after the first creation or it may return error.
         if (!newFile.exists()) {
             Boolean isCreate = newFile.mkdirs();
