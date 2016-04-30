@@ -80,11 +80,15 @@ public class MainMenu extends ActionBar {
                         // package changed. Save the changes in SP
                         sp.storePrefsBoolean(getApplicationContext(), "PackageChange", true);
                     }
-                    entry.setValue("S.POWERGOLD"); // replace to display shorter name
+                    entry.setValue("SP GOLD"); // replace to display shorter name
                     //sp.storePrefsString(getApplicationContext(), "Package", "MEMBER"); // test purpose
                     sp.storePrefsString(getApplicationContext(), "Package", "STOCKIS");
+                } else if (entry.getValue().matches("SOLID GOLD")){
+                    sp.storePrefsString(getApplicationContext(), "Package", "MEMBER");
+                    entry.setValue("S GOLD"); // replace to display shorter name
                 } else {
                     sp.storePrefsString(getApplicationContext(), "Package", "MEMBER");
+                    entry.setValue("GOLD"); // replace to display shorter name
                 }
                 userInfo.put(entry.getKey(), entry.getValue());
             } else if (entry.getKey().matches("DATE_REGISTERED")) {

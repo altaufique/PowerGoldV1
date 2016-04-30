@@ -6,9 +6,7 @@
         style="@style/layout_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/frameLayout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:id="@+id/frameLayout">
 
         <android.support.v7.widget.Toolbar
             style="@style/DarkToolBarTheme"
@@ -19,31 +17,117 @@
         <TextView
             style="@style/main_title"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="PG Current Rate"
+            android:text="PowerGold Price"
             android:id="@+id/textViewMainTitle"
             android:layout_marginTop="56dp"
             android:layout_below="@+id/toolbar"
             android:layout_centerHorizontal="true" />
+
+        <TextView
+            style="@style/sub_title"
+            android:text="Rate"
+            android:id="@+id/textViewPriceDate"
+            android:layout_below="@+id/textViewMainTitle"
+            android:layout_marginTop="90dp"
+            android:layout_centerHorizontal="true" />
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:id="@+id/relativeLayoutLabelPkg"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:layout_below="@+id/textViewPriceDate"
+            android:layout_alignRight="@+id/relativeLayoutPkg"
+            android:layout_alignEnd="@+id/relativeLayoutPkg"
+            android:layout_alignLeft="@+id/relativeLayoutPkg"
+            android:layout_alignStart="@+id/relativeLayoutPkg">
+
+            <TextView
+                style="@style/editTextBase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="RePurchases Rate"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/textRepCategoryLabel" />
+
+            <TextView
+                style="@style/editTextBase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="\u25A0"
+                android:id="@+id/textViewTiangle"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/textViewFluxLabel"
+                android:layout_toStartOf="@+id/textViewFluxLabel" />
+
+            <TextView
+                style="@style/editTextBase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/gm"
+                android:id="@+id/textViewFluxLabel"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:id="@+id/relativeLayoutPkg"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_below="@+id/relativeLayoutLabelPkg"
+            android:layout_alignRight="@+id/tableLayoutRate"
+            android:layout_alignEnd="@+id/tableLayoutRate"
+            android:layout_alignLeft="@+id/tableLayoutRate"
+            android:layout_alignStart="@+id/tableLayoutRate">
+
+            <TextView
+                style="@style/editTextBase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gold"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Package"
+                android:id="@+id/textViewRepCat"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                style="@style/editTextBase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gold"
+                android:text="Flux"
+                android:id="@+id/textViewPriceChange"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
 
             <TableLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:divider="#faf6f6"
-                android:baselineAligned="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:id="@+id/tableLayout"
+                android:id="@+id/tableLayoutRate"
                 android:background="@color/lightgrey"
-                android:layout_below="@+id/toolbar"
+                android:layout_below="@+id/relativeLayoutPkg"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="70dp">
+                android:layout_marginTop="20dp">
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="0.5dp"
-                    android:textAlignment="center">
+                    android:textAlignment="center"
+                    android:id="@+id/trHeader">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -88,7 +172,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="BUY /gm"
+                        android:text="SELL/gm"
                         android:id="@+id/textView4"
                         android:padding="5dp"
                         android:textAlignment="center"
@@ -101,7 +185,9 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="0.5dp">
+                    android:layout_margin="0.5dp"
+                    android:id="@+id/tr1gm"
+                    android:onClick="onClickOpenRepurchase">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -160,9 +246,11 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="0.5dp">
+                    android:layout_margin="0.5dp"
+                    android:id="@+id/tr1gmSY"
+                    android:onClick="onClickOpenRepurchase">
 
-                    <TextView
+                <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
@@ -219,7 +307,9 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="0.5dp">
+                    android:layout_margin="0.5dp"
+                    android:id="@+id/tr5gm"
+                    android:onClick="onClickOpenRepurchase">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -278,7 +368,9 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="0.5dp">
+                    android:layout_margin="0.5dp"
+                    android:id="@+id/tr10gm"
+                    android:onClick="onClickOpenRepurchase">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -337,7 +429,9 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="0.5dp">
+                    android:layout_margin="0.5dp"
+                    android:id="@+id/tr20gm"
+                    android:onClick="onClickOpenRepurchase">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -396,7 +490,9 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="0.5dp">
+                    android:layout_margin="0.5dp"
+                    android:id="@+id/tr50gm"
+                    android:onClick="onClickOpenRepurchase">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -455,7 +551,9 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="0.5dp">
+                    android:layout_margin="0.5dp"
+                    android:id="@+id/tr100gm"
+                    android:onClick="onClickOpenRepurchase">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -514,7 +612,9 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="0.5dp">
+                    android:layout_margin="0.5dp"
+                    android:id="@+id/tr500gm"
+                    android:onClick="onClickOpenRepurchase">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -573,7 +673,9 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="0.5dp">
+                    android:layout_margin="0.5dp"
+                    android:id="@+id/tr2dnr"
+                    android:onClick="onClickOpenRepurchase">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -632,7 +734,9 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="0.5dp">
+                    android:layout_margin="0.5dp"
+                    android:id="@+id/tr1dnr"
+                    android:onClick="onClickOpenRepurchase">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -691,7 +795,9 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="0.5dp">
+                    android:layout_margin="0.5dp"
+                    android:id="@+id/trQtrDnr"
+                    android:onClick="onClickOpenRepurchase">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -750,7 +856,9 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="0.5dp">
+                    android:layout_margin="0.5dp"
+                    android:id="@+id/trHalfGmSy"
+                    android:onClick="onClickOpenRepurchase">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -806,36 +914,15 @@
                         android:paddingBottom="2dp" />
                 </TableRow>
             </TableLayout>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Refresh"
-                android:id="@+id/buttonUpdateMember"
-                android:layout_alignTop="@+id/button2"
-                android:layout_alignLeft="@+id/tableLayout"
-                android:layout_alignStart="@+id/tableLayout" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Keep"
-                android:id="@+id/button2"
-                android:layout_below="@+id/tableLayout"
-                android:layout_gravity="center_horizontal"
-                android:layout_alignRight="@+id/tableLayout"
-                android:layout_alignEnd="@+id/tableLayout"
-                android:layout_marginTop="33dp" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewPGrateMsg"
-                android:layout_below="@+id/tableLayout"
+                android:textSize="11sp"
+                android:layout_below="@+id/tableLayoutRate"
                 android:padding="5sp"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:layout_centerHorizontal="true" />
-            />
-
-        </RelativeLayout>
+    </RelativeLayout>
 </FrameLayout>

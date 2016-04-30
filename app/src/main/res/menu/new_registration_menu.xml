@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
           tools:context="com.fhb.powergoldv1.NewRegistration">
     <item
-        android:id="@+id/save_member"
+        android:id="@+id/button_Insert_Member"
         android:orderInCategory="100"
         android:title="Save"
         android:icon="@drawable/ic_action_save"

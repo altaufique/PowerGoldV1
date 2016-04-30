@@ -10,7 +10,7 @@
         android:icon="@drawable/ic_action_delete"
         app:showAsAction="always" />
     <item
-        android:id="@+id/save_member"
+        android:id="@+id/update_member"
         android:title="Save"
         android:icon="@drawable/ic_action_save"
         app:showAsAction="always" />

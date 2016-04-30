@@ -165,19 +165,5 @@
         android:layout_below="@+id/linearLayout7"
         android:layout_alignParentRight="true">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/save_button"
-                android:id="@+id/button_Insert_Member"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="false"
-                android:onClick="onClickInsertMember"
-                android:enabled="true" />
-        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

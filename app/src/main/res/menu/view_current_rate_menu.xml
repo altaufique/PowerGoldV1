@@ -9,12 +9,6 @@
         android:icon="@drawable/ic_action_refresh"
         app:showAsAction="always" />
     <item
-        android:id="@+id/content_save"
-        android:orderInCategory="100"
-        android:title="Save"
-        android:icon="@drawable/ic_action_save"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/change_password"
         android:title="Change Password"
         app:showAsAction="never" />

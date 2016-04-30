@@ -45,6 +45,23 @@ public class MySharedPreferences extends AppCompatActivity {
         editor.commit();
     }
 
+    /**
+     * Store ArrayList into SharedPreferences
+     * @param key String to identify the key to object
+     * @param valList Arraylist to store
+     */
+    public void storeRePurchaseItem (Context ctx, String key, Map<Integer, String[]> valList) {
+        gson = new Gson();
+        context = ctx;
+        String val = gson.toJson(valList);
+
+        // Convert from List array to string
+        SharedPreferences prefs = context.getSharedPreferences(PREFSNAME, MODE_PRIVATE);
+        // call the Editor method to add the string into SharedPreferences
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, val);
+        editor.commit();
+    }
 
     /**
      * Store ArrayList into SharedPreferences
@@ -77,6 +94,21 @@ public class MySharedPreferences extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(key, val);
         editor.commit();
+    }
+
+    public Map<Integer, String[]> getPrefsRePurchase (Context ctx, String key) {
+        context = ctx;
+        gson = new Gson();
+        SharedPreferences prefs = context.getSharedPreferences(PREFSNAME, MODE_PRIVATE);
+        // call the "MyKey" key value store in SharedPreferrences.
+        String outValue = prefs.getString(key, "");
+        // get the correct parameter type name to feed to gson.fromJason,
+        // in this case it is java.util.List<java.lang.String>"
+        Type type = new TypeToken<Map<Integer,String[]>>() {}.getType();
+        // convert back to original List array.
+        Map<Integer,String[]> outList = gson.fromJson(outValue, type);
+
+        return outList;
     }
 
     public List<String> getPrefsList (Context ctx, String key) {

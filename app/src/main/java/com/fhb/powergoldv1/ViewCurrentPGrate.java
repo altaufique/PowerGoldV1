@@ -2,12 +2,14 @@ package com.fhb.powergoldv1;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -46,12 +48,14 @@ public class ViewCurrentPGrate extends ViewCurrentRateActionBar{
     TextView tvPriceFlux;
     TextView tvPGrateMsg;
     private String rateCategory;
+    Map<Integer, String[]> rePurchaseItem;
 
     private static final String[] headerPGtype =
             {"1gm","1gmSy","5gm","10gm","20gm","50gm","100gm","500gm",
             "2dr", "1dr", "1/4dr", "1/2gmSy"};
 
     private MySharedPreferences pgPrefs;
+    DecimalFormat formatterStrToFloat = new DecimalFormat("#,##0.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,7 @@ public class ViewCurrentPGrate extends ViewCurrentRateActionBar{
         tvPGrateMsg = (TextView)findViewById(R.id.textViewPGrateMsg);
         pgPkgSP = pgPrefs.getPrefsString(getApplicationContext(), "Package");
         tvPackage.setText(pgPkgSP);
+        rePurchaseItem = new LinkedHashMap<>();
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,7 +106,7 @@ public class ViewCurrentPGrate extends ViewCurrentRateActionBar{
                 ratePGtype = arrangeSPrateTable ();
                 setRateChangeDisplay();
                 // pgPrefs.storePrefsString(getApplicationContext(), "Date", currDate);
-                tvPGrateMsg.setText("Rate as per the latest price change recorded.\n Refresh for latest changes is any.");
+                tvPGrateMsg.setText("Rate as per the last price change recorded.\n Click Refresh for latest update.");
                 tvRateDate.setText(pgRateSP.get(0));
                 displayRate();
             }
@@ -122,7 +127,7 @@ public class ViewCurrentPGrate extends ViewCurrentRateActionBar{
             fluxSymbol.setText("\u25B2"); // Up Symbol with green color
             fluxSymbol.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
         }
-        tvPriceFlux.setText(prefsflux);
+        tvPriceFlux.setText("RM " + prefsflux);
     }
 
     private class GetPGrateTable extends AsyncTask<Void, Void, Void> {
@@ -135,7 +140,7 @@ public class ViewCurrentPGrate extends ViewCurrentRateActionBar{
 
             progressDialog = new ProgressDialog(ViewCurrentPGrate.this);
             progressDialog.setTitle("PowerGold");
-            progressDialog.setMessage("Getting Gold Rate.....");
+            progressDialog.setMessage("Getting Latest Rate.....");
             progressDialog.setIndeterminate(false);
             progressDialog.show();
         }
@@ -201,15 +206,24 @@ public class ViewCurrentPGrate extends ViewCurrentRateActionBar{
                 pgRateSP = pgPrefs.getPrefsList(getApplicationContext(), rateCategory);
                 try {
                     pgdb.insert_value(pgTable.getRateTableName(),pgTable.getRateSchema(),convertListToStringArray(pgRateSP));
+                    displayToast("Price has changed and updated !!");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            } else {
+                displayToast("Price Unchanged !!");
             }
-            tvPriceFlux.setText(isPriceChanged);
+            tvPriceFlux.setText("RM "+ isPriceChanged);
             setRateChangeDisplay(); // symbol change and update
 
             progressDialog.dismiss();
         }
+    }
+
+    private void displayToast(String str) {
+        Toast toast = Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
     /**
@@ -546,125 +560,204 @@ public class ViewCurrentPGrate extends ViewCurrentRateActionBar{
     }
 
     public void onClickOpenRepurchase (View v){
-        Map<String, Integer> rateVarName = new LinkedHashMap<>();
+/*        Map<String, String[]> rateVarName = new LinkedHashMap<>();
         if (pgPkgSP.matches("STOCKIS")) {
             rateVarName = getStockisRateTextViewVarName();
         } else if (pgPkgSP.matches("MEMBER")) {
             rateVarName = getMemberRateTextViewVarName();
-        }
-        TextView rate = null;
-        String goldType;
+        }*/
+        String goldType = null;
+        Float[] rates;
+        String currRate;
+        String sellRate;
         switch (v.getId()) {
             case (R.id.tr1gm):
                 goldType = headerPGtype[0];
-                rate = (TextView)findViewById(rateVarName.get(goldType));
-                showDialogInput(goldType, rate.getText().toString());
+                //rates = rateVarName.get(goldType);
+                rates = ratePGtype.get(goldType);
+                //currRate = formatterStrToFloat.format(rates[0]);
+                //sellRate = formatterStrToFloat.format(rates[1]);
+                showDialogInput(goldType, formatterStrToFloat.format(rates[0]), formatterStrToFloat.format(rates[1]));
                 break;
             case (R.id.tr1gmSY):
                 goldType = headerPGtype[1];
-                rate = (TextView)findViewById(rateVarName.get(goldType));
-                showDialogInput(goldType, rate.getText().toString());
+                rates = ratePGtype.get(goldType);
+                showDialogInput(goldType, formatterStrToFloat.format(rates[0]), formatterStrToFloat.format(rates[1]));
                 break;
             case (R.id.tr5gm):
                 goldType = headerPGtype[2];
-                rate = (TextView)findViewById(rateVarName.get(goldType));
-                showDialogInput(goldType, rate.getText().toString());
+                rates = ratePGtype.get(goldType);
+                showDialogInput(goldType, formatterStrToFloat.format(rates[0]), formatterStrToFloat.format(rates[1]));
                 break;
             case (R.id.tr10gm):
                 goldType = headerPGtype[3];
-                rate = (TextView)findViewById(rateVarName.get(goldType));
-                showDialogInput(goldType, rate.getText().toString());
+                rates = ratePGtype.get(goldType);
+                showDialogInput(goldType, formatterStrToFloat.format(rates[0]), formatterStrToFloat.format(rates[1]));
                 break;
             case (R.id.tr20gm):
                 goldType = headerPGtype[4];
-                rate = (TextView)findViewById(rateVarName.get(goldType));
-                showDialogInput(goldType, rate.getText().toString());
+                rates = ratePGtype.get(goldType);
+                showDialogInput(goldType, formatterStrToFloat.format(rates[0]), formatterStrToFloat.format(rates[1]));
                 break;
             case (R.id.tr50gm):
                 goldType = headerPGtype[5];
-                rate = (TextView)findViewById(rateVarName.get(goldType));
-                showDialogInput(goldType, rate.getText().toString());
+                rates = ratePGtype.get(goldType);
+                showDialogInput(goldType, formatterStrToFloat.format(rates[0]), formatterStrToFloat.format(rates[1]));
                 break;
             case (R.id.tr100gm):
                 goldType = headerPGtype[6];
-                rate = (TextView)findViewById(rateVarName.get(goldType));
-                showDialogInput(goldType, rate.getText().toString());
+                rates = ratePGtype.get(goldType);
+                showDialogInput(goldType, formatterStrToFloat.format(rates[0]), formatterStrToFloat.format(rates[1]));
                 break;
             case (R.id.tr500gm):
                 goldType = headerPGtype[7];
-                rate = (TextView)findViewById(rateVarName.get(goldType));
-                showDialogInput(goldType, rate.getText().toString());
+                rates = ratePGtype.get(goldType);
+                showDialogInput(goldType, formatterStrToFloat.format(rates[0]), formatterStrToFloat.format(rates[1]));
                 break;
             case (R.id.tr2dnr):
                 goldType = headerPGtype[8];
-                rate = (TextView)findViewById(rateVarName.get(goldType));
-                showDialogInput(goldType, rate.getText().toString());
+                rates = ratePGtype.get(goldType);
+                showDialogInput(goldType, formatterStrToFloat.format(rates[0]), formatterStrToFloat.format(rates[1]));
                 break;
             case (R.id.tr1dnr):
                 goldType = headerPGtype[9];
-                rate = (TextView)findViewById(rateVarName.get(goldType));
-                showDialogInput(goldType, rate.getText().toString());
+                rates = ratePGtype.get(goldType);
+                showDialogInput(goldType, formatterStrToFloat.format(rates[0]), formatterStrToFloat.format(rates[1]));
                 break;
             case (R.id.trQtrDnr):
                 goldType = headerPGtype[10];
-                rate = (TextView)findViewById(rateVarName.get(goldType));
-                showDialogInput(goldType, rate.getText().toString());
+                rates = ratePGtype.get(goldType);
+                showDialogInput(goldType, formatterStrToFloat.format(rates[0]), formatterStrToFloat.format(rates[1]));
                 break;
             case (R.id.trHalfGmSy):
                 goldType = headerPGtype[11];
-                rate = (TextView)findViewById(rateVarName.get(goldType));
-                showDialogInput(goldType, rate.getText().toString());
+                rates = ratePGtype.get(goldType);
+                showDialogInput(goldType, formatterStrToFloat.format(rates[0]), formatterStrToFloat.format(rates[1]));
                 break;
         }
     }
 
-    private Map<String, Integer> getStockisRateTextViewVarName() {
-        Map<String, Integer> varRate = new LinkedHashMap<>();
-
+/*    private Map<String, String[]> getStockisRateTextViewVarName() {
+        Map<String, String[]> varRate = new LinkedHashMap<>(); // For Goldtype and buy and sell rates
+        String[] rates = new String[2];
         for (int i=0; i<headerPGtype.length; i++) {
-            int resId = getResources().getIdentifier("textViewStokisRate" + i, "id", getPackageName());
-            varRate.put(headerPGtype[i], resId);
+            int resIdCurRate = getResources().getIdentifier("textViewStokisRate" + i, "id", getPackageName());
+            int resIdSellRate = getResources().getIdentifier("textViewBeliRate" + i, "id", getPackageName());
+            TextView tvCurrRates = (TextView)findViewById(resIdCurRate);
+            TextView tvSellRates = (TextView)findViewById(resIdSellRate);
+            rates[0] = tvCurrRates.getText().toString();
+            rates[1] = tvSellRates.getText().toString();
+            varRate.put(headerPGtype[i], rates);
         }
         return varRate;
     }
 
-    private Map<String, Integer> getMemberRateTextViewVarName() {
-        Map<String, Integer> varRate = new LinkedHashMap<>();
-
+    private Map<String, String[]> getMemberRateTextViewVarName() {
+        Map<String, String[]> varRate = new LinkedHashMap<>();
+        String[] rates = new String[2];
         for (int i=0; i<headerPGtype.length; i++) {
-            int resId = getResources().getIdentifier("textViewAhliRate" + i, "id", getPackageName());
-            varRate.put(headerPGtype[i], resId);
+            int resIdCurRate = getResources().getIdentifier("textViewAhliRate" + i, "id", getPackageName());
+            int resIdSellRate = getResources().getIdentifier("textViewBeliRate" + i, "id", getPackageName());
+            TextView tvCurrRates = (TextView)findViewById(resIdCurRate);
+            TextView tvSellRates = (TextView)findViewById(resIdSellRate);
+            rates[0] = tvCurrRates.getText().toString();
+            rates[1] = tvSellRates.getText().toString();
+            varRate.put(headerPGtype[i], rates);
         }
         return varRate;
-    }
+    }*/
 
-    private void showDialogInput(String goldType , String rate) {
+    private void showDialogInput(final String goldType , final String currRate, final String sellRate) { // final is required to pass to inner class
         final EditText unitAnsw = new EditText(this);
+        final MySharedPreferences mpf = new MySharedPreferences();
+        DecimalFormat df = new DecimalFormat("#,##0.00");
+
         unitAnsw.setGravity(1);
         unitAnsw.setSingleLine();
         unitAnsw.setInputType(2);
         unitAnsw.setTextSize(20);
+        unitAnsw.setTypeface(Typeface.MONOSPACE);
         // set max character Length
         int maxLength = 2;
         InputFilter[] FilterArray = new InputFilter[1];
         FilterArray[0] = new InputFilter.LengthFilter(maxLength);
         unitAnsw.setFilters(FilterArray);
 
+        // Uncomment below to check if prefRePurchase exists
+        if (mpf.getPrefsBoolean(getApplicationContext(), "rePurchaseDone")) {
+            mpf.storePrefsBoolean(getApplicationContext(), "rePurchaseDone", false);
+            rePurchaseItem = mpf.getPrefsRePurchase(getApplicationContext(),"RePurchase");
+            String oldRePurchase="";
+            Float totalRM =new Float(0); Integer unit = 0;
+            for (Map.Entry<Integer, String[]> entry:rePurchaseItem.entrySet()) {
+                //Used a fixed width font like Courier New, Lucida Console, Bitstream Vera Sans Mono, Consolas, etc –
+                totalRM += Float.parseFloat(entry.getValue()[1].replace(",","")) * Integer.parseInt(entry.getValue()[3]);
+                oldRePurchase = oldRePurchase + String.format("%4d) %-9s x%-2s(@RM%11s)\n",
+                        entry.getKey()+1, entry.getValue()[0],
+                        entry.getValue()[3], entry.getValue()[1]);
+
+            }
+            oldRePurchase = oldRePurchase + String.format("%13s%-8sRM%11s\n",
+                    " ", "Total", df.format(totalRM));
+            TextView tvMsg=new TextView(this);
+            tvMsg.setText(oldRePurchase);
+            tvMsg.setTypeface(Typeface.MONOSPACE);
+            //tvMsg.setGravity(Gravity.CENTER);
+            tvMsg.setTextSize(15);
+            new AlertDialog.Builder(this)
+                    .setTitle("Found unsave repurchase...")
+                    //.setMessage(oldRePurchase + "\nContinue or create new?")
+                    .setView(tvMsg)
+                    .setPositiveButton("Create New", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            mpf.removePref(getApplicationContext(), "RePurchase");
+                            rePurchaseItem.clear();
+                        }
+                    })
+                    .setNegativeButton("Continue", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            rePurchaseItem = mpf.getPrefsRePurchase(getApplicationContext(), "RePurchase");
+                        }
+                    })
+                    .setNeutralButton("Save to OrderList", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // save to DB and clear all buffer
+                            //TODO.....
+
+                            mpf.removePref(getApplicationContext(), "RePurchase");
+                            rePurchaseItem.clear();
+                        }
+                    })
+                    .show();
+        } else {
+
         new AlertDialog.Builder(this)
-                .setTitle("RePurchase 999.9 Gold -\n"+goldType+" @RM "+rate)
-                .setMessage("Enter unit?")
+                .setTitle("RePurchase 999.9 Gold -\n"+goldType+" @RM "+ currRate)
+                .setMessage("Enter Unit and select Add or Done to complete..")
                 .setView(unitAnsw)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Add to RePurchase List", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        String unit = unitAnsw.getText().toString();
-                        repurchase(unit);
+                        String[] item = new String[]{goldType, currRate, sellRate, unitAnsw.getText().toString()};
+                        regPurchase(item, false);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Done", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
+                        String[] item= new String[]{goldType, currRate, sellRate, unitAnsw.getText().toString()};
+                        regPurchase(item, true);
+                        // first clear the last prefs
+                        mpf.removePref(getApplicationContext(), "RePurchase");
+                        // store the latest rePurchase
+                        mpf.storeRePurchaseItem(getApplicationContext(), "RePurchase", rePurchaseItem);
+                        mpf.storePrefsBoolean(getApplicationContext(), "rePurchaseDone", true);
+                        // clear the purchase variable
+                        displayToast("Saved.\n" + "Total item: " + rePurchaseItem.size());
+                        rePurchaseItem.clear();
+                        mpf.storePrefsBoolean(getApplicationContext(), "rePurchaseDone", true);
                     }
                 })
                 .show();
+        }
     }
 
     public String getCurrentDate(String fmt) {
@@ -726,7 +819,21 @@ public class ViewCurrentPGrate extends ViewCurrentRateActionBar{
         return allrate;
     }
 
-    public void repurchase(String string) {
-        Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+    public void regPurchase(String[] orderItem, boolean isDone) {
+        // SP to store the final repurchase list
+
+        // orderItem array has 5 element2:- type, currRate, sellrate, unit
+        if (!isDone && !orderItem[3].matches("")) { // add and unit entered - save input
+            rePurchaseItem.put(rePurchaseItem.size(), orderItem);
+            displayToast(orderItem[3]+" unit of "+orderItem[0] + " added.\nTotal item: " + rePurchaseItem.size());
+        } else if (isDone && !orderItem[3].matches("")){ // done but unit entered -  save input
+            rePurchaseItem.put(rePurchaseItem.size(), orderItem);
+            // completed. save in SP to process the entered data. and clear the variable
+            displayToast(orderItem[3]+" unit of "+orderItem[0] + " added and saved.\n" +
+                    "Total item: " + rePurchaseItem.size());
+        } else if (isDone && orderItem[3].matches("")) {
+            // completed. save in SP to process the entered data. and clear the variable
+            //displayToast("Saved.\n" + "Total item: " + rePurchaseItem.size());
+        }
     }
 }
